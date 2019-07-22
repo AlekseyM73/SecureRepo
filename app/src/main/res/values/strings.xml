@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SecureRepo</string>
+    <string name="repeatPassword">Repeat password</string>
+    <string name="inputPassword">Input password</string>
+    <string name="savePassword">Save</string>
+    <string name="enterPassword">Enter password</string>
+    <string name="decrypt">Decrypt</string>
+</resources>
