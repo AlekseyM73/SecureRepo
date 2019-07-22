@@ -1,5 +1,6 @@
 package com.example.securerepo.repository;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -28,6 +29,6 @@ public interface NotesDAO {
     List<Note> getAllNotes ();
 
     @Query("SELECT title from notes_table")
-    List<Character[]> getAllTitles ();
+    LiveData<List<Character[]>> getAllTitles ();
 
 }
