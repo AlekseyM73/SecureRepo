@@ -52,10 +52,10 @@ public class Note {
 
     public void eraseNoteFields (){
         for (int i = 0; i < title.length; i ++) {
-            title[i] = '0';
+            title[i] = 0;
         }
         for (int j = 0; j < body.length; j ++) {
-            body[j] = '0';
+            body[j] = 0;
         }
     }
 
