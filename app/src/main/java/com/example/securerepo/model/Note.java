@@ -1,5 +1,6 @@
 package com.example.securerepo.model;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,13 +12,15 @@ public class Note {
 
     @PrimaryKey (autoGenerate = true)
     private int id;
-    private Character[] title;
-    private Character[] body;
+    @ColumnInfo (typeAffinity = ColumnInfo.BLOB)
+    private byte[] title;
+    @ColumnInfo (typeAffinity = ColumnInfo.BLOB)
+    private byte[] body;
 
     public Note() {
     }
 
-    public Note(int id, Character[] title, Character[] body) {
+    public Note(int id, byte[] title, byte[] body) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -27,20 +30,24 @@ public class Note {
         return id;
     }
 
-    public Character[] getTitle() {
+    public byte[] getTitle() {
         return title;
     }
 
-    public void setTitle(Character[] title) {
+    public void setTitle(byte[] title) {
         this.title = title;
     }
 
-    public Character[] getBody() {
+    public byte[] getBody() {
         return body;
     }
 
-    public void setBody(Character[] body) {
+    public void setBody(byte[] body) {
         this.body = body;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void eraseNoteFields (){
