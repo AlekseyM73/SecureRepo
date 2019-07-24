@@ -3,7 +3,6 @@ package com.example.securerepo.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -51,12 +50,9 @@ public class Note {
     }
 
     public void eraseNoteFields (){
-        for (int i = 0; i < title.length; i ++) {
-            title[i] = 0;
-        }
-        for (int j = 0; j < body.length; j ++) {
-            body[j] = 0;
-        }
+        Arrays.fill(title,(byte) 0);
+        Arrays.fill(body, (byte) 0);
+
     }
 
     @Override

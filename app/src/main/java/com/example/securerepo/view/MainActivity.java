@@ -4,11 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-
 import com.example.securerepo.R;
-
-
 
 public class MainActivity extends Activity {
 
@@ -22,7 +18,8 @@ public class MainActivity extends Activity {
         sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
         // Check first run if true launch SetPasswordFragment
         // else launch EnterPasswordFragment
-        if (sharedPreferences.getBoolean("firstRun", true)){
+        if (sharedPreferences.getBoolean("firstRun", true)&& !sharedPreferences.
+                getBoolean("isPasswordPresent", false)){
             sharedPreferences.edit().putBoolean("firstRun", false).commit();
             Intent intent = new Intent(this, SetPasswordActivity.class);
             startActivity(intent);

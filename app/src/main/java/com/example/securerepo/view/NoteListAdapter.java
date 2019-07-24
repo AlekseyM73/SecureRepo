@@ -5,13 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.securerepo.R;
 import com.example.securerepo.model.Note;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -44,8 +41,6 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
     public void onBindViewHolder(@NonNull NoteListHolder holder, int position) {
 
     }
-
-
 
     @Override
     public int getItemCount() {

@@ -1,14 +1,12 @@
 package com.example.securerepo.DAO;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-
 import com.example.securerepo.model.Note;
-
 import java.util.List;
+import io.reactivex.Observable;
 
 @Dao
 public interface NotesDAO {
@@ -26,9 +24,9 @@ public interface NotesDAO {
     void updateNotes (List<Note> notes);
 
     @Query("SELECT * from notes_table")
-    List<Note> getAllNotes ();
+    Observable <List<Note>> getAllNotes ();
 
     @Query("SELECT title from notes_table")
-    LiveData<List<byte[]>> getAllTitles ();
+    Observable <List<byte[]>> getAllTitles ();
 
 }
