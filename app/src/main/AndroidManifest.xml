@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.NewNoteActivity"></activity>
         <activity android:name=".view.EnterPasswordActivity"></activity>
         <activity android:name=".view.SetPasswordActivity"></activity>
         <activity android:name=".view.RecyclerViewNoteListActivity"></activity>

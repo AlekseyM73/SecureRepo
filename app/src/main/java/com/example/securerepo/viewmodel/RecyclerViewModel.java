@@ -15,9 +15,6 @@ public class RecyclerViewModel extends ViewModel {
        notesSource = new NotesSource(App.notesDatabase.notesDAO());
    }
 
-   public void insertNote (Note note){
-       notesSource.insertNote(note);
-   }
 
    public Observable<List<Note>> getAllNotes (){
         return notesSource.getAllNotes();

@@ -5,4 +5,6 @@
     <string name="savePassword">Save</string>
     <string name="enterPassword">Enter password</string>
     <string name="decrypt">Decrypt</string>
+    <string name="Button_OK">OK</string>
+    <string name="Button_Cancel">Cancel</string>
 </resources>

@@ -8,7 +8,7 @@ import com.example.securerepo.R;
 
 public class MainActivity extends Activity {
 
-   private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +18,8 @@ public class MainActivity extends Activity {
         sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
         // Check first run if true launch SetPasswordFragment
         // else launch EnterPasswordFragment
-        if (sharedPreferences.getBoolean("firstRun", true)&& !sharedPreferences.
-                getBoolean("isPasswordPresent", false)){
+        if (sharedPreferences.getBoolean("firstRun", true) && !sharedPreferences.
+                getBoolean("isPasswordPresent", false)) {
             sharedPreferences.edit().putBoolean("firstRun", false).commit();
             Intent intent = new Intent(this, SetPasswordActivity.class);
             startActivity(intent);
@@ -28,6 +28,6 @@ public class MainActivity extends Activity {
             startActivity(intent);
         }
 
-
+        finish();
     }
 }
