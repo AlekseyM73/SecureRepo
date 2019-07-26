@@ -19,6 +19,11 @@ public class Note {
     public Note() {
     }
 
+    public Note( byte[] title, byte[] body) {
+        this.title = title;
+        this.body = body;
+    }
+
     public Note(int id, byte[] title, byte[] body) {
         this.id = id;
         this.title = title;

@@ -8,12 +8,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.securerepo.R;
+import com.example.securerepo.Utils.BytesConverter;
+import com.example.securerepo.model.Note;
+import java.util.Collections;
 import java.util.List;
 
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteListHolder>  {
 
     private final LayoutInflater layoutInflater;
-    private List<byte []> titles;
+    private List<Note> notes = Collections.emptyList();
 
     class NoteListHolder extends RecyclerView.ViewHolder{
 
@@ -38,16 +41,18 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
 
     @Override
     public void onBindViewHolder(@NonNull NoteListHolder holder, int position) {
-
+        Note current = notes.get(position);
+        char[] text = BytesConverter.bytesToChar(current.getTitle());
+        holder.recyclerviewItemTitle.setText(text,0,text.length);
     }
 
-    public void setTitles (List<byte []> titles){
-        this.titles = titles;
+    public void setNotes (List<Note> notes){
+        this.notes = notes;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return notes.size();
     }
 }

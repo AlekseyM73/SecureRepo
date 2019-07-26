@@ -2,7 +2,6 @@ package com.example.securerepo.view;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -10,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.securerepo.R;
 import com.example.securerepo.viewmodel.RecyclerViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
     private static final String TAG = RecyclerViewNoteListActivity.class.getSimpleName();
-    private Button fab;
+    private FloatingActionButton fab;
     RecyclerView recyclerView;
     private final CompositeDisposable disposable = new CompositeDisposable();
     private RecyclerViewModel recyclerViewModel;
@@ -25,7 +25,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recyclerview_item);
+        setContentView(R.layout.activity_recyclerview_notes);
 
         recyclerView = findViewById(R.id.recyclerview);
         fab = findViewById(R.id.fab);
@@ -34,9 +34,9 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewModel = ViewModelProviders.of (this).get(RecyclerViewModel.class);
 
-        disposable.add(recyclerViewModel.getAllTitles().subscribeOn(Schedulers.io())
+        disposable.add(recyclerViewModel.getAllNotes().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bytes -> adapter.setTitles(bytes),
+                .subscribe(notes -> adapter.setNotes(notes),
                 throwable -> Log.e(TAG, "Unable to load", throwable)));
     }
 
@@ -49,5 +49,6 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        disposable.dispose();
     }
 }
