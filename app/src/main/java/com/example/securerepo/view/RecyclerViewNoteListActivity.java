@@ -4,23 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.securerepo.R;
 import com.example.securerepo.viewmodel.RecyclerViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
-
     private static final String TAG = RecyclerViewNoteListActivity.class.getSimpleName();
-    NoteListAdapter adapter;
+    private final String NOTE_ID = "Id";
+    private NoteListAdapter adapter;
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
     private final CompositeDisposable disposable = new CompositeDisposable();
@@ -34,12 +37,16 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(fabListener);
-        adapter = new NoteListAdapter(this);
+        adapter = new NoteListAdapter(this, noteId -> {
+            Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
+            intent.putExtra(NOTE_ID, noteId);
+            startActivity(intent);
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewModel = ViewModelProviders.of(this).get(RecyclerViewModel.class);
 
-        refresh();
+        updateView();
     }
 
     View.OnClickListener fabListener = v -> {
@@ -47,7 +54,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
         startActivity(intent);
     };
 
-    private void refresh(){
+    private void updateView() {
         disposable.add(recyclerViewModel.getAllNotes().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(notes -> adapter.setNotes(notes),
@@ -57,7 +64,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        refresh();
+        updateView();
     }
 
     @Override

@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import androidx.annotation.Nullable;
+
 import com.example.securerepo.R;
+
 import java.util.Arrays;
 
 public class SetPasswordActivity extends Activity {

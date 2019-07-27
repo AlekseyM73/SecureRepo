@@ -5,11 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.securerepo.R;
 import com.example.securerepo.Utils.BytesConverter;
 import com.example.securerepo.model.Note;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -17,8 +20,9 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
 
     private final LayoutInflater layoutInflater;
     private List<Note> notes = Collections.emptyList();
+    private final OnItemClickListener onItemClickListener;
 
-    class NoteListHolder extends RecyclerView.ViewHolder{
+    class NoteListHolder extends RecyclerView.ViewHolder {
 
         private final TextView recyclerviewItemTitle;
 
@@ -26,10 +30,17 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
             super(itemView);
             recyclerviewItemTitle = itemView.findViewById(R.id.recyclerviewItemTitle);
         }
+
+        public void onBind (int noteId, NoteListAdapter.OnItemClickListener onItemClickListener){
+            if (onItemClickListener != null ){
+                itemView.setOnClickListener(v -> onItemClickListener.onItemClick(noteId));
+            }
+        }
     }
 
-    public NoteListAdapter(Context context) {
+    public NoteListAdapter(Context context, OnItemClickListener onItemClickListener) {
         layoutInflater = LayoutInflater.from(context);
+       this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -44,6 +55,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
         Note current = notes.get(position);
         char[] text = BytesConverter.bytesToChar(current.getTitle());
         holder.recyclerviewItemTitle.setText(text,0,text.length);
+        holder.onBind(current.getId(), onItemClickListener);
     }
 
     public void setNotes (List<Note> notes){
@@ -55,4 +67,10 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
     public int getItemCount() {
         return notes.size();
     }
+
+    public interface OnItemClickListener {
+        void onItemClick (int nodeId);
+    }
 }
+
+

@@ -7,4 +7,7 @@
     <string name="decrypt">Decrypt</string>
     <string name="Button_OK">OK</string>
     <string name="Button_Cancel">Cancel</string>
+    <string name="EnterTitle">Title</string>
+    <string name="EnterDescription">Description</string>
+    <string name="Button_Edit">Edit</string>
 </resources>

@@ -4,14 +4,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+
 import com.example.securerepo.R;
 import com.example.securerepo.Utils.BytesConverter;
 import com.example.securerepo.model.Note;
 import com.example.securerepo.viewmodel.NewNoteViewModel;
+
 import java.util.Arrays;
+
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,13 +25,33 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NewNoteActivity extends AppCompatActivity {
 
-    EditText etTitle;
-    EditText etBody;
+    private EditText etTitle;
+    private EditText etBody;
+    private Button btnOk;
+    private Button btnCancel;
+    private NewNoteViewModel newNoteViewModel;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_note);
+
+        btnOk = findViewById(R.id.newNoteActivityButtonOK);
+        btnOk.setOnClickListener(btnOklistener);
+        btnCancel = findViewById(R.id.newNoteActivityButtonCancel);
+        btnCancel.setOnClickListener(btnCancelListener);
+        etTitle = findViewById(R.id.newNoteActivityTitleEditText);
+        etBody = findViewById(R.id.newNoteActivityBodyEditText);
+
+        newNoteViewModel = ViewModelProviders.of(this).get(NewNoteViewModel.class);
+
+    }
+
     View.OnClickListener btnCancelListener = v -> {
         super.onBackPressed();
         finish();
     };
-    private NewNoteViewModel newNoteViewModel;
+
     View.OnClickListener btnOklistener = v -> {
         if (!etTitle.getText().toString().isEmpty()) {
             int titleLength = etTitle.length();
@@ -69,24 +93,6 @@ public class NewNoteActivity extends AppCompatActivity {
             finish();
         }
     };
-    private Button btnOk;
-    private Button btnCancel;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_note);
-
-        btnOk = findViewById(R.id.newNoteActivityButtonOK);
-        btnOk.setOnClickListener(btnOklistener);
-        btnCancel = findViewById(R.id.newNoteActivityButtonCancel);
-        btnCancel.setOnClickListener(btnCancelListener);
-        etTitle = findViewById(R.id.newNoteActivityTitleEditText);
-        etBody = findViewById(R.id.newNoteActivityBodyEditText);
-
-        newNoteViewModel = ViewModelProviders.of(this).get(NewNoteViewModel.class);
-
-    }
 
     @Override
     protected void onPause() {

@@ -2,8 +2,11 @@ package com.example.securerepo.repository;
 
 import com.example.securerepo.DAO.NotesDAO;
 import com.example.securerepo.model.Note;
+
 import java.util.List;
+
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class NotesSource {
 
@@ -27,6 +30,10 @@ public class NotesSource {
 
     public void updateNotes (List<Note> notes){
         notesDAO.insertNotes(notes);
+    }
+
+    public Single<Note> getNote(int id) {
+        return notesDAO.getNote(id);
     }
 
     public Observable<List<Note>> getAllNotes (){
