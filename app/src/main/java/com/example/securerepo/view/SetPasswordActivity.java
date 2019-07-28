@@ -21,6 +21,8 @@ public class SetPasswordActivity extends Activity {
     private EditText etSetPassRepeat;
     private Button btnSave;
     private final int PASSWORD_LENGTH = 8;
+    private final String IS_PASSWORD_PRESENT = "isPasswordPresent";
+    private final String PASSWORD = "password";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,9 +70,9 @@ public class SetPasswordActivity extends Activity {
 
     private void startNextScreen(char[] password) {
         sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
-        sharedPreferences.edit().putBoolean("isPasswordPresent", true).commit();
+        sharedPreferences.edit().putBoolean(IS_PASSWORD_PRESENT, true).commit();
         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
-        intent.putExtra("Password", password);
+        intent.putExtra(PASSWORD, password);
         startActivity(intent);
     }
 }
