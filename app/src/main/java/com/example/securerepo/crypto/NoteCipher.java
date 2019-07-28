@@ -16,7 +16,9 @@ public class NoteCipher {
          try {
             SecretKeySpec secretKeySpec = generateKey(password);
             Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            if (secretKeySpec != null){
+                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            }
             ArrayList<byte[]> bytes = new ArrayList<>();
             bytes.add(cipher.doFinal(title));
             bytes.add(cipher.doFinal(body));
@@ -31,7 +33,9 @@ public class NoteCipher {
 
          SecretKeySpec secretKeySpec = generateKey(password);
          Cipher cipher = Cipher.getInstance("AES");
-         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+         if (secretKeySpec != null){
+             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+         }
          ArrayList<byte[]> bytes = new ArrayList<>();
          bytes.add(cipher.doFinal(title));
          bytes.add(cipher.doFinal(body));
@@ -49,6 +53,6 @@ public class NoteCipher {
       } catch (NoSuchAlgorithmException e){
          e.printStackTrace();
       }
-
+      return null;
    }
 }
