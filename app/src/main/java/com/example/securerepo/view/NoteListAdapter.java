@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.securerepo.R;
-import com.example.securerepo.Utils.BytesConverter;
 import com.example.securerepo.model.Note;
+import com.example.securerepo.utils.BytesConverter;
 
 import java.util.Collections;
 import java.util.List;

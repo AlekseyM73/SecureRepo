@@ -2,7 +2,6 @@ package com.example.securerepo.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -19,8 +18,6 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
     private final String NOTE_ID = "Id";
     private NoteListAdapter adapter;
-    private FloatingActionButton fab;
-    private RecyclerView recyclerView;
 
     private RecyclerViewModel recyclerViewModel;
 
@@ -29,8 +26,8 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_notes);
 
-        recyclerView = findViewById(R.id.recyclerview);
-        fab = findViewById(R.id.fab);
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(fabListener);
         adapter = new NoteListAdapter(this, noteId -> {
             Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);

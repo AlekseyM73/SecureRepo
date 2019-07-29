@@ -16,11 +16,9 @@ import java.util.Arrays;
 
 public class SetPasswordActivity extends Activity {
 
-    private SharedPreferences sharedPreferences;
     private EditText etSetPass;
     private EditText etSetPassRepeat;
-    private Button btnSave;
-    private final int PASSWORD_LENGTH = 8;
+    private static final int PASSWORD_LENGTH = 8;
     private final String IS_PASSWORD_PRESENT = "isPasswordPresent";
     private final String PASSWORD = "password";
 
@@ -31,7 +29,7 @@ public class SetPasswordActivity extends Activity {
 
         etSetPass = findViewById(R.id.setPasswordActivityEditText);
         etSetPassRepeat = findViewById(R.id.setPasswordActivityEditTextRepeat);
-        btnSave = findViewById(R.id.setPasswordActivityButtonSave);
+        Button btnSave = findViewById(R.id.setPasswordActivityButtonSave);
         btnSave.setOnClickListener(listener);
     }
 
@@ -56,20 +54,15 @@ public class SetPasswordActivity extends Activity {
     };
 
     private boolean isTwoPasswordEquals(char[] password1, char[] password2) {
-        if (Arrays.equals(password1, password2)) {
-            return true;
-        } else return false;
+        return Arrays.equals(password1, password2);
     }
 
     private boolean isPasswordLengthGood(char[] password1) {
-        if (password1.length >= PASSWORD_LENGTH) {
-            return true;
-        }
-        return false;
+        return password1.length >= PASSWORD_LENGTH;
     }
 
     private void startNextScreen(char[] password) {
-        sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(IS_PASSWORD_PRESENT, true).commit();
         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
         intent.putExtra(PASSWORD, password);

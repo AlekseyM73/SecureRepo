@@ -10,14 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.securerepo.R;
-import com.example.securerepo.Utils.BytesConverter;
 import com.example.securerepo.model.Note;
+import com.example.securerepo.utils.BytesConverter;
 import com.example.securerepo.viewmodel.DetailNoteViewModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class DetailNoteActivity extends AppCompatActivity {
@@ -27,9 +25,6 @@ public class DetailNoteActivity extends AppCompatActivity {
     private int noteId;
     private EditText etTitle;
     private EditText etBody;
-    private Button btnOk;
-    private Button btEdit;
-    private Button btnCancel;
     private DetailNoteViewModel detailNoteViewModel;
     private Note note;
 
@@ -41,9 +36,9 @@ public class DetailNoteActivity extends AppCompatActivity {
 
         etTitle = findViewById(R.id.detailNoteActivityTitleEditText);
         etBody = findViewById(R.id.detailNoteActivityBodyEditText);
-        btnOk = findViewById(R.id.detailNoteActivityButtonOk);
-        btEdit = findViewById(R.id.detailNoteActivityButtonEdit);
-        btnCancel = findViewById(R.id.detailNoteActivityButtonCancel);
+        Button btnOk = findViewById(R.id.detailNoteActivityButtonOk);
+        Button btEdit = findViewById(R.id.detailNoteActivityButtonEdit);
+        Button btnCancel = findViewById(R.id.detailNoteActivityButtonCancel);
         btnOk.setOnClickListener(btnOkListener);
         btEdit.setOnClickListener(btnEditListener);
         btnCancel.setOnClickListener(btnCancelListener);
@@ -68,27 +63,15 @@ public class DetailNoteActivity extends AppCompatActivity {
     private void getNote() {
         final Disposable subscribe = detailNoteViewModel.getNote(noteId)
                 .subscribeOn(Schedulers.io())
-                .doOnSuccess(new Consumer<Note>() {
-                    @Override
-                    public void accept(Note note) throws Exception {
-                        etTitle.setText(BytesConverter.bytesToChar(note.getTitle()), 0, note.getTitle().length);
-                        etBody.setText(BytesConverter.bytesToChar(note.getBody()), 0, note.getBody().length);
-                    }
+                .doOnSuccess((Note note) -> {
+                    etTitle.setText(BytesConverter.bytesToChar(note.getTitle()), 0, note.getTitle().length);
+                    etBody.setText(BytesConverter.bytesToChar(note.getBody()), 0, note.getBody().length);
                 }).observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                    }
+                .doOnSubscribe(disposable -> {
                 })
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                    }
+                .doFinally(() -> {
                 })
-                .subscribe(new Consumer<Note>() {
-                    @Override
-                    public void accept(Note note) throws Exception {
-                    }
+                .subscribe(note -> {
                 });
     }
 

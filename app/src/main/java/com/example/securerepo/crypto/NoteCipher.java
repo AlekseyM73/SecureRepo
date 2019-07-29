@@ -1,12 +1,11 @@
 package com.example.securerepo.crypto;
 
-import com.example.securerepo.Utils.BytesConverter;
 import com.example.securerepo.model.Note;
+import com.example.securerepo.utils.BytesConverter;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;

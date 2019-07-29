@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.securerepo.R;
-import com.example.securerepo.Utils.BytesConverter;
 import com.example.securerepo.model.Note;
+import com.example.securerepo.utils.BytesConverter;
 import com.example.securerepo.viewmodel.NewNoteViewModel;
 
 import java.util.Arrays;
@@ -27,8 +27,6 @@ public class NewNoteActivity extends AppCompatActivity {
 
     private EditText etTitle;
     private EditText etBody;
-    private Button btnOk;
-    private Button btnCancel;
     private NewNoteViewModel newNoteViewModel;
 
     @Override
@@ -36,9 +34,9 @@ public class NewNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
 
-        btnOk = findViewById(R.id.newNoteActivityButtonOK);
+        Button btnOk = findViewById(R.id.newNoteActivityButtonOK);
         btnOk.setOnClickListener(btnOklistener);
-        btnCancel = findViewById(R.id.newNoteActivityButtonCancel);
+        Button btnCancel = findViewById(R.id.newNoteActivityButtonCancel);
         btnCancel.setOnClickListener(btnCancelListener);
         etTitle = findViewById(R.id.newNoteActivityTitleEditText);
         etBody = findViewById(R.id.newNoteActivityBodyEditText);
@@ -67,8 +65,6 @@ public class NewNoteActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     newNoteViewModel.insertNote(new Note(title, body));
-                    etTitle.setText("empty");
-                    etBody.setText("empty");
                 }
             }).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
@@ -78,6 +74,8 @@ public class NewNoteActivity extends AppCompatActivity {
 
                 @Override
                 public void onComplete() {
+                    etTitle.setText("empty");
+                    etBody.setText("empty");
                     Arrays.fill(title, (byte) 0);
                     Arrays.fill(body, (byte) 0);
                     Arrays.fill(titleChars, '0');
