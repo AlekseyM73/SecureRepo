@@ -26,7 +26,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     private NoteListAdapter adapter;
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
-    private final CompositeDisposable disposable = new CompositeDisposable();
+
     private RecyclerViewModel recyclerViewModel;
 
     @Override
@@ -55,16 +55,17 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     };
 
     private void updateView() {
-        disposable.add(recyclerViewModel.getAllNotes().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(notes -> adapter.setNotes(notes),
-                        throwable -> Log.e(TAG, "Unable to load", throwable)));
+
+        recyclerViewModel.getNotes().observe(this, notes ->{
+            adapter.setNotes(notes);
+        });
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        updateView();
+
     }
 
     @Override
@@ -82,6 +83,5 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        disposable.dispose();
     }
 }
