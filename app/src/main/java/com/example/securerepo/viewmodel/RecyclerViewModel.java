@@ -23,7 +23,7 @@ public class RecyclerViewModel extends ViewModel {
     private static final String TAG = RecyclerViewNoteListActivity.class.getSimpleName();
     private final CompositeDisposable disposable = new CompositeDisposable();
     private NotesSource notesSource;
-    MutableLiveData<List<Note>> notes;
+    private MutableLiveData<List<Note>> notes;
 
     public RecyclerViewModel() {
         notesSource = new NotesSource(App.notesDatabase.notesDAO());

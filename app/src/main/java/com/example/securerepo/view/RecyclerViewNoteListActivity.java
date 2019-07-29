@@ -15,13 +15,8 @@ import com.example.securerepo.R;
 import com.example.securerepo.viewmodel.RecyclerViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
-
 public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
-    private static final String TAG = RecyclerViewNoteListActivity.class.getSimpleName();
     private final String NOTE_ID = "Id";
     private NoteListAdapter adapter;
     private FloatingActionButton fab;
@@ -56,7 +51,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
     private void updateView() {
 
-        recyclerViewModel.getNotes().observe(this, notes ->{
+        recyclerViewModel.getNotes().observe(this, notes -> {
             adapter.setNotes(notes);
         });
 
