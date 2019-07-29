@@ -1,6 +1,6 @@
 package com.example.securerepo.repository;
 
-import com.example.securerepo.DAO.NotesDAO;
+import com.example.securerepo.dao.NotesDAO;
 import com.example.securerepo.model.Note;
 
 import java.util.List;

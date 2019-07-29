@@ -1,6 +1,7 @@
 package com.example.securerepo.crypto;
 
 import com.example.securerepo.Utils.BytesConverter;
+import com.example.securerepo.model.Note;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class NoteCipher {
 
-   public static List<byte[]> encryptNote (byte[] title, byte[] body, char[] password){
+   public static Note encryptNote (byte[] title, byte[] body, char[] password){
          try {
             SecretKeySpec secretKeySpec = generateKey(password);
             Cipher cipher = Cipher.getInstance("AES");
@@ -22,14 +23,14 @@ public class NoteCipher {
             ArrayList<byte[]> bytes = new ArrayList<>();
             bytes.add(cipher.doFinal(title));
             bytes.add(cipher.doFinal(body));
-            return bytes;
+            return new Note(cipher.doFinal(title),cipher.doFinal(body));
          } catch (Exception e){
             e.printStackTrace();
          }
       return null;
    }
 
-   public static List<byte[]> decryptNote (byte[] title, byte[] body, char[] password) throws  Exception{
+   public static Note decryptNote (byte[] title, byte[] body, char[] password) throws  Exception{
 
          SecretKeySpec secretKeySpec = generateKey(password);
          Cipher cipher = Cipher.getInstance("AES");
@@ -39,7 +40,7 @@ public class NoteCipher {
          ArrayList<byte[]> bytes = new ArrayList<>();
          bytes.add(cipher.doFinal(title));
          bytes.add(cipher.doFinal(body));
-         return bytes;
+         return new Note(cipher.doFinal(title), cipher.doFinal(body));
 
    }
 

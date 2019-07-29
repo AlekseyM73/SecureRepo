@@ -4,7 +4,7 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import com.example.securerepo.DAO.NotesDAO;
+import com.example.securerepo.dao.NotesDAO;
 import com.example.securerepo.model.Note;
 
 @Database(entities = {Note.class}, version = 1)
