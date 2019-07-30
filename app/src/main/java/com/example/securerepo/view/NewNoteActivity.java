@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,13 +59,12 @@ public class NewNoteActivity extends AppCompatActivity {
             char[] bodyChars = new char[bodyLength];
             etTitle.getText().getChars(0, titleLength, titleChars, 0);
             etBody.getText().getChars(0, bodyLength, bodyChars, 0);
-            byte[] title = BytesConverter.charToBytes(titleChars);
-            byte[] body = BytesConverter.charToBytes(bodyChars);
 
             Completable.fromAction(new Action() {
                 @Override
                 public void run() {
-                    newNoteViewModel.insertNote(new Note(title, body));
+                    newNoteViewModel.insertNote(new Note(BytesConverter.charToBytes(titleChars),
+                            BytesConverter.charToBytes(bodyChars)));
                 }
             }).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
@@ -74,21 +74,22 @@ public class NewNoteActivity extends AppCompatActivity {
 
                 @Override
                 public void onComplete() {
+                    Toast.makeText(NewNoteActivity.this,
+                            "Saved!", Toast.LENGTH_LONG).show();
                     etTitle.setText("empty");
                     etBody.setText("empty");
-                    Arrays.fill(title, (byte) 0);
-                    Arrays.fill(body, (byte) 0);
                     Arrays.fill(titleChars, '0');
                     Arrays.fill(bodyChars, '0');
+                    NewNoteActivity.super.onBackPressed();
+                    finish();
                 }
 
                 @Override
                 public void onError(Throwable e) {
-
+                    Toast.makeText(NewNoteActivity.this,
+                            "Save failed", Toast.LENGTH_LONG).show();
                 }
             });
-            super.onBackPressed();
-            finish();
         }
     };
 

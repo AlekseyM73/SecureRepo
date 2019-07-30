@@ -19,4 +19,8 @@ public class DetailNoteViewModel extends ViewModel {
     public Single<Note> getNote(int id) {
         return notesSource.getNote(id);
     }
+
+    public void updateNote(Note note) {
+        notesSource.updateNote(note);
+    }
 }

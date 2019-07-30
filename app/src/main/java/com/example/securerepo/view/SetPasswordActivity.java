@@ -36,17 +36,17 @@ public class SetPasswordActivity extends Activity {
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int passLength1 = etSetPass.length();
-            int passLength2 = etSetPassRepeat.length();
-            char[] password1 = new char[passLength1];
-            char[] password2 = new char[passLength2];
-            etSetPass.getText().getChars(0, passLength1, password1, 0);
-            etSetPassRepeat.getText().getChars(0, passLength2, password2, 0);
+            char[] password1 = new char[etSetPass.length()];
+            char[] password2 = new char[etSetPassRepeat.length()];
+            etSetPass.getText().getChars(0, etSetPass.length(), password1, 0);
+            etSetPassRepeat.getText().getChars(0, etSetPassRepeat.length(), password2, 0);
 
             if (isTwoPasswordEquals(password1, password2) && isPasswordLengthGood(password1)) {
                 etSetPass.setText("empty");
                 etSetPassRepeat.setText("empty");
                 startNextScreen(password1);
+                Arrays.fill(password1,'0');
+                Arrays.fill(password2,'0');
                 finish();
             }
 
@@ -66,6 +66,7 @@ public class SetPasswordActivity extends Activity {
         sharedPreferences.edit().putBoolean(IS_PASSWORD_PRESENT, true).commit();
         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
         intent.putExtra(PASSWORD, password);
+        Arrays.fill(password,'0');
         startActivity(intent);
     }
 }
