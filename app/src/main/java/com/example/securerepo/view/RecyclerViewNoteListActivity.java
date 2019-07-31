@@ -3,6 +3,7 @@ package com.example.securerepo.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,13 +19,15 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
     private final String NOTE_ID = "Id";
     private NoteListAdapter adapter;
-
+    private final String PASSWORD = "password";
     private RecyclerViewModel recyclerViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_notes);
+
+        char[] password = getIntent().getCharArrayExtra(PASSWORD);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -51,19 +54,16 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
         recyclerViewModel.getNotes().observe(this, notes -> {
             adapter.setNotes(notes);
         });
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
