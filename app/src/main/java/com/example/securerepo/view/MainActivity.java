@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
         SharedPreferences sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
         // Check first run if true launch SetPasswordFragment
         // else launch EnterPasswordFragment
-        if (sharedPreferences.getBoolean(IS_FIRST_RUN, true) && !sharedPreferences.
+        if (sharedPreferences.getBoolean(IS_FIRST_RUN, true) || !sharedPreferences.
                 getBoolean(IS_PASSWORD_PRESENT, false)) {
             sharedPreferences.edit().putBoolean(IS_FIRST_RUN, false).commit();
             Intent intent = new Intent(this, SetPasswordActivity.class);

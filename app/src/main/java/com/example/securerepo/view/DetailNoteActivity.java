@@ -3,9 +3,12 @@ package com.example.securerepo.view;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Scroller;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,11 +77,17 @@ public class DetailNoteActivity extends AppCompatActivity {
     View.OnClickListener btnCancelListener = v -> {
         getNote();
         setViewsAsText();
+        Toast.makeText(DetailNoteActivity.this,
+                "Canceled!", Toast.LENGTH_LONG).show();
+
     };
 
     private void setViews() {
         etTitle = findViewById(R.id.detailNoteActivityTitleEditText);
         etBody = findViewById(R.id.detailNoteActivityBodyEditText);
+
+
+
         btnOk = findViewById(R.id.detailNoteActivityButtonOk);
         btEdit = findViewById(R.id.detailNoteActivityButtonEdit);
         btnCancel = findViewById(R.id.detailNoteActivityButtonCancel);
@@ -94,22 +103,29 @@ public class DetailNoteActivity extends AppCompatActivity {
     }
 
     private void setViewsAsText() {
-        etBody.setEnabled(false);
-        etBody.setCursorVisible(false);
-        etBody.setBackgroundColor(Color.TRANSPARENT);
-        etTitle.setEnabled(false);
-        etTitle.setCursorVisible(false);
-        etTitle.setBackgroundColor(Color.TRANSPARENT);
+
+
+
+
+        etTitle.setInputType(InputType.TYPE_NULL);
+        etTitle.setTextIsSelectable(true);
+        etTitle.setKeyListener(null);
+        etTitle.setCursorVisible(true);
+
+
+        etBody.setInputType(InputType.TYPE_NULL);
+        etBody.setTextIsSelectable(true);
+        etBody.setKeyListener(null);
+        etBody.setCursorVisible(true);
+
         btEdit.setVisibility(View.VISIBLE);
         btnOk.setVisibility(View.INVISIBLE);
         btnCancel.setVisibility(View.INVISIBLE);
     }
 
     private void setViewsAsEditable() {
-        etBody.setEnabled(true);
-        etBody.setCursorVisible(true);
-        etTitle.setEnabled(true);
-        etTitle.setCursorVisible(true);
+        etTitle.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        etBody.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         btEdit.setVisibility(View.INVISIBLE);
         btnOk.setVisibility(View.VISIBLE);
         btnCancel.setVisibility(View.VISIBLE);
@@ -123,8 +139,10 @@ public class DetailNoteActivity extends AppCompatActivity {
                     etBody.setText(BytesConverter.bytesToChar(note.getBody()), 0, note.getBody().length);
                 }).observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
+
                 })
                 .doFinally(() -> {
+
                 })
                 .subscribe(note -> {
                 });

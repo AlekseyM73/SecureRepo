@@ -27,7 +27,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_notes);
 
-        char [] password = getIntent().getCharArrayExtra(PASSWORD);
+        char[] password = getIntent().getCharArrayExtra(PASSWORD);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         FloatingActionButton fab = findViewById(R.id.fab);
