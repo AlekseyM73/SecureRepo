@@ -45,8 +45,8 @@ public class SetPasswordActivity extends Activity {
                 etSetPass.setText("empty");
                 etSetPassRepeat.setText("empty");
                 startNextScreen(password1);
-                Arrays.fill(password1,'0');
-                Arrays.fill(password2,'0');
+               /* Arrays.fill(password1,'0');
+                Arrays.fill(password2,'0');*/
                 finish();
             }
 
@@ -66,7 +66,7 @@ public class SetPasswordActivity extends Activity {
         sharedPreferences.edit().putBoolean(IS_PASSWORD_PRESENT, true).commit();
         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
         intent.putExtra(PASSWORD, password);
-        Arrays.fill(password,'0');
+      //  Arrays.fill(password,'0');
         startActivity(intent);
     }
 }

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.securerepo.R;
-import com.example.securerepo.model.Note;
+import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.utils.BytesConverter;
 import com.example.securerepo.viewmodel.NewNoteViewModel;
 
@@ -29,11 +29,14 @@ public class NewNoteActivity extends AppCompatActivity {
     private EditText etTitle;
     private EditText etBody;
     private NewNoteViewModel newNoteViewModel;
+    private char [] password;
+    private final String PASSWORD = "password";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
+        password = getIntent().getCharArrayExtra(PASSWORD);
 
         Button btnOk = findViewById(R.id.newNoteActivityButtonOK);
         btnOk.setOnClickListener(btnOklistener);
@@ -53,18 +56,18 @@ public class NewNoteActivity extends AppCompatActivity {
 
     View.OnClickListener btnOklistener = v -> {
         if (!etTitle.getText().toString().isEmpty()) {
-            int titleLength = etTitle.length();
-            int bodyLength = etBody.length();
-            char[] titleChars = new char[titleLength];
-            char[] bodyChars = new char[bodyLength];
-            etTitle.getText().getChars(0, titleLength, titleChars, 0);
-            etBody.getText().getChars(0, bodyLength, bodyChars, 0);
+
+            char[] titleChars = new char[etTitle.length()];
+            char[] bodyChars = new char[etBody.length()];
+            etTitle.getText().getChars(0, etTitle.length(), titleChars, 0);
+            etBody.getText().getChars(0, etBody.length(), bodyChars, 0);
 
             Completable.fromAction(new Action() {
                 @Override
                 public void run() {
-                    newNoteViewModel.insertNote(new Note(BytesConverter.charToBytes(titleChars),
-                            BytesConverter.charToBytes(bodyChars)));
+                 /*   Note note = new Note(BytesConverter.charToBytes(titleChars),
+                            BytesConverter.charToBytes(bodyChars));*/
+                    newNoteViewModel.insertNote(NoteCipher.encryptNote(BytesConverter.charToBytes(titleChars),BytesConverter.charToBytes(bodyChars), password));
                 }
             }).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
