@@ -28,6 +28,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+
 public class DetailNoteActivity extends AppCompatActivity {
 
     private static final String IS_EDIT_BTN_PRESSED = "isEditBtnPressed";
@@ -85,9 +87,6 @@ public class DetailNoteActivity extends AppCompatActivity {
     private void setViews() {
         etTitle = findViewById(R.id.detailNoteActivityTitleEditText);
         etBody = findViewById(R.id.detailNoteActivityBodyEditText);
-
-
-
         btnOk = findViewById(R.id.detailNoteActivityButtonOk);
         btEdit = findViewById(R.id.detailNoteActivityButtonEdit);
         btnCancel = findViewById(R.id.detailNoteActivityButtonCancel);
@@ -103,17 +102,19 @@ public class DetailNoteActivity extends AppCompatActivity {
     }
 
     private void setViewsAsText() {
-
-
-
-
-        etTitle.setInputType(InputType.TYPE_NULL);
+       // etTitle.setSingleLine(false);
+        etTitle.setScroller(new Scroller(this));
+        etTitle.setMaxLines(3);
+        etTitle.setMovementMethod(new ScrollingMovementMethod());
+        etTitle.setVerticalScrollBarEnabled(true);
         etTitle.setTextIsSelectable(true);
         etTitle.setKeyListener(null);
         etTitle.setCursorVisible(true);
 
 
-        etBody.setInputType(InputType.TYPE_NULL);
+        etBody.setScroller(new Scroller(this));
+        etBody.setMovementMethod(new ScrollingMovementMethod());
+        etBody.setVerticalScrollBarEnabled(true);
         etBody.setTextIsSelectable(true);
         etBody.setKeyListener(null);
         etBody.setCursorVisible(true);
@@ -124,8 +125,14 @@ public class DetailNoteActivity extends AppCompatActivity {
     }
 
     private void setViewsAsEditable() {
-        etTitle.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        etBody.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        etTitle.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE );
+        etTitle.setVerticalScrollBarEnabled(true);
+        etTitle.setMovementMethod(new ScrollingMovementMethod());
+
+        etBody.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE );
+        etBody.setVerticalScrollBarEnabled(true);
+        etBody.setMovementMethod(new ScrollingMovementMethod());
+
         btEdit.setVisibility(View.INVISIBLE);
         btnOk.setVisibility(View.VISIBLE);
         btnCancel.setVisibility(View.VISIBLE);
