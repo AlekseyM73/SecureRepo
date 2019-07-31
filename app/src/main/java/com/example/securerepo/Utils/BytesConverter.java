@@ -1,4 +1,4 @@
-package com.example.securerepo.Utils;
+package com.example.securerepo.utils;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
