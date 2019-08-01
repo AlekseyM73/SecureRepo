@@ -3,7 +3,6 @@ package com.example.securerepo.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,13 +20,14 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     private NoteListAdapter adapter;
     private final String PASSWORD = "password";
     private RecyclerViewModel recyclerViewModel;
+    private char [] password;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_notes);
 
-        char[] password = getIntent().getCharArrayExtra(PASSWORD);
+        password = getIntent().getCharArrayExtra(PASSWORD);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -35,6 +35,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
         adapter = new NoteListAdapter(this, noteId -> {
             Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
             intent.putExtra(NOTE_ID, noteId);
+            intent.putExtra(PASSWORD, password);
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
@@ -46,12 +47,13 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
     View.OnClickListener fabListener = v -> {
         Intent intent = new Intent(this, NewNoteActivity.class);
+        intent.putExtra(PASSWORD,password);
         startActivity(intent);
     };
 
     private void updateView() {
 
-        recyclerViewModel.getNotes().observe(this, notes -> {
+        recyclerViewModel.getNotes(password).observe(this, notes -> {
             adapter.setNotes(notes);
         });
     }

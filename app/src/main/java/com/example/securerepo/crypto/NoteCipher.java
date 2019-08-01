@@ -5,7 +5,6 @@ import com.example.securerepo.utils.BytesConverter;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,15 +18,30 @@ public class NoteCipher {
             if (secretKeySpec != null){
                 cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             }
-            ArrayList<byte[]> bytes = new ArrayList<>();
-            bytes.add(cipher.doFinal(title));
-            bytes.add(cipher.doFinal(body));
+
             return new Note(cipher.doFinal(title),cipher.doFinal(body));
          } catch (Exception e){
             e.printStackTrace();
          }
       return null;
    }
+
+    public static Note encryptNote (Note newNote, char[] password){
+        try {
+            SecretKeySpec secretKeySpec = generateKey(password);
+            Cipher cipher = Cipher.getInstance("AES");
+            if (secretKeySpec != null){
+                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            }
+            byte [] title = newNote.getTitle();
+            byte [] body = newNote.getBody();
+            int id = newNote.getId();
+            return new Note(id, cipher.doFinal(title),cipher.doFinal(body));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new Note(new byte [0], new byte [0] );
+    }
 
    public static Note decryptNote (byte[] title, byte[] body, char[] password) throws  Exception{
 
@@ -36,11 +50,23 @@ public class NoteCipher {
          if (secretKeySpec != null){
              cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
          }
-         ArrayList<byte[]> bytes = new ArrayList<>();
-         bytes.add(cipher.doFinal(title));
-         bytes.add(cipher.doFinal(body));
+
          return new Note(cipher.doFinal(title), cipher.doFinal(body));
 
+   }
+
+   public static Note decryptNote (Note encryptNote, char [] password) throws Exception{
+
+       SecretKeySpec secretKeySpec = generateKey(password);
+       Cipher cipher = Cipher.getInstance("AES");
+       if (secretKeySpec != null){
+           cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+       }
+       byte [] title = encryptNote.getTitle();
+       byte [] body = encryptNote.getBody();
+       int id = encryptNote.getId();
+
+       return new Note(id, cipher.doFinal(title), cipher.doFinal(body));
    }
 
    private static SecretKeySpec generateKey(char[] password){
