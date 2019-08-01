@@ -10,4 +10,5 @@
     <string name="EnterTitle">Title</string>
     <string name="EnterDescription">Description</string>
     <string name="Button_Edit">Edit</string>
+    <string name="at_least_8_chars">At least 8 characters</string>
 </resources>
