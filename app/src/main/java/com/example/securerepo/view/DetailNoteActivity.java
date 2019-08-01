@@ -145,9 +145,9 @@ public class DetailNoteActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .doOnSuccess((Note note) -> {
 
-                       Note decryptNote = NoteCipher.decryptNote(note, password);
-                        etTitle.setText(BytesConverter.bytesToChar(decryptNote.getTitle()), 0, decryptNote.getTitle().length);
-                        etBody.setText(BytesConverter.bytesToChar(decryptNote.getBody()), 0, decryptNote.getBody().length);
+                       NoteCipher.decryptNote(note, password);
+                        etTitle.setText(BytesConverter.bytesToChar(note.getTitle()), 0, note.getTitle().length);
+                        etBody.setText(BytesConverter.bytesToChar(note.getBody()), 0, note.getBody().length);
 
                 }).observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
@@ -172,7 +172,8 @@ public class DetailNoteActivity extends AppCompatActivity {
                 etBody.getText().getChars(0, etBody.length(), bodyChars, 0);
                 Note decryptNote = new Note (noteId, BytesConverter.
                         charToBytes(titleChars), BytesConverter.charToBytes(bodyChars));
-                detailNoteViewModel.updateNote(NoteCipher.encryptNote(decryptNote,password));
+                NoteCipher.encryptNote(decryptNote,password);
+                detailNoteViewModel.updateNote(decryptNote);
             }
         }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
