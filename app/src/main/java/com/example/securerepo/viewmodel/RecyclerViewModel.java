@@ -44,12 +44,12 @@ public class RecyclerViewModel extends AndroidViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(value -> {
                     List<Note> decryptNotes = new ArrayList<>();
-                    Note decryptNote;
+
                     for (Note n: value){
                         try {
-                            decryptNote = NoteCipher.decryptNote(n, password);
-                            decryptNotes.add(decryptNote);
-                            Log.d("ID", ""+decryptNote.getId());
+                            NoteCipher.decryptNote(n, password);
+                            decryptNotes.add(n);
+                            Log.d("ID", ""+n.getId());
                         } catch (Exception e){
                             Toast.makeText(getApplication(), "Incorrect password", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplication(),EnterPasswordActivity.class);
@@ -58,7 +58,6 @@ public class RecyclerViewModel extends AndroidViewModel {
                         }
 
                     }
-
                             notes.setValue(decryptNotes);
 
                         },

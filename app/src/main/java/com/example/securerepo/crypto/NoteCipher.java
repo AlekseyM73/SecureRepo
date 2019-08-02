@@ -26,21 +26,20 @@ public class NoteCipher {
       return null;
    }
 
-    public static Note encryptNote (Note newNote, char[] password){
+    public static void encryptNote (Note note, char[] password){
         try {
             SecretKeySpec secretKeySpec = generateKey(password);
             Cipher cipher = Cipher.getInstance("AES");
             if (secretKeySpec != null){
                 cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             }
-            byte [] title = newNote.getTitle();
-            byte [] body = newNote.getBody();
-            int id = newNote.getId();
-            return new Note(id, cipher.doFinal(title),cipher.doFinal(body));
+
+            note.setTitle(cipher.doFinal(note.getTitle()));
+            note.setBody(cipher.doFinal(note.getBody()));
         } catch (Exception e){
             e.printStackTrace();
         }
-        return new Note(new byte [0], new byte [0] );
+
     }
 
    public static Note decryptNote (byte[] title, byte[] body, char[] password) throws  Exception{
@@ -55,18 +54,16 @@ public class NoteCipher {
 
    }
 
-   public static Note decryptNote (Note encryptNote, char [] password) throws Exception{
+   public static void decryptNote (Note note, char [] password) throws Exception{
 
        SecretKeySpec secretKeySpec = generateKey(password);
        Cipher cipher = Cipher.getInstance("AES");
        if (secretKeySpec != null){
            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
        }
-       byte [] title = encryptNote.getTitle();
-       byte [] body = encryptNote.getBody();
-       int id = encryptNote.getId();
+       note.setTitle(cipher.doFinal(note.getTitle()));
+       note.setBody(cipher.doFinal(note.getBody()));
 
-       return new Note(id, cipher.doFinal(title), cipher.doFinal(body));
    }
 
    private static SecretKeySpec generateKey(char[] password){
