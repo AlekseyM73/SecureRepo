@@ -113,7 +113,6 @@ public class DetailNoteActivity extends AppCompatActivity {
         etTitle.setKeyListener(null);
         etTitle.setCursorVisible(true);
 
-
         etBody.setScroller(new Scroller(this));
         etBody.setMovementMethod(new ScrollingMovementMethod());
         etBody.setVerticalScrollBarEnabled(true);
