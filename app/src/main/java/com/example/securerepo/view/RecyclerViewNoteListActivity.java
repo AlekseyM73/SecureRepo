@@ -2,7 +2,11 @@ package com.example.securerepo.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.securerepo.R;
 import com.example.securerepo.viewmodel.RecyclerViewModel;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
@@ -21,6 +27,8 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     private final String PASSWORD = "password";
     private RecyclerViewModel recyclerViewModel;
     private char [] password;
+    private BottomNavigationDrawerFragment bottomNavigationDrawerFragment;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,8 +38,10 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
         password = getIntent().getCharArrayExtra(PASSWORD);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        BottomAppBar bottomAppBar = findViewById(R.id.bottom_app_bar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(fabListener);
+        setSupportActionBar(bottomAppBar);
         adapter = new NoteListAdapter(this, noteId -> {
             Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
             intent.putExtra(NOTE_ID, noteId);
@@ -53,9 +63,25 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
     private void updateView() {
 
-        recyclerViewModel.getNotes(password).observe(this, notes -> {
+       recyclerViewModel.getNotes(password).observe(this, notes -> {
             adapter.setNotes(notes);
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+      switch (item.getItemId()){
+            case (android.R.id.home):{
+      bottomNavigationDrawerFragment = new BottomNavigationDrawerFragment();
+                bottomNavigationDrawerFragment
+                        .show(getSupportFragmentManager()
+                                ,bottomNavigationDrawerFragment.getTag());
+                break;
+            }
+            default:break;
+        }
+        return true;
     }
 
     @Override
