@@ -145,8 +145,10 @@ public class DetailNoteActivity extends AppCompatActivity {
                 .doOnSuccess((Note note) -> {
 
                        NoteCipher.decryptNote(note, password);
-                        etTitle.setText(BytesConverter.bytesToChar(note.getTitle()), 0, note.getTitle().length);
-                        etBody.setText(BytesConverter.bytesToChar(note.getBody()), 0, note.getBody().length);
+                        etTitle.setText(BytesConverter.bytesToChar(note.getTitle()),
+                                0,BytesConverter.bytesToChar(note.getTitle()).length );
+                        etBody.setText(BytesConverter.bytesToChar(note.getBody()),
+                                0,BytesConverter.bytesToChar(note.getBody()).length);
 
                 }).observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
@@ -162,17 +164,16 @@ public class DetailNoteActivity extends AppCompatActivity {
     private void updateNote() {
         char[] titleChars = new char[etTitle.length()];
         char[] bodyChars = new char[etBody.length()];
-        Completable.fromAction(new Action() {
 
+        Completable.fromAction(new Action() {
             @Override
             public void run() {
-
                 etTitle.getText().getChars(0, etTitle.length(), titleChars, 0);
                 etBody.getText().getChars(0, etBody.length(), bodyChars, 0);
-                Note decryptNote = new Note (noteId, BytesConverter.
+                Note note = new Note (noteId, BytesConverter.
                         charToBytes(titleChars), BytesConverter.charToBytes(bodyChars));
-                NoteCipher.encryptNote(decryptNote,password);
-                detailNoteViewModel.updateNote(decryptNote);
+                NoteCipher.encryptNote(note,password);
+                detailNoteViewModel.updateNote(note);
             }
         }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
@@ -184,8 +185,8 @@ public class DetailNoteActivity extends AppCompatActivity {
             public void onComplete() {
                 Toast.makeText(DetailNoteActivity.this,
                         "Updated!", Toast.LENGTH_LONG).show();
-                etTitle.setText("empty");
-                etBody.setText("empty");
+                etTitle.setText("");
+                etBody.setText("");
                 Arrays.fill(titleChars, '0');
                 Arrays.fill(bodyChars, '0');
                 DetailNoteActivity.super.onBackPressed();

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.securerepo.R;
@@ -24,10 +25,12 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
 
     class NoteListHolder extends RecyclerView.ViewHolder {
 
+        private CardView cardView;
         private final TextView recyclerviewItemTitle;
 
         public NoteListHolder(@NonNull View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.card_view);
             recyclerviewItemTitle = itemView.findViewById(R.id.recyclerviewItemTitle);
         }
 

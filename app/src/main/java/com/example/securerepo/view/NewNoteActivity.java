@@ -65,8 +65,6 @@ public class NewNoteActivity extends AppCompatActivity {
             Completable.fromAction(new Action() {
                 @Override
                 public void run() {
-                 /*   Note note = new Note(BytesConverter.charToBytes(titleChars),
-                            BytesConverter.charToBytes(bodyChars));*/
                     newNoteViewModel.insertNote(NoteCipher.encryptNote(BytesConverter.charToBytes(titleChars),BytesConverter.charToBytes(bodyChars), password));
                 }
             }).observeOn(AndroidSchedulers.mainThread())
@@ -79,8 +77,8 @@ public class NewNoteActivity extends AppCompatActivity {
                 public void onComplete() {
                     Toast.makeText(NewNoteActivity.this,
                             "Saved!", Toast.LENGTH_LONG).show();
-                    etTitle.setText("empty");
-                    etBody.setText("empty");
+                    etTitle.setText("");
+                    etBody.setText("");
                     Arrays.fill(titleChars, '0');
                     Arrays.fill(bodyChars, '0');
                     NewNoteActivity.super.onBackPressed();

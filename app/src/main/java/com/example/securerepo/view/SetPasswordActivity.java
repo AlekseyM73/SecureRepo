@@ -42,8 +42,8 @@ public class SetPasswordActivity extends Activity {
             etSetPassRepeat.getText().getChars(0, etSetPassRepeat.length(), password2, 0);
 
             if (isTwoPasswordEquals(password1, password2) && isPasswordLengthGood(password1)) {
-                etSetPass.setText("empty");
-                etSetPassRepeat.setText("empty");
+                etSetPass.setText("");
+                etSetPassRepeat.setText("");
                 startNextScreen(password1);
                /* Arrays.fill(password1,'0');
                 Arrays.fill(password2,'0');*/
