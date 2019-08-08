@@ -1,13 +1,30 @@
 package com.example.securerepo.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.versionedparcelable.ParcelField;
+
 import java.util.Arrays;
 import java.util.Objects;
 
 @Entity (tableName = "notes_table")
-public class Note {
+
+public class Note implements Parcelable {
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+    static Note CREATOR;
 
     @PrimaryKey (autoGenerate = true)
     private int id;

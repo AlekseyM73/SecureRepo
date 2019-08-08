@@ -2,22 +2,33 @@ package com.example.securerepo.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.selection.OnDragInitiatedListener;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.securerepo.R;
+import com.example.securerepo.model.Note;
+import com.example.securerepo.view.RecyclerViewHelpers.ActionModeController;
+import com.example.securerepo.view.RecyclerViewHelpers.NoteItemKeyProvider;
+import com.example.securerepo.view.RecyclerViewHelpers.NoteItemLookup;
+import com.example.securerepo.view.RecyclerViewHelpers.NoteListAdapter;
 import com.example.securerepo.viewmodel.RecyclerViewModel;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Iterator;
 
 
 public class RecyclerViewNoteListActivity extends AppCompatActivity {
@@ -28,6 +39,9 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     private RecyclerViewModel recyclerViewModel;
     private char [] password;
     private BottomNavigationDrawerFragment bottomNavigationDrawerFragment;
+    private SelectionTracker selectionTracker;
+    private RecyclerView recyclerView;
+    private ActionMode actionMode;
 
 
     @Override
@@ -37,18 +51,25 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
 
         password = getIntent().getCharArrayExtra(PASSWORD);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        recyclerView = findViewById(R.id.recyclerview);
         BottomAppBar bottomAppBar = findViewById(R.id.bottom_app_bar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(fabListener);
         setSupportActionBar(bottomAppBar);
-        adapter = new NoteListAdapter(this, noteId -> {
-            Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
-            intent.putExtra(NOTE_ID, noteId);
-            intent.putExtra(PASSWORD, password);
-            startActivity(intent);
+        adapter = new NoteListAdapter(this, new NoteListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int noteId) {
+                Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
+                intent.putExtra(NOTE_ID, noteId);
+                intent.putExtra(PASSWORD, password);
+                RecyclerViewNoteListActivity.this.startActivity(intent);
+            }
         });
         recyclerView.setAdapter(adapter);
+
+
+
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewModel = ViewModelProviders.of(this).get(RecyclerViewModel.class);
 
@@ -64,8 +85,24 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     private void updateView() {
 
        recyclerViewModel.getNotes(password).observe(this, notes -> {
-            adapter.setNotes(notes);
+
+           selectionTracker = new SelectionTracker.Builder<Note>(
+                   "note-selection-id",
+
+                   recyclerView,
+                   new NoteItemKeyProvider(1, notes),
+                   new NoteItemLookup(recyclerView),
+                   StorageStrategy.createParcelableStorage(Note.class)
+           )
+
+                   .build();
+
+
+           adapter.setSelectionTracker(selectionTracker);
+           adapter.setNotes(notes);
         });
+
+
     }
 
     @Override
@@ -103,5 +140,22 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+    static class Predicate extends SelectionTracker.SelectionPredicate<Long> {
+
+        @Override
+        public boolean canSetStateForKey(@NonNull Long key, boolean nextState) {
+            return true;
+        }
+
+        @Override
+        public boolean canSetStateAtPosition(int position, boolean nextState) {
+            return true;
+        }
+
+        @Override
+        public boolean canSelectMultiple() {
+            return true;
+        }
     }
 }

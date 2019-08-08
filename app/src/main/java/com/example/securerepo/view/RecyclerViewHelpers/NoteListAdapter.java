@@ -1,4 +1,4 @@
-package com.example.securerepo.view;
+package com.example.securerepo.view.RecyclerViewHelpers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.selection.ItemDetailsLookup;
+import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.securerepo.R;
@@ -22,6 +24,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
     private final LayoutInflater layoutInflater;
     private List<Note> notes = Collections.emptyList();
     private final OnItemClickListener onItemClickListener;
+    private SelectionTracker selectionTracker;
 
     class NoteListHolder extends RecyclerView.ViewHolder {
 
@@ -34,9 +37,21 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
             recyclerviewItemTitle = itemView.findViewById(R.id.recyclerviewItemTitle);
         }
 
-        public void onBind (int noteId, NoteListAdapter.OnItemClickListener onItemClickListener){
+        public ItemDetailsLookup.ItemDetails getItemDetails(){
+            return new NoteItemDetail(getAdapterPosition(),notes.get(getAdapterPosition()));
+        }
+
+        public void onBind (int noteId, NoteListAdapter.OnItemClickListener onItemClickListener,
+                            boolean isActive){
+
             if (onItemClickListener != null ){
-                itemView.setOnClickListener(v -> onItemClickListener.onItemClick(noteId));
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemClickListener.onItemClick(noteId);
+                        itemView.setActivated(isActive);
+                    }
+                });
             }
         }
     }
@@ -45,6 +60,11 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
         layoutInflater = LayoutInflater.from(context);
        this.onItemClickListener = onItemClickListener;
     }
+
+    public void setSelectionTracker (SelectionTracker selectionTracker){
+        this.selectionTracker = selectionTracker;
+    }
+
 
     @NonNull
     @Override
@@ -58,7 +78,8 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
         Note current = notes.get(position);
         char[] text = BytesConverter.bytesToChar(current.getTitle());
         holder.recyclerviewItemTitle.setText(text,0,text.length);
-        holder.onBind(current.getId(), onItemClickListener);
+        holder.onBind(current.getId(), onItemClickListener,
+                selectionTracker.isSelected(current));
     }
 
     public void setNotes (List<Note> notes){
