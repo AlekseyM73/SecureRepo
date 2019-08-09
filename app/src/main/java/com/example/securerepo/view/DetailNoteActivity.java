@@ -145,6 +145,7 @@ public class DetailNoteActivity extends AppCompatActivity {
                 .doOnSuccess((Note note) -> {
 
                        NoteCipher.decryptNote(note, password);
+
                         etTitle.setText(BytesConverter.bytesToChar(note.getTitle()),
                                 0,BytesConverter.bytesToChar(note.getTitle()).length );
                         etBody.setText(BytesConverter.bytesToChar(note.getBody()),
@@ -189,7 +190,7 @@ public class DetailNoteActivity extends AppCompatActivity {
                 etBody.setText("");
                 Arrays.fill(titleChars, '0');
                 Arrays.fill(bodyChars, '0');
-                DetailNoteActivity.super.onBackPressed();
+
                 finish();
             }
 

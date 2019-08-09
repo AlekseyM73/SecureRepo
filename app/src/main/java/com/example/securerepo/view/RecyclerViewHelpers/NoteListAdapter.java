@@ -43,13 +43,13 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
 
         public void onBind (int noteId, NoteListAdapter.OnItemClickListener onItemClickListener,
                             boolean isActive){
-
+            itemView.setActivated(isActive);
             if (onItemClickListener != null ){
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         onItemClickListener.onItemClick(noteId);
-                        itemView.setActivated(isActive);
+
                     }
                 });
             }

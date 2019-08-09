@@ -58,7 +58,7 @@ public class RecyclerViewModel extends AndroidViewModel {
                         }
 
                     }
-                            notes.setValue(decryptNotes);
+                            notes.postValue(decryptNotes);
 
                         },
                         throwable -> Log.e(TAG, "Unable to load", throwable)));

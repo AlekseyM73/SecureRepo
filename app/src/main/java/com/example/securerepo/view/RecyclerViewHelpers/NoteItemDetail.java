@@ -5,7 +5,7 @@ import androidx.recyclerview.selection.ItemDetailsLookup;
 
 import com.example.securerepo.model.Note;
 
-public class NoteItemDetail extends ItemDetailsLookup.ItemDetails<Note> {
+public class NoteItemDetail extends ItemDetailsLookup.ItemDetails {
 
     private int adapterPosition;
     private Note selectionKey;
@@ -22,7 +22,12 @@ public class NoteItemDetail extends ItemDetailsLookup.ItemDetails<Note> {
 
     @Nullable
     @Override
-    public Note getSelectionKey() {
+    public Object getSelectionKey() {
         return selectionKey;
+    }
+
+    @Override
+    public String toString() {
+        return new String(""+selectionKey.getId());
     }
 }

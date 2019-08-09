@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.securerepo.model.Note;
 
-public class NoteItemLookup extends ItemDetailsLookup <Note>{
+public class NoteItemLookup extends ItemDetailsLookup <Long>{
 
     private RecyclerView recyclerView;
 
@@ -20,7 +20,7 @@ public class NoteItemLookup extends ItemDetailsLookup <Note>{
 
     @Nullable
     @Override
-    public ItemDetails<Note> getItemDetails(@NonNull MotionEvent e) {
+    public ItemDetails getItemDetails(@NonNull MotionEvent e) {
         View view = recyclerView.findChildViewUnder(e.getX(),e.getY());
         if (view != null){
             RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);

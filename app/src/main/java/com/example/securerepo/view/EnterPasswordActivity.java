@@ -38,6 +38,7 @@ public class EnterPasswordActivity extends Activity {
         intent.putExtra(PASSWORD, password);
       //  Arrays.fill(password,'0');
         startActivity(intent);
+
     };
 
 

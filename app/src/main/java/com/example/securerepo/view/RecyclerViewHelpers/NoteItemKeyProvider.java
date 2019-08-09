@@ -8,7 +8,7 @@ import com.example.securerepo.model.Note;
 
 import java.util.List;
 
-public class NoteItemKeyProvider extends ItemKeyProvider<Note> {
+public class NoteItemKeyProvider extends ItemKeyProvider {
 
     private List<Note> noteList;
 
@@ -19,12 +19,12 @@ public class NoteItemKeyProvider extends ItemKeyProvider<Note> {
 
     @Nullable
     @Override
-    public Note getKey(int position) {
+    public Object getKey(int position) {
         return noteList.get(position);
     }
 
     @Override
-    public int getPosition(@NonNull Note key) {
+    public int getPosition(@NonNull Object key) {
         return noteList.indexOf(key);
     }
 }
