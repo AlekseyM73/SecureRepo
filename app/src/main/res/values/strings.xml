@@ -18,4 +18,5 @@
     <string name="delete">Delete</string>
     <string name="delete_failed_toast">Delete failed!</string>
     <string name="confirm_delete_dialog">Confirm delete</string>
+    <string name="add_note">Add the note</string>
 </resources>
