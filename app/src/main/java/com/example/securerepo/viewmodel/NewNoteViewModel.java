@@ -15,7 +15,7 @@ public class NewNoteViewModel extends ViewModel {
         notesSource = new NotesSource(App.notesDatabase.notesDAO());
     }
 
-    public void insertNote (Note note){
+    public void insertNote(Note note) {
         notesSource.insertNote(note);
     }
 

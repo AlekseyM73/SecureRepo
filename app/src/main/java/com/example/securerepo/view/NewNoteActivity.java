@@ -29,7 +29,7 @@ public class NewNoteActivity extends AppCompatActivity {
     private EditText etTitle;
     private EditText etBody;
     private NewNoteViewModel newNoteViewModel;
-    private char [] password;
+    private char[] password;
     private final String PASSWORD = "password";
 
     @Override
@@ -65,7 +65,7 @@ public class NewNoteActivity extends AppCompatActivity {
             Completable.fromAction(new Action() {
                 @Override
                 public void run() {
-                    newNoteViewModel.insertNote(NoteCipher.encryptNote(BytesConverter.charToBytes(titleChars),BytesConverter.charToBytes(bodyChars), password));
+                    newNoteViewModel.insertNote(NoteCipher.encryptNote(BytesConverter.charToBytes(titleChars), BytesConverter.charToBytes(bodyChars), password));
                 }
             }).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {

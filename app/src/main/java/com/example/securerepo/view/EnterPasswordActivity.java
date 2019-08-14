@@ -30,16 +30,15 @@ public class EnterPasswordActivity extends Activity {
     }
 
     View.OnClickListener btDecryptListener = v -> {
-        char [] password = new char[etEnterPassword.length()];
-        if (etEnterPassword.length() != 0){
-            etEnterPassword.getText().getChars(0, etEnterPassword.length(), password, 0 );
+        char[] password = new char[etEnterPassword.length()];
+        if (etEnterPassword.length() != 0) {
+            etEnterPassword.getText().getChars(0, etEnterPassword.length(), password, 0);
         }
         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
         intent.putExtra(PASSWORD, password);
-      //  Arrays.fill(password,'0');
+        //  Arrays.fill(password,'0');
         startActivity(intent);
     };
-
 
 
 }

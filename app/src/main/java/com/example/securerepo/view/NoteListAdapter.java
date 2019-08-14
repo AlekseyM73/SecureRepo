@@ -21,11 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteListHolder>  {
+public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteListHolder> {
 
     private final LayoutInflater layoutInflater;
     private List<Note> notes = Collections.emptyList();
-  // private final OnItemClickListener onItemClickListener;
     private Context context;
     private List<Integer> selectedID = new ArrayList<>();
 
@@ -42,36 +41,28 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
             recyclerItem = itemView.findViewById(R.id.recyclerviewItem);
         }
 
-       /* public void onBind (int noteId, NoteListAdapter.OnItemClickListener onItemClickListener){
-            if (onItemClickListener != null ){
-                itemView.setOnClickListener(v -> onItemClickListener.onItemClick(noteId));
-            }
-        }*/
     }
 
     public NoteListAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
-      // this.onItemClickListener = onItemClickListener;
+
     }
 
     @NonNull
     @Override
     public NoteListHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return new NoteListHolder(layoutInflater.inflate(R.layout.recyclerview_item,
-                viewGroup,false));
+                viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull NoteListHolder holder, int position) {
         Note current = notes.get(position);
         char[] text = BytesConverter.bytesToChar(current.getTitle());
-        holder.recyclerviewItemTitle.setText(text,0,text.length);
-       // holder.onBind(current.getId(), onItemClickListener);
+        holder.recyclerviewItemTitle.setText(text, 0, text.length);
         int id = current.getId();
-        int color = holder.cardView.getCardBackgroundColor().getDefaultColor();
-        Log.d("COLOR",color+"");
-        if (selectedID.contains(id)){
+        if (selectedID.contains(id)) {
             holder.cardView.setCardBackgroundColor(context.getResources()
                     .getColor(R.color.colorAccent));
         } else {
@@ -79,20 +70,21 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
                     .getResources().getColor(android.R.color.background_light));
         }
     }
-    public List<Note> getNotesfromAdapter(){
+
+    public List<Note> getNotesfromAdapter() {
         return notes;
     }
 
-    public Note getNotefromAdapter (int position){
+    public Note getNotefromAdapter(int position) {
         return notes.get(position);
     }
 
-    public void setNotes (List<Note> notes){
+    public void setNotes(List<Note> notes) {
         this.notes = notes;
         notifyDataSetChanged();
     }
 
-    public void setSelectedID (List<Integer> id){
+    public void setSelectedID(List<Integer> id) {
         this.selectedID = id;
         notifyDataSetChanged();
     }
@@ -102,9 +94,6 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
         return notes.size();
     }
 
-    /*public interface OnItemClickListener {
-        void onItemClick (int nodeId);
-    }*/
 }
 
 

@@ -16,6 +16,8 @@ public class NotesSource {
         this.notesDAO = notesDAO;
     }
 
+    public void deleteNotes (List<Integer> id){ notesDAO.deleteNotes(id);}
+
     public void insertNote (Note note){
         notesDAO.insertNote(note);
     }

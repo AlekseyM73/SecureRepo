@@ -35,7 +35,7 @@ public class DetailNoteActivity extends AppCompatActivity {
     private final String IS_EDIT_BTN_PRESSED = "isEditBtnPressed";
     private final String NOTE_ID = "Id";
     private final String PASSWORD = "password";
-    private char [] password;
+    private char[] password;
     private int noteId;
     private EditText etTitle;
     private EditText etBody;
@@ -104,7 +104,7 @@ public class DetailNoteActivity extends AppCompatActivity {
     }
 
     private void setViewsAsText() {
-       // etTitle.setSingleLine(false);
+        // etTitle.setSingleLine(false);
         etTitle.setScroller(new Scroller(this));
         etTitle.setMaxLines(3);
         etTitle.setMovementMethod(new ScrollingMovementMethod());
@@ -126,11 +126,11 @@ public class DetailNoteActivity extends AppCompatActivity {
     }
 
     private void setViewsAsEditable() {
-        etTitle.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE );
+        etTitle.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE);
         etTitle.setVerticalScrollBarEnabled(true);
         etTitle.setMovementMethod(new ScrollingMovementMethod());
 
-        etBody.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE );
+        etBody.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE);
         etBody.setVerticalScrollBarEnabled(true);
         etBody.setMovementMethod(new ScrollingMovementMethod());
 
@@ -144,11 +144,11 @@ public class DetailNoteActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .doOnSuccess((Note note) -> {
 
-                       NoteCipher.decryptNote(note, password);
-                        etTitle.setText(BytesConverter.bytesToChar(note.getTitle()),
-                                0,BytesConverter.bytesToChar(note.getTitle()).length );
-                        etBody.setText(BytesConverter.bytesToChar(note.getBody()),
-                                0,BytesConverter.bytesToChar(note.getBody()).length);
+                    NoteCipher.decryptNote(note, password);
+                    etTitle.setText(BytesConverter.bytesToChar(note.getTitle()),
+                            0, BytesConverter.bytesToChar(note.getTitle()).length);
+                    etBody.setText(BytesConverter.bytesToChar(note.getBody()),
+                            0, BytesConverter.bytesToChar(note.getBody()).length);
 
                 }).observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
@@ -170,9 +170,9 @@ public class DetailNoteActivity extends AppCompatActivity {
             public void run() {
                 etTitle.getText().getChars(0, etTitle.length(), titleChars, 0);
                 etBody.getText().getChars(0, etBody.length(), bodyChars, 0);
-                Note note = new Note (noteId, BytesConverter.
+                Note note = new Note(noteId, BytesConverter.
                         charToBytes(titleChars), BytesConverter.charToBytes(bodyChars));
-                NoteCipher.encryptNote(note,password);
+                NoteCipher.encryptNote(note, password);
                 detailNoteViewModel.updateNote(note);
             }
         }).observeOn(AndroidSchedulers.mainThread())

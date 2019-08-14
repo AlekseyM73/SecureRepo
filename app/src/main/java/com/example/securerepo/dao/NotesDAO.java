@@ -1,6 +1,7 @@
 package com.example.securerepo.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -16,24 +17,27 @@ import io.reactivex.Single;
 public interface NotesDAO {
 
     @Insert
-    void insertNote (Note note);
+    void insertNote(Note note);
 
     @Insert
-    void insertNotes (List<Note> notes);
+    void insertNotes(List<Note> notes);
 
     @Update
-    void updateNote (Note note);
+    void updateNote(Note note);
 
     @Update
-    void updateNotes (List<Note> notes);
+    void updateNotes(List<Note> notes);
 
     @Query("SELECT * from notes_table where id = :id")
     Single<Note> getNote(int id);
 
     @Query("SELECT * from notes_table")
-    Observable <List<Note>> getAllNotes ();
+    Observable<List<Note>> getAllNotes();
 
     @Query("SELECT title from notes_table")
-    Observable <List<byte[]>> getAllTitles ();
+    Observable<List<byte[]>> getAllTitles();
+
+    @Query("DELETE from notes_table where id IN (:id)")
+    void deleteNotes(List<Integer> id);
 
 }

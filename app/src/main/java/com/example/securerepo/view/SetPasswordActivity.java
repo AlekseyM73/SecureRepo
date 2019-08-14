@@ -66,7 +66,7 @@ public class SetPasswordActivity extends Activity {
         sharedPreferences.edit().putBoolean(IS_PASSWORD_PRESENT, true).commit();
         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
         intent.putExtra(PASSWORD, password);
-      //  Arrays.fill(password,'0');
+        //  Arrays.fill(password,'0');
         startActivity(intent);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.securerepo.view;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
@@ -9,8 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +37,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     private NoteListAdapter adapter;
     private final String PASSWORD = "password";
     private RecyclerViewModel recyclerViewModel;
-    private char [] password;
+    private char[] password;
     private BottomNavigationDrawerFragment bottomNavigationDrawerFragment;
     private RecyclerView recyclerView;
     private ActionMode actionMode;
@@ -52,12 +57,6 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(fabListener);
         setSupportActionBar(bottomAppBar);
-       /* adapter = new NoteListAdapter(this, noteId -> {
-            Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
-            intent.putExtra(NOTE_ID, noteId);
-            intent.putExtra(PASSWORD, password);
-            startActivity(intent);
-        });*/
 
         adapter = new NoteListAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -69,53 +68,52 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
 
     View.OnClickListener fabListener = v -> {
         Intent intent = new Intent(this, NewNoteActivity.class);
-        intent.putExtra(PASSWORD,password);
+        intent.putExtra(PASSWORD, password);
         startActivity(intent);
     };
 
     private void updateView() {
 
-       recyclerViewModel.getNotes(password).observe(this, notes -> {
+        recyclerViewModel.getNotes(password).observe(this, notes -> {
             adapter.setNotes(notes);
+            if (actionMode != null) {
+                actionMode.finish();
+            }
         });
         recyclerView.addOnItemTouchListener(new RecyclerClickListener
                 (this, recyclerView,
                         new RecyclerClickListener.OnItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                if (isMultiSelect){
-                    multiSelect(position);
-                } else {
-                    Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
-                    intent.putExtra(NOTE_ID, adapter.getNotefromAdapter(position).getId());
-                    intent.putExtra(PASSWORD, password);
-                    startActivity(intent);
-                }
-            }
+                            @Override
+                            public void onClick(View view, int position) {
+                                if (isMultiSelect) {
+                                    multiSelect(position);
+                                } else {
+                                    Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
+                                    intent.putExtra(NOTE_ID, adapter.getNotefromAdapter(position).getId());
+                                    intent.putExtra(PASSWORD, password);
+                                    startActivity(intent);
+                                }
+                            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-                if (!isMultiSelect){
-                    selectedID = new ArrayList<>();
-                    isMultiSelect = true;
+                            @Override
+                            public void onLongClick(View view, int position) {
+                                if (!isMultiSelect) {
+                                    selectedID = new ArrayList<>();
+                                    isMultiSelect = true;
 
-                    if (actionMode == null){
-                        actionMode = startActionMode
-                                (RecyclerViewNoteListActivity.this);
-                    }
-                }
-
-                multiSelect(position);
-            }
-        }));
-
-
-
+                                    if (actionMode == null) {
+                                        actionMode = startActionMode
+                                                (RecyclerViewNoteListActivity.this);
+                                    }
+                                }
+                                multiSelect(position);
+                            }
+                        }));
     }
 
     private void multiSelect(int position) {
         Note note = adapter.getNotefromAdapter(position);
-        if (note != null){
+        if (note != null) {
             if (actionMode != null) {
                 if (selectedID.contains(note.getId()))
                     selectedID.remove(Integer.valueOf(note.getId()));
@@ -124,7 +122,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
 
                 if (selectedID.size() > 0)
                     actionMode.setTitle(String.valueOf(selectedID.size()));
-                else{
+                else {
                     actionMode.setTitle("");
                     actionMode.finish();
                 }
@@ -137,22 +135,23 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-      switch (item.getItemId()){
-            case (android.R.id.home):{
-      bottomNavigationDrawerFragment = new BottomNavigationDrawerFragment();
+        switch (item.getItemId()) {
+            case (android.R.id.home): {
+                bottomNavigationDrawerFragment = new BottomNavigationDrawerFragment();
                 bottomNavigationDrawerFragment
                         .show(getSupportFragmentManager()
-                                ,bottomNavigationDrawerFragment.getTag());
+                                , bottomNavigationDrawerFragment.getTag());
                 break;
             }
-            default:break;
+            default:
+                break;
         }
         return true;
     }
 
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
-        inflater.inflate(R.menu.bottom_nav_drawer_menu, menu);
+        inflater.inflate(R.menu.action_mode_menu, menu);
         return true;
     }
 
@@ -163,17 +162,11 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem menuItem) {
-        switch (menuItem.getItemId()){
-            case R.id.bottom_app_bar_menu_delete:
-                //just to show selected items.
-                StringBuilder stringBuilder = new StringBuilder();
-                for (Note note : adapter.getNotesfromAdapter()) {
-                    if (selectedID.contains(note.getId()))
-                        stringBuilder.append("\n").append(note.getTitle());
-                }
-                Toast.makeText(this, "Selected items are :"
-                        + stringBuilder.toString(), Toast.LENGTH_SHORT).show();
+        switch (menuItem.getItemId()) {
+            case R.id.action_mode_menu_delete: {
+                showConfirmDeleteDialog();
                 return true;
+            }
         }
         return false;
     }
@@ -184,5 +177,27 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
         isMultiSelect = false;
         selectedID.clear();
         adapter.setSelectedID(new ArrayList<Integer>());
+    }
+
+    private void showConfirmDeleteDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(this.getString(R.string.confirm_delete_dialog))
+                .setMessage("Are you sure to delete " + selectedID.size() + " notes?")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        actionMode.finish();
+                        return;
+                    }
+                })
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        recyclerViewModel.deleteNotes(selectedID);
+                    }
+                })
+                .show();
+
     }
 }
