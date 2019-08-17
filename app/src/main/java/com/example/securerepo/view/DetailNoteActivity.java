@@ -7,31 +7,23 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Scroller;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.model.Note;
 import com.example.securerepo.utils.BytesConverter;
 import com.example.securerepo.viewmodel.DetailNoteViewModel;
-
 import java.util.Arrays;
-
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
-
 import static android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE;
 
 public class DetailNoteActivity extends AppCompatActivity {
@@ -121,15 +113,10 @@ public class DetailNoteActivity extends AppCompatActivity {
     }
 
     private void setViewsAsText() {
-        etTitle.setMovementMethod(new ScrollingMovementMethod());
-        etTitle.setVerticalScrollBarEnabled(true);
         etTitle.setTextIsSelectable(true);
         etTitle.setKeyListener(null);
         etTitle.setCursorVisible(true);
 
-        etBody.setScroller(new Scroller(this));
-        etBody.setMovementMethod(new ScrollingMovementMethod());
-        etBody.setVerticalScrollBarEnabled(true);
         etBody.setTextIsSelectable(true);
         etBody.setKeyListener(null);
         etBody.setCursorVisible(true);
@@ -141,11 +128,9 @@ public class DetailNoteActivity extends AppCompatActivity {
 
     private void setViewsAsEditable() {
         etTitle.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE);
-        etTitle.setVerticalScrollBarEnabled(true);
         etTitle.setMovementMethod(new ScrollingMovementMethod());
 
         etBody.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE);
-        etBody.setVerticalScrollBarEnabled(true);
         etBody.setMovementMethod(new ScrollingMovementMethod());
 
         edit.setVisible(false);

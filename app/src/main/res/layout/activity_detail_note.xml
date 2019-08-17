@@ -3,9 +3,9 @@
 <LinearLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
-android:id="@+id/newNoteActivity"
+android:id="@+id/detailNoteActivity"
 android:layout_width="match_parent"
-android:layout_height="wrap_content"
+android:layout_height="match_parent"
 android:orientation="vertical">
 
 <androidx.appcompat.widget.Toolbar
@@ -17,7 +17,7 @@ android:orientation="vertical">
 
 <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,8 +55,17 @@ android:orientation="vertical">
                 android:inputType="textMultiLine"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+
     </LinearLayout>
 </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/detailNoteActivity"
+        android:gravity="bottom"
+        android:src="@drawable/ic_add_white_24dp" />
 
 </LinearLayout>
 
