@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +14,7 @@ import android.widget.Scroller;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.securerepo.R;
@@ -39,11 +43,12 @@ public class DetailNoteActivity extends AppCompatActivity {
     private int noteId;
     private EditText etTitle;
     private EditText etBody;
-    private Button btnOk;
-    private Button btEdit;
-    private Button btnCancel;
+    private MenuItem ok;
+    private MenuItem edit;
+    private MenuItem cancel;
     private boolean isEditBtnPressed = false;
     private DetailNoteViewModel detailNoteViewModel;
+    private Disposable subscribe;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +57,15 @@ public class DetailNoteActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             isEditBtnPressed = savedInstanceState.getBoolean(IS_EDIT_BTN_PRESSED);
         }
+        etTitle = findViewById(R.id.detailNoteActivityTitleEditText);
+        etBody = findViewById(R.id.detailNoteActivityBodyEditText);
         Intent intent = getIntent();
         noteId = intent.getIntExtra(NOTE_ID, -1);
         password = intent.getCharArrayExtra(PASSWORD);
-        setViews();
+        Toolbar toolbar = findViewById(R.id.detailNoteActivityToolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
 
         detailNoteViewModel = ViewModelProviders.of(this).get(DetailNoteViewModel.class);
         getNote();
@@ -67,46 +77,50 @@ public class DetailNoteActivity extends AppCompatActivity {
         outState.putBoolean(IS_EDIT_BTN_PRESSED, isEditBtnPressed);
     }
 
-    View.OnClickListener btnOkListener = v -> {
-        setViewsAsText();
-        isEditBtnPressed = false;
-        updateNote();
-    };
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
 
-    View.OnClickListener btnEditListener = v -> {
-        setViewsAsEditable();
-        isEditBtnPressed = true;
-    };
-
-    View.OnClickListener btnCancelListener = v -> {
-        getNote();
-        setViewsAsText();
-        Toast.makeText(DetailNoteActivity.this,
-                "Canceled!", Toast.LENGTH_LONG).show();
-
-    };
-
-    private void setViews() {
-        etTitle = findViewById(R.id.detailNoteActivityTitleEditText);
-        etBody = findViewById(R.id.detailNoteActivityBodyEditText);
-        btnOk = findViewById(R.id.detailNoteActivityButtonOk);
-        btEdit = findViewById(R.id.detailNoteActivityButtonEdit);
-        btnCancel = findViewById(R.id.detailNoteActivityButtonCancel);
-        btnOk.setOnClickListener(btnOkListener);
-        btEdit.setOnClickListener(btnEditListener);
-        btnCancel.setOnClickListener(btnCancelListener);
-
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.detail_note_menu, menu);
+        ok = menu.findItem(R.id.detail_note_menu_ok);
+        edit = menu.findItem(R.id.detail_note_menu_edit);
+        cancel = menu.findItem(R.id.detail_note_menu_cancel);
         if (isEditBtnPressed) {
             setViewsAsEditable();
         } else {
             setViewsAsText();
         }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.detail_note_menu_edit:{
+                setViewsAsEditable();
+                isEditBtnPressed = true;
+                break;
+            }
+            case R.id.detail_note_menu_ok:{
+                setViewsAsText();
+                isEditBtnPressed = false;
+                updateNote();
+                break;
+            }
+            case R.id.detail_note_menu_cancel:{
+                getNote();
+                setViewsAsText();
+                Toast.makeText(DetailNoteActivity.this,
+                        "Canceled!", Toast.LENGTH_LONG).show();
+                break;
+            }
+            default: break;
+        }
+
+        return true;
     }
 
     private void setViewsAsText() {
-        // etTitle.setSingleLine(false);
-        etTitle.setScroller(new Scroller(this));
-        etTitle.setMaxLines(3);
         etTitle.setMovementMethod(new ScrollingMovementMethod());
         etTitle.setVerticalScrollBarEnabled(true);
         etTitle.setTextIsSelectable(true);
@@ -120,9 +134,9 @@ public class DetailNoteActivity extends AppCompatActivity {
         etBody.setKeyListener(null);
         etBody.setCursorVisible(true);
 
-        btEdit.setVisibility(View.VISIBLE);
-        btnOk.setVisibility(View.INVISIBLE);
-        btnCancel.setVisibility(View.INVISIBLE);
+        edit.setVisible(true);
+        ok.setVisible(false);
+        cancel.setVisible(false);
     }
 
     private void setViewsAsEditable() {
@@ -134,22 +148,16 @@ public class DetailNoteActivity extends AppCompatActivity {
         etBody.setVerticalScrollBarEnabled(true);
         etBody.setMovementMethod(new ScrollingMovementMethod());
 
-        btEdit.setVisibility(View.INVISIBLE);
-        btnOk.setVisibility(View.VISIBLE);
-        btnCancel.setVisibility(View.VISIBLE);
+        edit.setVisible(false);
+        ok.setVisible(true);
+        cancel.setVisible(true);
     }
 
     private void getNote() {
-        final Disposable subscribe = detailNoteViewModel.getNote(noteId)
+        subscribe = detailNoteViewModel.getNote(noteId)
                 .subscribeOn(Schedulers.io())
                 .doOnSuccess((Note note) -> {
-
                     NoteCipher.decryptNote(note, password);
-                    etTitle.setText(BytesConverter.bytesToChar(note.getTitle()),
-                            0, BytesConverter.bytesToChar(note.getTitle()).length);
-                    etBody.setText(BytesConverter.bytesToChar(note.getBody()),
-                            0, BytesConverter.bytesToChar(note.getBody()).length);
-
                 }).observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
 
@@ -158,7 +166,12 @@ public class DetailNoteActivity extends AppCompatActivity {
 
                 })
                 .subscribe(note -> {
+                    etTitle.setText(BytesConverter.bytesToChar(note.getTitle()),
+                            0, BytesConverter.bytesToChar(note.getTitle()).length);
+                    etBody.setText(BytesConverter.bytesToChar(note.getBody()),
+                            0, BytesConverter.bytesToChar(note.getBody()).length);
                 });
+
     }
 
     private void updateNote() {
@@ -201,4 +214,9 @@ public class DetailNoteActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        subscribe.dispose();
+    }
 }
