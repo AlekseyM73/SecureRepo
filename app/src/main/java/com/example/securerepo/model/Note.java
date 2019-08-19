@@ -3,6 +3,9 @@ package com.example.securerepo.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.example.securerepo.utils.DateConverter;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -15,6 +18,8 @@ public class Note {
     private byte[] title;
     @ColumnInfo (typeAffinity = ColumnInfo.BLOB)
     private byte[] body;
+    private long dateStamp;
+
 
     public Note() {
     }
@@ -23,11 +28,17 @@ public class Note {
         this.title = title;
         this.body = body;
     }
+    public Note( byte[] title, byte[] body, long dateStamp) {
+        this.title = title;
+        this.body = body;
+        this.dateStamp = dateStamp;
+    }
 
-    public Note(int id, byte[] title, byte[] body) {
+    public Note(int id, byte[] title, byte[] body, long dateStamp) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.dateStamp = dateStamp;
     }
 
     public int getId() {
@@ -36,6 +47,13 @@ public class Note {
 
     public byte[] getTitle() {
         return title;
+    }
+
+    public long getDateStamp (){
+       return dateStamp;
+    }
+    public String getDate (){
+        return DateConverter.convertDate(dateStamp);
     }
 
     public void setTitle(byte[] title) {
@@ -54,10 +72,14 @@ public class Note {
         this.id = id;
     }
 
+    public void setDateStamp(long dateStamp) {
+        this.dateStamp = dateStamp;
+    }
+
     public void eraseNoteFields (){
         Arrays.fill(title,(byte) 0);
         Arrays.fill(body, (byte) 0);
-
+        dateStamp = 0;
     }
 
     @Override

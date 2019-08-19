@@ -32,6 +32,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
 
         private CardView cardView;
         private final TextView recyclerviewItemTitle;
+        private final TextView recyclerviewItemDate;
         private final View recyclerItem;
 
         public NoteListHolder(@NonNull View itemView) {
@@ -39,6 +40,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
             cardView = itemView.findViewById(R.id.card_view);
             recyclerviewItemTitle = itemView.findViewById(R.id.recyclerviewItemTitle);
             recyclerItem = itemView.findViewById(R.id.recyclerviewItem);
+            recyclerviewItemDate = itemView.findViewById(R.id.recyclerviewItemDate);
         }
 
     }
@@ -61,6 +63,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
         Note current = notes.get(position);
         char[] text = BytesConverter.bytesToChar(current.getTitle());
         holder.recyclerviewItemTitle.setText(text, 0, text.length);
+        holder.recyclerviewItemDate.setText(current.getDate());
         int id = current.getId();
         if (selectedID.contains(id)) {
             holder.cardView.setCardBackgroundColor(context.getResources()

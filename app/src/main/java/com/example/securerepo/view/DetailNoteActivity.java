@@ -7,6 +7,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.model.Note;
 import com.example.securerepo.utils.BytesConverter;
 import com.example.securerepo.viewmodel.DetailNoteViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Arrays;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
@@ -35,8 +38,8 @@ public class DetailNoteActivity extends AppCompatActivity {
     private int noteId;
     private EditText etTitle;
     private EditText etBody;
+    private FloatingActionButton fab;
     private MenuItem ok;
-    private MenuItem edit;
     private MenuItem cancel;
     private boolean isEditBtnPressed = false;
     private DetailNoteViewModel detailNoteViewModel;
@@ -51,6 +54,8 @@ public class DetailNoteActivity extends AppCompatActivity {
         }
         etTitle = findViewById(R.id.detailNoteActivityTitleEditText);
         etBody = findViewById(R.id.detailNoteActivityBodyEditText);
+        fab = findViewById(R.id.detail_note_fab);
+        fab.setOnClickListener(fabListener);
         Intent intent = getIntent();
         noteId = intent.getIntExtra(NOTE_ID, -1);
         password = intent.getCharArrayExtra(PASSWORD);
@@ -69,13 +74,20 @@ public class DetailNoteActivity extends AppCompatActivity {
         outState.putBoolean(IS_EDIT_BTN_PRESSED, isEditBtnPressed);
     }
 
+    View.OnClickListener fabListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setViewsAsEditable();
+            isEditBtnPressed = true;
+        }
+    };
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.detail_note_menu, menu);
         ok = menu.findItem(R.id.detail_note_menu_ok);
-        edit = menu.findItem(R.id.detail_note_menu_edit);
         cancel = menu.findItem(R.id.detail_note_menu_cancel);
         if (isEditBtnPressed) {
             setViewsAsEditable();
@@ -88,29 +100,24 @@ public class DetailNoteActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.detail_note_menu_edit:{
-                setViewsAsEditable();
-                isEditBtnPressed = true;
-                break;
-            }
             case R.id.detail_note_menu_ok:{
                 setViewsAsText();
                 isEditBtnPressed = false;
                 updateNote();
-                break;
+                return true;
             }
             case R.id.detail_note_menu_cancel:{
                 getNote();
                 setViewsAsText();
                 Toast.makeText(DetailNoteActivity.this,
                         "Canceled!", Toast.LENGTH_LONG).show();
-                break;
+                return true;
             }
-            default: break;
+            default: return super.onOptionsItemSelected(item);
         }
-
-        return true;
     }
+
+
 
     private void setViewsAsText() {
         etTitle.setTextIsSelectable(true);
@@ -121,7 +128,7 @@ public class DetailNoteActivity extends AppCompatActivity {
         etBody.setKeyListener(null);
         etBody.setCursorVisible(true);
 
-        edit.setVisible(true);
+        fab.show();
         ok.setVisible(false);
         cancel.setVisible(false);
     }
@@ -133,7 +140,7 @@ public class DetailNoteActivity extends AppCompatActivity {
         etBody.setInputType(InputType.TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE);
         etBody.setMovementMethod(new ScrollingMovementMethod());
 
-        edit.setVisible(false);
+        fab.hide();
         ok.setVisible(true);
         cancel.setVisible(true);
     }
@@ -169,7 +176,8 @@ public class DetailNoteActivity extends AppCompatActivity {
                 etTitle.getText().getChars(0, etTitle.length(), titleChars, 0);
                 etBody.getText().getChars(0, etBody.length(), bodyChars, 0);
                 Note note = new Note(noteId, BytesConverter.
-                        charToBytes(titleChars), BytesConverter.charToBytes(bodyChars));
+                        charToBytes(titleChars),
+                        BytesConverter.charToBytes(bodyChars),System.currentTimeMillis());
                 NoteCipher.encryptNote(note, password);
                 detailNoteViewModel.updateNote(note);
             }

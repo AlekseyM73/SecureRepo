@@ -11,7 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class NoteCipher {
 
-   public static Note encryptNote (byte[] title, byte[] body, char[] password){
+   public static Note encryptNote (byte[] title, byte[] body, long date, char[] password){
          try {
             SecretKeySpec secretKeySpec = generateKey(password);
             Cipher cipher = Cipher.getInstance("AES");
@@ -19,7 +19,7 @@ public class NoteCipher {
                 cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             }
 
-            return new Note(cipher.doFinal(title),cipher.doFinal(body));
+            return new Note(cipher.doFinal(title),cipher.doFinal(body), date);
          } catch (Exception e){
             e.printStackTrace();
          }

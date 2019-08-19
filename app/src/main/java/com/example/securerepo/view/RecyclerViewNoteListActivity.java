@@ -141,12 +141,11 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                 bottomNavigationDrawerFragment
                         .show(getSupportFragmentManager()
                                 , bottomNavigationDrawerFragment.getTag());
-                break;
+                return true;
             }
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {

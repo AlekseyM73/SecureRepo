@@ -71,11 +71,13 @@ public class NewNoteActivity extends AppCompatActivity {
                     char[] bodyChars = new char[etBody.length()];
                     etTitle.getText().getChars(0, etTitle.length(), titleChars, 0);
                     etBody.getText().getChars(0, etBody.length(), bodyChars, 0);
+                    long date = System.currentTimeMillis();
 
                     Completable.fromAction(new Action() {
                         @Override
                         public void run() {
-                            newNoteViewModel.insertNote(NoteCipher.encryptNote(BytesConverter.charToBytes(titleChars), BytesConverter.charToBytes(bodyChars), password));
+                            newNoteViewModel.insertNote(NoteCipher.encryptNote(BytesConverter.charToBytes(titleChars),
+                                    BytesConverter.charToBytes(bodyChars),date, password));
                         }
                     }).observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
