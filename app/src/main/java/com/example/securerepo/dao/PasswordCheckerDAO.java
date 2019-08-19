@@ -15,6 +15,6 @@ public interface PasswordCheckerDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPasswordChecker (PasswordChecker checker);
 
-    @Query("SELECT * from password_checker_table")
-    Single<PasswordChecker> getPasswordChecker ();
+    @Query("SELECT * from password_checker_table where id = :id")
+    Single<PasswordChecker> getPasswordChecker (int id);
 }
