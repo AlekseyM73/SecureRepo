@@ -6,10 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.securerepo.App;
 import com.example.securerepo.R;
+import com.example.securerepo.crypto.PasswordCheckerCipher;
+import com.example.securerepo.model.PasswordChecker;
+import com.example.securerepo.repository.PasswordCheckerSource;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class EnterPasswordActivity extends Activity {
@@ -39,6 +48,32 @@ public class EnterPasswordActivity extends Activity {
         //  Arrays.fill(password,'0');
         startActivity(intent);
     };
+
+    private void checkPassword (char [] password){
+        try {
+            Disposable disposable = (Disposable) new PasswordCheckerSource
+                    (App.notesDatabase.passwordCheckerDAO()).getPasswordChecker()
+                    .subscribeOn(Schedulers.io()).doOnSuccess((PasswordChecker passwordChecker)->{
+                        PasswordCheckerCipher.decryptChecker(passwordChecker, password);
+                    }).observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(d -> {
+
+                    })
+                    .doFinally(() -> {
+
+                    })
+                    .subscribe(checker -> {
+                        Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
+                        intent.putExtra(PASSWORD, password);
+                        startActivity(intent);
+                    });
+        } catch (Exception e){
+            Toast.makeText(EnterPasswordActivity.this,
+                    "Incorrect password", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
 
 
 }

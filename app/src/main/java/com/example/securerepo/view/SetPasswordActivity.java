@@ -10,9 +10,17 @@ import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
+import com.example.securerepo.App;
 import com.example.securerepo.R;
+import com.example.securerepo.crypto.PasswordCheckerCipher;
+import com.example.securerepo.model.PasswordChecker;
+import com.example.securerepo.repository.PasswordCheckerSource;
 
 import java.util.Arrays;
+import java.util.Random;
+
+import io.reactivex.Completable;
+import io.reactivex.functions.Action;
 
 public class SetPasswordActivity extends Activity {
 
@@ -47,7 +55,8 @@ public class SetPasswordActivity extends Activity {
                 startNextScreen(password1);
                /* Arrays.fill(password1,'0');
                 Arrays.fill(password2,'0');*/
-                finish();
+               addPasswordChecker(password1);
+               finish();
             }
 
         }
@@ -59,6 +68,21 @@ public class SetPasswordActivity extends Activity {
 
     private boolean isPasswordLengthGood(char[] password1) {
         return password1.length >= PASSWORD_LENGTH;
+    }
+
+    private void addPasswordChecker(char [] password){
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                byte [] bytes = new byte[10];
+                Arrays.fill(bytes,(byte) 23);
+                new PasswordCheckerSource(App.notesDatabase.passwordCheckerDAO())
+                        .insertPasswordChecker
+                                (PasswordCheckerCipher.encryptChecker(bytes, password));
+            }
+        }).doOnError(throwable -> {
+            throwable.printStackTrace();
+        });
     }
 
     private void startNextScreen(char[] password) {

@@ -56,10 +56,10 @@ public class RecyclerViewModel extends AndroidViewModel {
                                     decryptNotes.add(n);
                                     Log.d("ID", "" + n.getId());
                                 } catch (Exception e) {
-                                    Toast.makeText(getApplication(), "Incorrect password", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplication(), EnterPasswordActivity.class);
+                                  //  Toast.makeText(getApplication(), "Incorrect password", Toast.LENGTH_LONG).show();
+                                   /* Intent intent = new Intent(getApplication(), EnterPasswordActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    getApplication().startActivity(intent);
+                                    getApplication().startActivity(intent);*/
                                 }
 
                             }
