@@ -183,6 +183,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getString(R.string.confirm_delete_dialog))
                 .setMessage("Are you sure to delete " + selectedID.size() + " notes?")
+                .setCancelable(false)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

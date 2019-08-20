@@ -54,7 +54,7 @@ public class RecyclerViewModel extends AndroidViewModel {
                                 try {
                                     NoteCipher.decryptNote(n, password);
                                     decryptNotes.add(n);
-                                    Log.d("ID", "" + n.getId());
+
                                 } catch (Exception e) {
                                   //  Toast.makeText(getApplication(), "Incorrect password", Toast.LENGTH_LONG).show();
                                    /* Intent intent = new Intent(getApplication(), EnterPasswordActivity.class);
@@ -99,7 +99,8 @@ public class RecyclerViewModel extends AndroidViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        disposable.dispose();
-
+        if (disposable != null){
+            disposable.dispose();
+        }
     }
 }

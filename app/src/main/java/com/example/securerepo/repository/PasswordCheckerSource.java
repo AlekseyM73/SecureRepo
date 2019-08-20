@@ -17,7 +17,7 @@ public class PasswordCheckerSource {
         passwordCheckerDAO.insertPasswordChecker(checker);
     }
 
-    public Single<PasswordChecker> getPasswordChecker (){
-       return passwordCheckerDAO.getPasswordChecker();
+    public Single<PasswordChecker> getPasswordChecker (int id){
+       return passwordCheckerDAO.getPasswordChecker(id);
     }
 }

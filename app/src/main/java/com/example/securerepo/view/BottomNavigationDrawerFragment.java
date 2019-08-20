@@ -33,20 +33,20 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
                 switch (menuItem.getItemId()) {
                     case (R.id.bottom_app_bar_menu_settings): {
                         Toast.makeText(getContext(), "settings", Toast.LENGTH_SHORT).show();
-                        break;
+                        return true;
                     }
                     case (R.id.bottom_app_bar_menu_block): {
                         Toast.makeText(getContext(), "block", Toast.LENGTH_SHORT).show();
-                        break;
+                        return true;
                     }
                     case (R.id.bottom_app_bar_menu_exit): {
                         Toast.makeText(getContext(), "exit", Toast.LENGTH_SHORT).show();
-                        break;
+                        return true;
                     }
                     default:
-                        break;
+                        return true;
                 }
-                return true;
+
             }
         });
     }

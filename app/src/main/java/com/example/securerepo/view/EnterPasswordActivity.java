@@ -28,6 +28,7 @@ public class EnterPasswordActivity extends Activity {
     private TextInputLayout textInputLayout;
     private EditText etEnterPassword;
     private final String PASSWORD = "password";
+    private Disposable disposable;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,6 @@ public class EnterPasswordActivity extends Activity {
         btDecrypt = findViewById(R.id.enterPasswordActivityButtonEnter);
         btDecrypt.setOnClickListener(btDecryptListener);
 
-
     }
 
     View.OnClickListener btDecryptListener = v -> {
@@ -45,37 +45,34 @@ public class EnterPasswordActivity extends Activity {
         if (etEnterPassword.length() != 0) {
             etEnterPassword.getText().getChars(0, etEnterPassword.length(), password, 0);
         }
-        Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
-        intent.putExtra(PASSWORD, password);
-        //  Arrays.fill(password,'0');
-        startActivity(intent);
+        checkPassword(password);
     };
 
     private void checkPassword (char [] password){
-        try {
-            Disposable disposable = (Disposable) new PasswordCheckerSource
-                    (App.notesDatabase.passwordCheckerDAO()).getPasswordChecker()
+            disposable = (Disposable) new PasswordCheckerSource
+                    (App.notesDatabase.passwordCheckerDAO()).getPasswordChecker(1)
                     .subscribeOn(Schedulers.io()).doOnSuccess((PasswordChecker passwordChecker)->{
                         PasswordCheckerCipher.decryptChecker(passwordChecker, password);
                     }).observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe(d -> {
-
-                    })
-                    .doFinally(() -> {
-
-                    })
                     .subscribe(checker -> {
                         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
                         intent.putExtra(PASSWORD, password);
                         startActivity(intent);
-                    });
-        } catch (Exception e){
-            Toast.makeText(EnterPasswordActivity.this,
-                    "Incorrect password", Toast.LENGTH_LONG).show();
-        }
+                        finish();
+                    }, throwable -> {
+                        Toast.makeText(getApplicationContext(),
+                                "Incorrect password", Toast.LENGTH_LONG).show();
 
+                    });
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (disposable != null){
+            disposable.dispose();
+        }
 
+    }
 }

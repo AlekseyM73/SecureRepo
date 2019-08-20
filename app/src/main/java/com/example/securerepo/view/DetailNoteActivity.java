@@ -63,9 +63,11 @@ public class DetailNoteActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-
         detailNoteViewModel = ViewModelProviders.of(this).get(DetailNoteViewModel.class);
-        getNote();
+        if (!isEditBtnPressed){
+            getNote();
+        }
+
     }
 
     @Override
@@ -162,6 +164,9 @@ public class DetailNoteActivity extends AppCompatActivity {
                             0, BytesConverter.bytesToChar(note.getTitle()).length);
                     etBody.setText(BytesConverter.bytesToChar(note.getBody()),
                             0, BytesConverter.bytesToChar(note.getBody()).length);
+                }, throwable -> {
+                    Toast.makeText(DetailNoteActivity.this,
+                            "Something went wrong.", Toast.LENGTH_LONG).show();
                 });
 
     }
@@ -210,6 +215,9 @@ public class DetailNoteActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        subscribe.dispose();
+        if (subscribe != null){
+            subscribe.dispose();
+        }
+
     }
 }
