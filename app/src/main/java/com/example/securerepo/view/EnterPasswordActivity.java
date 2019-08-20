@@ -3,9 +3,14 @@ package com.example.securerepo.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -34,7 +39,24 @@ public class EnterPasswordActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_password);
 
+        textInputLayout = findViewById(R.id.enterPasswordActivityTextInputLayout);
         etEnterPassword = findViewById(R.id.enterPasswordActivityEditText);
+        etEnterPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    textInputLayout.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         btDecrypt = findViewById(R.id.enterPasswordActivityButtonEnter);
         btDecrypt.setOnClickListener(btDecryptListener);
 
@@ -60,9 +82,7 @@ public class EnterPasswordActivity extends Activity {
                         startActivity(intent);
                         finish();
                     }, throwable -> {
-                        Toast.makeText(getApplicationContext(),
-                                "Incorrect password", Toast.LENGTH_LONG).show();
-
+                        textInputLayout.setError("Incorrect password");
                     });
 
     }

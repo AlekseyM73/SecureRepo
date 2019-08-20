@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ import com.example.securerepo.R;
 import com.example.securerepo.crypto.PasswordCheckerCipher;
 import com.example.securerepo.model.PasswordChecker;
 import com.example.securerepo.repository.PasswordCheckerSource;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -33,6 +36,8 @@ public class SetPasswordActivity extends Activity {
 
     private EditText etSetPass;
     private EditText etSetPassRepeat;
+    private TextInputLayout tilPassword1;
+    private TextInputLayout tilPassword2;
     private static final int PASSWORD_LENGTH = 8;
     private final String IS_PASSWORD_PRESENT = "isPasswordPresent";
     private final String PASSWORD = "password";
@@ -49,11 +54,51 @@ public class SetPasswordActivity extends Activity {
 
         etSetPass = findViewById(R.id.setPasswordActivityEditText);
         etSetPassRepeat = findViewById(R.id.setPasswordActivityEditTextRepeat);
+        tilPassword1 = findViewById(R.id.setPasswordActivityTextInputLayoutPassword1);
+        tilPassword2 = findViewById(R.id.setPasswordActivityTextInputLayoutPassword2);
         Button btnSave = findViewById(R.id.setPasswordActivityButtonSave);
         btnSave.setOnClickListener(listener);
         if (!isCautionDialogWasShown){
             showCautionDialog();
         }
+
+        etSetPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tilPassword1.setError("");
+                tilPassword2.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etSetPassRepeat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tilPassword1.setError("");
+                tilPassword2.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
 
     }
 
@@ -80,6 +125,12 @@ public class SetPasswordActivity extends Activity {
                 Arrays.fill(password2,'0');*/
                 addPasswordChecker(password1);
                 finish();
+            }
+            else if (!isTwoPasswordEquals(password1,password2)){
+                tilPassword2.setError("Passwords do not match");
+            }
+            else if (!isPasswordLengthGood(password1)){
+                tilPassword1.setError("Password length less than 8 characters");
             }
 
         }
@@ -147,4 +198,5 @@ public class SetPasswordActivity extends Activity {
                 })
                 .show();
     }
+
 }
