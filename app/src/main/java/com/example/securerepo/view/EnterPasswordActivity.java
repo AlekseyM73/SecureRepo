@@ -15,6 +15,7 @@ import com.example.securerepo.R;
 import com.example.securerepo.crypto.PasswordCheckerCipher;
 import com.example.securerepo.model.PasswordChecker;
 import com.example.securerepo.repository.PasswordCheckerSource;
+import com.google.android.material.textfield.TextInputLayout;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -24,6 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 public class EnterPasswordActivity extends Activity {
 
     private Button btDecrypt;
+    private TextInputLayout textInputLayout;
     private EditText etEnterPassword;
     private final String PASSWORD = "password";
 
