@@ -163,6 +163,7 @@ public class DetailNoteActivity extends AppCompatActivity {
                             0, BytesConverter.bytesToChar(note.getTitle()).length);
                     etBody.setText(BytesConverter.bytesToChar(note.getBody()),
                             0, BytesConverter.bytesToChar(note.getBody()).length);
+                    note.eraseNoteFields();
                 }, throwable -> {
                     Toast.makeText(DetailNoteActivity.this,
                             "Something went wrong.", Toast.LENGTH_LONG).show();
@@ -182,7 +183,7 @@ public class DetailNoteActivity extends AppCompatActivity {
                 Note note = new Note(noteId, BytesConverter.
                         charToBytes(titleChars),
                         BytesConverter.charToBytes(bodyChars),System.currentTimeMillis());
-                NoteCipher.encryptNote(App.secretKeySpec, App.cipher,note);
+                NoteCipher.encryptNote(App.secretKeySpec, App.cipher, note);
                 detailNoteViewModel.updateNote(note);
             }
         }).observeOn(AndroidSchedulers.mainThread())

@@ -27,7 +27,9 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 public class RecyclerViewNoteListActivity extends AppCompatActivity
@@ -65,6 +67,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     View.OnClickListener fabListener = v -> {
         Intent intent = new Intent(this, NewNoteActivity.class);
         startActivity(intent);
+
     };
 
     private void updateView() {
@@ -192,6 +195,17 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                     }
                 })
                 .show();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        for (Note note:adapter.getNotesfromAdapter()){
+            note.eraseNoteFields();
+        }
+
+        finish();
 
     }
 }

@@ -40,7 +40,7 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
                         return true;
                     }
                     case (R.id.bottom_app_bar_menu_exit): {
-                        Toast.makeText(getContext(), "exit", Toast.LENGTH_SHORT).show();
+                        android.os.Process.killProcess(android.os.Process.myPid());
                         return true;
                     }
                     default:

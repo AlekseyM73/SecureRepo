@@ -101,4 +101,11 @@ public class EnterPasswordActivity extends Activity {
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        android.os.Process.killProcess(android.os.Process.myPid());
+        finish();
+    }
 }

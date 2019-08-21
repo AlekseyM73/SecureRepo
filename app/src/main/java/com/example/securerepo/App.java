@@ -24,8 +24,4 @@ public class App extends Application {
         }
     }
 
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-    }
 }
