@@ -2,19 +2,15 @@ package com.example.securerepo.crypto;
 
 import com.example.securerepo.model.Note;
 import com.example.securerepo.utils.BytesConverter;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-
 public class NoteCipher {
 
-   public static Note encryptNote (byte[] title, byte[] body, long date, char[] password){
+   public static Note encryptNote (SecretKeySpec secretKeySpec, Cipher cipher, byte[] title, byte[] body, long date){
          try {
-            SecretKeySpec secretKeySpec = generateKey(password);
-            Cipher cipher = Cipher.getInstance("AES");
+
             if (secretKeySpec != null){
                 cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             }
@@ -26,10 +22,9 @@ public class NoteCipher {
       return null;
    }
 
-    public static void encryptNote (Note note, char[] password){
+    public static void encryptNote (SecretKeySpec secretKeySpec,Cipher cipher, Note note){
         try {
-            SecretKeySpec secretKeySpec = generateKey(password);
-            Cipher cipher = Cipher.getInstance("AES");
+
             if (secretKeySpec != null){
                 cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             }
@@ -42,22 +37,8 @@ public class NoteCipher {
 
     }
 
-   public static Note decryptNote (byte[] title, byte[] body, char[] password) throws  Exception{
+   public static void decryptNote (SecretKeySpec secretKeySpec,Cipher cipher, Note note) throws Exception{
 
-         SecretKeySpec secretKeySpec = generateKey(password);
-         Cipher cipher = Cipher.getInstance("AES");
-         if (secretKeySpec != null){
-             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-         }
-
-         return new Note(cipher.doFinal(title), cipher.doFinal(body));
-
-   }
-
-   public static void decryptNote (Note note, char [] password) throws Exception{
-
-       SecretKeySpec secretKeySpec = generateKey(password);
-       Cipher cipher = Cipher.getInstance("AES");
        if (secretKeySpec != null){
            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
        }
@@ -66,7 +47,7 @@ public class NoteCipher {
 
    }
 
-   private static SecretKeySpec generateKey(char[] password){
+   public static SecretKeySpec generateKey(char[] password){
       try {
          MessageDigest  digest = MessageDigest.getInstance("SHA-256");
          byte [] passwrd = BytesConverter.charToBytes(password);

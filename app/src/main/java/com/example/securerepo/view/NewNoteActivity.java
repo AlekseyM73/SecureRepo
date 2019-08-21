@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.securerepo.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.utils.BytesConverter;
@@ -34,14 +35,11 @@ public class NewNoteActivity extends AppCompatActivity {
     private EditText etTitle;
     private EditText etBody;
     private NewNoteViewModel newNoteViewModel;
-    private char[] password;
-    private final String PASSWORD = "password";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
-        password = getIntent().getCharArrayExtra(PASSWORD);
 
         Toolbar toolbar = findViewById(R.id.newNoteActivityToolbar);
         toolbar.setTitle(this.getString(R.string.add_note));
@@ -76,8 +74,9 @@ public class NewNoteActivity extends AppCompatActivity {
                     Completable.fromAction(new Action() {
                         @Override
                         public void run() {
-                            newNoteViewModel.insertNote(NoteCipher.encryptNote(BytesConverter.charToBytes(titleChars),
-                                    BytesConverter.charToBytes(bodyChars),date, password));
+                            newNoteViewModel.insertNote(NoteCipher.encryptNote(App.secretKeySpec,
+                                    App.cipher, BytesConverter.charToBytes(titleChars),
+                                    BytesConverter.charToBytes(bodyChars),date));
                         }
                     }).observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {

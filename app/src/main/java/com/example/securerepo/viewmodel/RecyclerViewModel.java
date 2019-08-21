@@ -31,7 +31,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RecyclerViewModel extends AndroidViewModel {
 
-    private static final String TAG = RecyclerViewNoteListActivity.class.getSimpleName();
     private final CompositeDisposable disposable = new CompositeDisposable();
     private NotesSource notesSource;
     private MutableLiveData<List<Note>> notes;
@@ -41,7 +40,7 @@ public class RecyclerViewModel extends AndroidViewModel {
         notesSource = new NotesSource(App.notesDatabase.notesDAO());
     }
 
-    public LiveData<List<Note>> getNotes(char[] password) {
+    public LiveData<List<Note>> getNotes() {
         if (notes == null) {
             notes = new MutableLiveData<>();
         }
@@ -52,21 +51,18 @@ public class RecyclerViewModel extends AndroidViewModel {
 
                             for (Note n : value) {
                                 try {
-                                    NoteCipher.decryptNote(n, password);
+                                    NoteCipher.decryptNote(App.secretKeySpec, App.cipher, n);
                                     decryptNotes.add(n);
 
                                 } catch (Exception e) {
-                                  //  Toast.makeText(getApplication(), "Incorrect password", Toast.LENGTH_LONG).show();
-                                   /* Intent intent = new Intent(getApplication(), EnterPasswordActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    getApplication().startActivity(intent);*/
+                                  e.printStackTrace();
                                 }
 
                             }
                             notes.setValue(decryptNotes);
 
                         },
-                        throwable -> Log.e(TAG, "Unable to load", throwable)));
+                        throwable -> throwable.printStackTrace()));
         return notes;
     }
 

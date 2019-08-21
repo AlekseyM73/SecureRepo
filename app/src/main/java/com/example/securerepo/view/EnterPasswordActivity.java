@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 
 import com.example.securerepo.App;
 import com.example.securerepo.R;
+import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.crypto.PasswordCheckerCipher;
 import com.example.securerepo.model.PasswordChecker;
 import com.example.securerepo.repository.PasswordCheckerSource;
@@ -32,7 +33,6 @@ public class EnterPasswordActivity extends Activity {
     private Button btDecrypt;
     private TextInputLayout textInputLayout;
     private EditText etEnterPassword;
-    private final String PASSWORD = "password";
     private Disposable disposable;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,14 +71,15 @@ public class EnterPasswordActivity extends Activity {
     };
 
     private void checkPassword (char [] password){
-            disposable = (Disposable) new PasswordCheckerSource
-                    (App.notesDatabase.passwordCheckerDAO()).getPasswordChecker(1)
+        App.secretKeySpec = NoteCipher.generateKey(password);
+            disposable = (Disposable) new PasswordCheckerSource(App.notesDatabase.passwordCheckerDAO()).getPasswordChecker(1)
                     .subscribeOn(Schedulers.io()).doOnSuccess((PasswordChecker passwordChecker)->{
-                        PasswordCheckerCipher.decryptChecker(passwordChecker, password);
+                        PasswordCheckerCipher.decryptChecker
+                                (App.secretKeySpec, App.cipher, passwordChecker);
                     }).observeOn(AndroidSchedulers.mainThread())
                     .subscribe(checker -> {
+
                         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
-                        intent.putExtra(PASSWORD, password);
                         startActivity(intent);
                         finish();
                     }, throwable -> {

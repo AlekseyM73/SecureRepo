@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.example.securerepo.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.model.Note;
@@ -33,8 +35,6 @@ public class DetailNoteActivity extends AppCompatActivity {
 
     private final String IS_EDIT_BTN_PRESSED = "isEditBtnPressed";
     private final String NOTE_ID = "Id";
-    private final String PASSWORD = "password";
-    private char[] password;
     private int noteId;
     private EditText etTitle;
     private EditText etBody;
@@ -58,7 +58,6 @@ public class DetailNoteActivity extends AppCompatActivity {
         fab.setOnClickListener(fabListener);
         Intent intent = getIntent();
         noteId = intent.getIntExtra(NOTE_ID, -1);
-        password = intent.getCharArrayExtra(PASSWORD);
         Toolbar toolbar = findViewById(R.id.detailNoteActivityToolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -151,7 +150,7 @@ public class DetailNoteActivity extends AppCompatActivity {
         subscribe = detailNoteViewModel.getNote(noteId)
                 .subscribeOn(Schedulers.io())
                 .doOnSuccess((Note note) -> {
-                    NoteCipher.decryptNote(note, password);
+                    NoteCipher.decryptNote(App.secretKeySpec, App.cipher,note);
                 }).observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> {
 
@@ -183,7 +182,7 @@ public class DetailNoteActivity extends AppCompatActivity {
                 Note note = new Note(noteId, BytesConverter.
                         charToBytes(titleChars),
                         BytesConverter.charToBytes(bodyChars),System.currentTimeMillis());
-                NoteCipher.encryptNote(note, password);
+                NoteCipher.encryptNote(App.secretKeySpec, App.cipher,note);
                 detailNoteViewModel.updateNote(note);
             }
         }).observeOn(AndroidSchedulers.mainThread())

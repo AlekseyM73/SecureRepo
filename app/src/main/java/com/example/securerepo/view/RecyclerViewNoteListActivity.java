@@ -35,9 +35,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
 
     private final String NOTE_ID = "Id";
     private NoteListAdapter adapter;
-    private final String PASSWORD = "password";
     private RecyclerViewModel recyclerViewModel;
-    private char[] password;
     private BottomNavigationDrawerFragment bottomNavigationDrawerFragment;
     private RecyclerView recyclerView;
     private ActionMode actionMode;
@@ -49,8 +47,6 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_notes);
-
-        password = getIntent().getCharArrayExtra(PASSWORD);
 
         recyclerView = findViewById(R.id.recyclerview);
         BottomAppBar bottomAppBar = findViewById(R.id.bottom_app_bar);
@@ -68,13 +64,12 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
 
     View.OnClickListener fabListener = v -> {
         Intent intent = new Intent(this, NewNoteActivity.class);
-        intent.putExtra(PASSWORD, password);
         startActivity(intent);
     };
 
     private void updateView() {
 
-        recyclerViewModel.getNotes(password).observe(this, notes -> {
+        recyclerViewModel.getNotes().observe(this, notes -> {
             adapter.setNotes(notes);
             if (actionMode != null) {
                 actionMode.finish();
@@ -90,7 +85,6 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                                 } else {
                                     Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
                                     intent.putExtra(NOTE_ID, adapter.getNotefromAdapter(position).getId());
-                                    intent.putExtra(PASSWORD, password);
                                     startActivity(intent);
                                 }
                             }

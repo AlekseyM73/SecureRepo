@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.securerepo.App;
 import com.example.securerepo.R;
+import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.crypto.PasswordCheckerCipher;
 import com.example.securerepo.model.PasswordChecker;
 import com.example.securerepo.repository.PasswordCheckerSource;
@@ -40,7 +41,6 @@ public class SetPasswordActivity extends Activity {
     private TextInputLayout tilPassword2;
     private static final int PASSWORD_LENGTH = 8;
     private final String IS_PASSWORD_PRESENT = "isPasswordPresent";
-    private final String PASSWORD = "password";
     private final String IS_CAUTION_DIALOG_WAS_SHOWN = "isCautionDialogWasShown";
     private boolean isCautionDialogWasShown = false;
 
@@ -120,10 +120,9 @@ public class SetPasswordActivity extends Activity {
             if (isTwoPasswordEquals(password1, password2) && isPasswordLengthGood(password1)) {
                 etSetPass.setText("");
                 etSetPassRepeat.setText("");
-
-               /* Arrays.fill(password1,'0');
-                Arrays.fill(password2,'0');*/
+                App.secretKeySpec = NoteCipher.generateKey(password1);
                 addPasswordChecker(password1);
+
                 finish();
             }
             else if (!isTwoPasswordEquals(password1,password2)){
@@ -148,11 +147,14 @@ public class SetPasswordActivity extends Activity {
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Exception {
-                byte[] bytes = new byte[10];
-                Arrays.fill(bytes, (byte) 23);
+                byte[] bytes = new byte[100];
+                Random random = new Random();
+                random.nextBytes(bytes);
+
                 new PasswordCheckerSource(App.notesDatabase.passwordCheckerDAO())
                         .insertPasswordChecker
-                                (PasswordCheckerCipher.encryptChecker(bytes, password));
+                                (PasswordCheckerCipher.encryptChecker(App.secretKeySpec,
+                                        App.cipher, bytes));
             }
         }).doOnError(throwable -> {
             throwable.printStackTrace();
@@ -164,7 +166,7 @@ public class SetPasswordActivity extends Activity {
 
             @Override
             public void onComplete() {
-                startNextScreen(password);
+                startNextScreen();
             }
 
             @Override
@@ -175,12 +177,11 @@ public class SetPasswordActivity extends Activity {
         });
     }
 
-    private void startNextScreen(char[] password) {
+    private void startNextScreen() {
         SharedPreferences sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(IS_PASSWORD_PRESENT, true).commit();
         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
-        intent.putExtra(PASSWORD, password);
-        //  Arrays.fill(password,'0');
+
         startActivity(intent);
     }
 
