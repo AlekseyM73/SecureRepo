@@ -121,7 +121,9 @@ public class SetPasswordActivity extends Activity {
                 etSetPass.setText("");
                 etSetPassRepeat.setText("");
                 App.secretKeySpec = NoteCipher.generateKey(password1);
-                addPasswordChecker(password1);
+                addPasswordChecker();
+                Arrays.fill(password1,'0');
+                Arrays.fill(password2,'0');
 
                 finish();
             }
@@ -143,7 +145,7 @@ public class SetPasswordActivity extends Activity {
         return password1.length >= PASSWORD_LENGTH;
     }
 
-    private void addPasswordChecker(char[] password) {
+    private void addPasswordChecker() {
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Exception {
@@ -181,7 +183,6 @@ public class SetPasswordActivity extends Activity {
         SharedPreferences sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(IS_PASSWORD_PRESENT, true).commit();
         Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
-
         startActivity(intent);
     }
 

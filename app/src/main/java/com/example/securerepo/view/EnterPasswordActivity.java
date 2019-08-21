@@ -23,6 +23,8 @@ import com.example.securerepo.model.PasswordChecker;
 import com.example.securerepo.repository.PasswordCheckerSource;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Arrays;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -67,11 +69,14 @@ public class EnterPasswordActivity extends Activity {
         if (etEnterPassword.length() != 0) {
             etEnterPassword.getText().getChars(0, etEnterPassword.length(), password, 0);
         }
-        checkPassword(password);
+        App.secretKeySpec = NoteCipher.generateKey(password);
+        checkPassword();
+        etEnterPassword.setText("");
+        Arrays.fill(password,'0');
     };
 
-    private void checkPassword (char [] password){
-        App.secretKeySpec = NoteCipher.generateKey(password);
+    private void checkPassword(){
+
             disposable = (Disposable) new PasswordCheckerSource(App.notesDatabase.passwordCheckerDAO()).getPasswordChecker(1)
                     .subscribeOn(Schedulers.io()).doOnSuccess((PasswordChecker passwordChecker)->{
                         PasswordCheckerCipher.decryptChecker

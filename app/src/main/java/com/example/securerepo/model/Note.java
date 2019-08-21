@@ -52,6 +52,7 @@ public class Note {
     public long getDateStamp (){
        return dateStamp;
     }
+
     public String getDate (){
         return DateConverter.convertDate(dateStamp);
     }
