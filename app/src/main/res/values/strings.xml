@@ -4,7 +4,7 @@
     <string name="inputPassword">Input password</string>
     <string name="savePassword">Save</string>
     <string name="enterPassword">Enter password</string>
-    <string name="decrypt">Decrypt</string>
+    <string name="decrypt">Sign in</string>
     <string name="Button_OK">OK</string>
     <string name="Button_Cancel">Cancel</string>
     <string name="EnterTitle">Title</string>
@@ -19,4 +19,8 @@
     <string name="delete_failed_toast">Delete failed!</string>
     <string name="confirm_delete_dialog">Confirm delete</string>
     <string name="add_note">Add the note</string>
+    <string name="confirm_exit_dialog_title">Are you sure you want to exit?</string>
+    <string name="confirm_exit_dialog">Confirm exit</string>
+    <string name="confirm_back_dialog_title">Go back without saving?</string>
+    <string name="confirm_back_dialog">Are you sure you want to go back without saving?</string>
 </resources>

@@ -2,7 +2,9 @@ package com.example.securerepo.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +23,7 @@ import com.example.securerepo.model.Note;
 import com.example.securerepo.utils.BytesConverter;
 import com.example.securerepo.viewmodel.DetailNoteViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Arrays;
 import io.reactivex.Completable;
@@ -38,6 +41,7 @@ public class DetailNoteActivity extends AppCompatActivity {
     private int noteId;
     private EditText etTitle;
     private EditText etBody;
+    private TextInputLayout textInputLayout;
     private FloatingActionButton fab;
     private MenuItem ok;
     private MenuItem cancel;
@@ -54,6 +58,7 @@ public class DetailNoteActivity extends AppCompatActivity {
         }
         etTitle = findViewById(R.id.detailNoteActivityTitleEditText);
         etBody = findViewById(R.id.detailNoteActivityBodyEditText);
+        textInputLayout = findViewById(R.id.detailNoteActivityTitleTextInputLayout);
         fab = findViewById(R.id.detail_note_fab);
         fab.setOnClickListener(fabListener);
         Intent intent = getIntent();
@@ -66,6 +71,23 @@ public class DetailNoteActivity extends AppCompatActivity {
         if (!isEditBtnPressed){
             getNote();
         }
+
+        etTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textInputLayout.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -102,9 +124,13 @@ public class DetailNoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.detail_note_menu_ok:{
-                setViewsAsText();
-                isEditBtnPressed = false;
-                updateNote();
+                if (!etTitle.getText().toString().isEmpty()){
+                    setViewsAsText();
+                    isEditBtnPressed = false;
+                    updateNote();
+                } else {
+                    textInputLayout.setError("The title cannot be empty");
+                }
                 return true;
             }
             case R.id.detail_note_menu_cancel:{

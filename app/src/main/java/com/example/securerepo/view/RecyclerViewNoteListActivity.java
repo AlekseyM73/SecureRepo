@@ -198,14 +198,31 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
 
     }
 
+    private void showConfirmExitDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(this.getString(R.string.confirm_exit_dialog))
+                .setMessage(this.getString(R.string.confirm_exit_dialog_title))
+                .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        return;
+                    }
+                })
+                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for (Note note:adapter.getNotesfromAdapter()){
+                            note.eraseNoteFields();
+                        }
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    }
+                })
+                .show();
+    }
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        for (Note note:adapter.getNotesfromAdapter()){
-            note.eraseNoteFields();
-        }
-
-        finish();
-
+        showConfirmExitDialog();
     }
 }

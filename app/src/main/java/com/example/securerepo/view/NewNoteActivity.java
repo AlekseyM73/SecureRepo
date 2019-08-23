@@ -1,6 +1,9 @@
 package com.example.securerepo.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,6 +14,7 @@ import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,8 +22,10 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.securerepo.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
+import com.example.securerepo.model.Note;
 import com.example.securerepo.utils.BytesConverter;
 import com.example.securerepo.viewmodel.NewNoteViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Arrays;
 
@@ -34,6 +40,7 @@ public class NewNoteActivity extends AppCompatActivity {
 
     private EditText etTitle;
     private EditText etBody;
+    private TextInputLayout textInputLayout;
     private NewNoteViewModel newNoteViewModel;
 
     @Override
@@ -47,8 +54,26 @@ public class NewNoteActivity extends AppCompatActivity {
 
         etTitle = findViewById(R.id.newNoteActivityTitleEditText);
         etBody = findViewById(R.id.newNoteActivityBodyEditText);
+        textInputLayout = findViewById(R.id.newNoteActivityTitleTextInputLayout);
 
         newNoteViewModel = ViewModelProviders.of(this).get(NewNoteViewModel.class);
+
+        etTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textInputLayout.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -103,6 +128,9 @@ public class NewNoteActivity extends AppCompatActivity {
                         }
                     });
                 }
+                else {
+                    textInputLayout.setError("The title cannot be empty");
+                }
                 return true;
             }
             case R.id.new_note_menu_cancel:{
@@ -113,6 +141,36 @@ public class NewNoteActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showConfirmWithoutSavingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(this.getString(R.string.confirm_back_dialog_title))
+                .setMessage(getString(R.string.confirm_back_dialog))
+                .setCancelable(false)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        return;
+                    }
+                })
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        NewNoteActivity.super.onBackPressed();
+                        finish();
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!etTitle.getText().toString().isEmpty()
+                || !etBody.getText().toString().isEmpty() ){
+            showConfirmWithoutSavingDialog();
+        } else super.onBackPressed();
+
     }
 
     @Override
