@@ -3,6 +3,7 @@ package com.example.securerepo.viewmodel;
 import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
+import android.view.ActionMode;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,7 +67,7 @@ public class RecyclerViewModel extends AndroidViewModel {
         return notes;
     }
 
-    public void deleteNotes(List<Integer> idToDelete) {
+    public void deleteNotes(List<Integer> idToDelete, ActionMode actionMode) {
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Exception {
@@ -81,6 +82,7 @@ public class RecyclerViewModel extends AndroidViewModel {
             @Override
             public void onComplete() {
                 Toast.makeText(getApplication(), "Deleted!", Toast.LENGTH_LONG).show();
+                actionMode.finish();
 
             }
 
@@ -95,8 +97,7 @@ public class RecyclerViewModel extends AndroidViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        if (disposable != null){
             disposable.dispose();
-        }
+
     }
 }

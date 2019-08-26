@@ -26,7 +26,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
     private final LayoutInflater layoutInflater;
     private List<Note> notes = Collections.emptyList();
     private Context context;
-    private List<Integer> selectedID = new ArrayList<>();
+    private static List<Integer> selectedID = new ArrayList<>();
 
     class NoteListHolder extends RecyclerView.ViewHolder {
 
@@ -35,7 +35,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
         private final TextView recyclerviewItemDate;
         private final View recyclerItem;
 
-        public NoteListHolder(@NonNull View itemView) {
+         NoteListHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card_view);
             recyclerviewItemTitle = itemView.findViewById(R.id.recyclerviewItemTitle);
@@ -45,7 +45,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
 
     }
 
-    public NoteListAdapter(Context context) {
+     NoteListAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
 
@@ -74,21 +74,21 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
         }
     }
 
-    public List<Note> getNotesfromAdapter() {
+     List<Note> getNotesfromAdapter() {
         return notes;
     }
 
-    public Note getNotefromAdapter(int position) {
+     Note getNotefromAdapter(int position) {
         return notes.get(position);
     }
 
-    public void setNotes(List<Note> notes) {
+     void setNotes(List<Note> notes) {
         this.notes = notes;
         notifyDataSetChanged();
     }
 
-    public void setSelectedID(List<Integer> id) {
-        this.selectedID = id;
+     void setSelectedID(List<Integer> id) {
+        selectedID = id;
         notifyDataSetChanged();
     }
 

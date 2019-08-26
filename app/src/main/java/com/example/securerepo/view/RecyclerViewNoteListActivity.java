@@ -36,19 +36,41 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
         implements ActionMode.Callback {
 
     private final String NOTE_ID = "Id";
+    private final String IS_DELETE_DIALOG_WAS_SHOWN = "isDeleteDialogWasShown";
+    private final String IS_EXIT_DIALOG_WAS_SHOWN = "isExitDialogWasShown";
+    private final String SELECTED_ID = "selectedID";
+    private final String IS_MULTI_SELECT = "isMultiSelect";
+    private final String IS_IN_ACTION_MODE = "isInActionMode";
     private NoteListAdapter adapter;
     private RecyclerViewModel recyclerViewModel;
     private BottomNavigationDrawerFragment bottomNavigationDrawerFragment;
     private RecyclerView recyclerView;
+    private boolean isDeleteDialogWasShown;
+    private boolean isExitDialogWasShown;
+    private ArrayList<Integer> selectedID = new ArrayList<>();
     private ActionMode actionMode;
     private boolean isMultiSelect;
-    private List<Integer> selectedID = new ArrayList<>();
+    private boolean isInActionMode;
+    private AlertDialog alertDialog;
+
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_notes);
+
+        if (savedInstanceState != null){
+            isDeleteDialogWasShown = savedInstanceState.getBoolean(IS_DELETE_DIALOG_WAS_SHOWN);
+            isExitDialogWasShown = savedInstanceState.getBoolean(IS_EXIT_DIALOG_WAS_SHOWN);
+            isMultiSelect = savedInstanceState.getBoolean(IS_MULTI_SELECT);
+            selectedID = savedInstanceState.getIntegerArrayList(SELECTED_ID);
+            isInActionMode = savedInstanceState.getBoolean(IS_IN_ACTION_MODE,false);
+            if (isInActionMode){
+                actionMode = startActionMode
+                        (RecyclerViewNoteListActivity.this);
+            }
+        }
 
         recyclerView = findViewById(R.id.recyclerview);
         BottomAppBar bottomAppBar = findViewById(R.id.bottom_app_bar);
@@ -70,14 +92,28 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
 
     };
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(IS_DELETE_DIALOG_WAS_SHOWN,isDeleteDialogWasShown);
+        outState.putBoolean(IS_EXIT_DIALOG_WAS_SHOWN, isExitDialogWasShown);
+        outState.putBoolean(IS_MULTI_SELECT,isMultiSelect);
+        outState.putIntegerArrayList(SELECTED_ID,selectedID);
+        outState.putBoolean(IS_IN_ACTION_MODE,isInActionMode);
+    }
+
     private void updateView() {
 
         recyclerViewModel.getNotes().observe(this, notes -> {
             adapter.setNotes(notes);
-            if (actionMode != null) {
-                actionMode.finish();
-            }
         });
+
+        if (isDeleteDialogWasShown){
+            showConfirmDeleteDialog();
+        }
+        if (isExitDialogWasShown){
+            showConfirmExitDialog();
+        }
         recyclerView.addOnItemTouchListener(new RecyclerClickListener
                 (this, recyclerView,
                         new RecyclerClickListener.OnItemClickListener() {
@@ -146,6 +182,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     }
 
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        isInActionMode = true;
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.action_mode_menu, menu);
         return true;
@@ -161,6 +198,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.action_mode_menu_delete: {
                 showConfirmDeleteDialog();
+
                 return true;
             }
         }
@@ -172,11 +210,12 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
         actionMode = null;
         isMultiSelect = false;
         selectedID.clear();
+        isInActionMode = false;
         adapter.setSelectedID(new ArrayList<Integer>());
     }
 
     private void showConfirmDeleteDialog() {
-
+        isDeleteDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getString(R.string.confirm_delete_dialog))
                 .setMessage("Are you sure to delete " + selectedID.size() + " notes?")
@@ -185,20 +224,27 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         actionMode.finish();
+                        isDeleteDialogWasShown = false;
                         return;
                     }
                 })
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        recyclerViewModel.deleteNotes(selectedID);
+                        recyclerViewModel.deleteNotes(selectedID, actionMode);
+                        isDeleteDialogWasShown = false;
+                        /*if (actionMode != null) {
+                            actionMode.finish();
+                        }*/
                     }
-                })
-                .show();
+                });
+        alertDialog = builder.create();
+        alertDialog.show();
 
     }
 
     private void showConfirmExitDialog(){
+        isExitDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getString(R.string.confirm_exit_dialog))
                 .setMessage(this.getString(R.string.confirm_exit_dialog_title))
@@ -206,6 +252,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        isExitDialogWasShown = false;
                         return;
                     }
                 })
@@ -217,8 +264,17 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                         }
                         android.os.Process.killProcess(android.os.Process.myPid());
                     }
-                })
-                .show();
+                });
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (alertDialog != null){
+            alertDialog.dismiss();
+        }
     }
 
     @Override
