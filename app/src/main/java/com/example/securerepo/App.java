@@ -1,6 +1,11 @@
 package com.example.securerepo;
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
+
+import androidx.lifecycle.ProcessLifecycleOwner;
+
 import com.example.securerepo.database.NotesDatabase;
 
 import javax.crypto.Cipher;
@@ -12,10 +17,10 @@ public class App extends Application {
     public static Cipher cipher;
     public static SecretKeySpec secretKeySpec;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
+        ProcessLifecycleOwner.get().getLifecycle().addObserver( new AppLifeCycleListener());
         notesDatabase = NotesDatabase.getDataBase(this);
         try {
             cipher = Cipher.getInstance("AES");
@@ -23,5 +28,6 @@ public class App extends Application {
             e.printStackTrace();
         }
     }
+
 
 }

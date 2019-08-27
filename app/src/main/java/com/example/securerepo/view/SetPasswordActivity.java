@@ -43,6 +43,7 @@ public class SetPasswordActivity extends Activity {
     private final String IS_PASSWORD_PRESENT = "isPasswordPresent";
     private final String IS_CAUTION_DIALOG_WAS_SHOWN = "isCautionDialogWasShown";
     private boolean isCautionDialogWasShown = false;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,16 +98,12 @@ public class SetPasswordActivity extends Activity {
 
             }
         });
-
-
-
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(IS_CAUTION_DIALOG_WAS_SHOWN, isCautionDialogWasShown);
-
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
@@ -197,8 +194,16 @@ public class SetPasswordActivity extends Activity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         isCautionDialogWasShown = true;
                     }
-                })
-                .show();
+                });
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (alertDialog != null){
+            alertDialog.dismiss();
+        }
+    }
 }

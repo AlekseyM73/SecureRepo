@@ -88,6 +88,10 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
 
     View.OnClickListener fabListener = v -> {
         Intent intent = new Intent(this, NewNoteActivity.class);
+
+        if(actionMode != null){
+            actionMode.finish();
+        }
         startActivity(intent);
 
     };

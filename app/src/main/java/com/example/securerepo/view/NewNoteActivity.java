@@ -7,11 +7,8 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -22,7 +19,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.securerepo.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
-import com.example.securerepo.model.Note;
 import com.example.securerepo.utils.BytesConverter;
 import com.example.securerepo.viewmodel.NewNoteViewModel;
 import com.google.android.material.textfield.TextInputLayout;
@@ -42,11 +38,18 @@ public class NewNoteActivity extends AppCompatActivity {
     private EditText etBody;
     private TextInputLayout textInputLayout;
     private NewNoteViewModel newNoteViewModel;
+    private boolean isGoBackDialogWasShown;
+    private final String IS_GO_BACK_DIALOG_WAS_SHOWN = "isGoBackDialogWasShown";
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
+
+        if (savedInstanceState != null) {
+            isGoBackDialogWasShown = savedInstanceState.getBoolean(IS_GO_BACK_DIALOG_WAS_SHOWN);
+        }
 
         Toolbar toolbar = findViewById(R.id.newNoteActivityToolbar);
         toolbar.setTitle(this.getString(R.string.add_note));
@@ -74,7 +77,15 @@ public class NewNoteActivity extends AppCompatActivity {
 
             }
         });
+        if (isGoBackDialogWasShown) {
+            showConfirmWithoutSavingDialog();
+        }
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(IS_GO_BACK_DIALOG_WAS_SHOWN, isGoBackDialogWasShown);
     }
 
     @Override
@@ -144,6 +155,7 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
     private void showConfirmWithoutSavingDialog() {
+        isGoBackDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getString(R.string.confirm_back_dialog_title))
                 .setMessage(getString(R.string.confirm_back_dialog))
@@ -151,6 +163,7 @@ public class NewNoteActivity extends AppCompatActivity {
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        isGoBackDialogWasShown = false;
                         return;
                     }
                 })
@@ -160,8 +173,9 @@ public class NewNoteActivity extends AppCompatActivity {
                         NewNoteActivity.super.onBackPressed();
                         finish();
                     }
-                })
-                .show();
+                });
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override
@@ -181,5 +195,14 @@ public class NewNoteActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (alertDialog != null){
+            alertDialog.dismiss();
+        }
+
     }
 }
