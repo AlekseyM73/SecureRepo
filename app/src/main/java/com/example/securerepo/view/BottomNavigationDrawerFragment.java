@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.securerepo.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -32,11 +34,9 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case (R.id.bottom_app_bar_menu_settings): {
-                        Toast.makeText(getContext(), "settings", Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                    case (R.id.bottom_app_bar_menu_block): {
-                        Toast.makeText(getContext(), "block", Toast.LENGTH_SHORT).show();
+
+                        SettingsDialogFragment dialog = new SettingsDialogFragment();
+                        dialog.show(getFragmentManager(),dialog.getTag());
                         return true;
                     }
                     case (R.id.bottom_app_bar_menu_exit): {

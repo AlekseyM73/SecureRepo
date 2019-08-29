@@ -221,7 +221,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     private void showConfirmDeleteDialog() {
         isDeleteDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(this.getString(R.string.confirm_delete_dialog))
+        builder.setTitle(getResources().getString(R.string.confirm_delete_dialog))
                 .setMessage("Are you sure to delete " + selectedID.size() + " notes?")
                 .setCancelable(false)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -237,9 +237,6 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         recyclerViewModel.deleteNotes(selectedID, actionMode);
                         isDeleteDialogWasShown = false;
-                        /*if (actionMode != null) {
-                            actionMode.finish();
-                        }*/
                     }
                 });
         alertDialog = builder.create();
@@ -250,8 +247,8 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     private void showConfirmExitDialog(){
         isExitDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(this.getString(R.string.confirm_exit_dialog))
-                .setMessage(this.getString(R.string.confirm_exit_dialog_title))
+        builder.setTitle(getResources().getString(R.string.confirm_exit_dialog))
+                .setMessage(getResources().getString(R.string.confirm_exit_dialog_title))
                 .setCancelable(false)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override

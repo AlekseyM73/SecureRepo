@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/dialog_fragment_settings_buttonOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Button_OK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dialog_fragment_settings_buttonCancel"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTop"
+        app:layout_constraintVertical_bias="0.188" />
+
+    <Button
+        android:id="@+id/dialog_fragment_settings_buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Button_Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/dialog_fragment_settings_buttonOk"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTop"
+        app:layout_constraintVertical_bias="0.188" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/change_password_settings_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <TextView
+                android:id="@+id/change_password_settings_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:gravity="center_vertical"
+                android:text="Change password"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/delete_all_settings_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="4dp">
+
+            <TextView
+                android:id="@+id/delete_all_settings_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:gravity="center_vertical"
+                android:text="Delete all notes"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/exit_when_background_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="4dp">
+
+            <Switch
+                android:id="@+id/exit_when_background_settings_switch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:gravity="center_vertical"
+                android:text="Exit when background"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/dark_theme_settings_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="4dp">
+
+            <Switch
+                android:id="@+id/dark_theme_settings_switch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:gravity="center_vertical"
+                android:text="Dark theme"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/about_settings_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="4dp">
+
+            <TextView
+                android:id="@+id/about_settings_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:gravity="center_vertical"
+                android:text="About"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
