@@ -1,16 +1,16 @@
 package com.example.securerepo.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.securerepo.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -34,9 +34,8 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case (R.id.bottom_app_bar_menu_settings): {
-
-                        SettingsDialogFragment dialog = new SettingsDialogFragment();
-                        dialog.show(getFragmentManager(),dialog.getTag());
+                        dismiss();
+                        startActivity(new Intent(getContext(),SettingsActivity.class));
                         return true;
                     }
                     case (R.id.bottom_app_bar_menu_exit): {
@@ -49,5 +48,10 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
             }
         });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }

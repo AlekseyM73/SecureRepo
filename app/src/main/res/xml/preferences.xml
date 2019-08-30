@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="pref_change_password"
+        android:title="Change password">
+    </Preference>
+
+    <Preference
+        android:key="pref_delete_notes"
+        android:title="Delete all notes">
+    </Preference>
+
+    <SwitchPreference
+        android:key="pref_exit_background"
+        android:title="Exit when background"
+        android:defaultValue="false">
+    </SwitchPreference>
+
+    <SwitchPreference
+        android:key="pref_dark_theme"
+        android:title="Dark theme"
+        android:defaultValue="false">
+    </SwitchPreference>
+
+    <Preference
+        android:key="pref_about"
+        android:title="About">
+    </Preference>
+    <DropDownPreference >
+
+    </DropDownPreference>
+
+</PreferenceScreen>

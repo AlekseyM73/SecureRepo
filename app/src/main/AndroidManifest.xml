@@ -22,6 +22,7 @@
         <activity android:name=".view.EnterPasswordActivity" />
         <activity android:name=".view.SetPasswordActivity" />
         <activity android:name=".view.RecyclerViewNoteListActivity" />
+        <activity android:name=".view.SettingsActivity" />
     </application>
 
 </manifest>
