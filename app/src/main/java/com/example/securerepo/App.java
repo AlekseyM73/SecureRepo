@@ -2,7 +2,9 @@ package com.example.securerepo;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import androidx.lifecycle.ProcessLifecycleOwner;
 
@@ -20,6 +22,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        PreferenceManager.setDefaultValues(this,R.xml.preferences, false);
         ProcessLifecycleOwner.get().getLifecycle().addObserver( new AppLifeCycleListener());
         notesDatabase = NotesDatabase.getDataBase(this);
         try {

@@ -27,8 +27,5 @@
         android:key="pref_about"
         android:title="About">
     </Preference>
-    <DropDownPreference >
-
-    </DropDownPreference>
 
 </PreferenceScreen>

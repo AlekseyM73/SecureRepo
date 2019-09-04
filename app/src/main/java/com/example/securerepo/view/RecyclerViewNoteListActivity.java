@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -129,6 +130,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                                     Intent intent = new Intent(RecyclerViewNoteListActivity.this, DetailNoteActivity.class);
                                     intent.putExtra(NOTE_ID, adapter.getNotefromAdapter(position).getId());
                                     startActivity(intent);
+
                                 }
                             }
 
