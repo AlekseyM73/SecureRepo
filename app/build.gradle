@@ -24,16 +24,16 @@ android {
 }
 
 dependencies {
-    def lifecycle_version = "1.1.1"
+
     implementation "androidx.preference:preference:1.1.0-rc01"
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation "android.arch.persistence.room:rxjava2:1.0"
-    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-    annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
-    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
+    implementation "android.arch.lifecycle:extensions:2.0.0"
+    annotationProcessor "android.arch.lifecycle:compiler:2.0.0"
+    implementation "androidx.room:room-runtime:2.1.0"
+    annotationProcessor "androidx.room:room-compiler:2.1.0"
+    androidTestImplementation "androidx.room:room-testing:2.1.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
@@ -43,6 +43,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
     implementation 'androidx.room:room-rxjava2:2.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
     implementation 'androidx.cardview:cardview:1.0.0'
 }

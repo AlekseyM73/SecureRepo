@@ -67,10 +67,10 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteLi
         int id = current.getId();
         if (selectedID.contains(id)) {
             holder.cardView.setCardBackgroundColor(context.getResources()
-                    .getColor(R.color.colorAccent));
+                    .getColor(R.color.secondaryLightColor));
         } else {
             holder.cardView.setCardBackgroundColor(context
-                    .getResources().getColor(android.R.color.background_light));
+                    .getResources().getColor(R.color.primaryLightColor));
         }
     }
 
