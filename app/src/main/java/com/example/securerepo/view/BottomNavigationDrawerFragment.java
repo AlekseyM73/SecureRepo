@@ -16,6 +16,8 @@ import com.example.securerepo.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 
+import java.lang.ref.WeakReference;
+
 public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
     @Nullable
@@ -35,7 +37,8 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
                 switch (menuItem.getItemId()) {
                     case (R.id.bottom_app_bar_menu_settings): {
                         dismiss();
-                        startActivity(new Intent(getContext(),SettingsActivity.class));
+                        //Fix API21 Theme switch
+                        startActivityForResult(new Intent(getContext(),SettingsActivity.class),0);
                         return true;
                     }
                     case (R.id.bottom_app_bar_menu_exit): {

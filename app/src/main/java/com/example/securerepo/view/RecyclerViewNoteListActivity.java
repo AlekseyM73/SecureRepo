@@ -279,6 +279,12 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
             alertDialog.dismiss();
         }
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        //Recreate the activity because API21 not switch the theme
+            recreate();
+    }
 
     @Override
     public void onBackPressed() {

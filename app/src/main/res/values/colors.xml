@@ -2,6 +2,9 @@
 <resources>
 
     <color name="primaryLightColor">#ffffff</color>
-    <color name="secondaryLightColor">#ff7961</color>
+    <color name="secondaryLightColor">#D50000</color>
+    <color name="color_primary">#6200EE</color>
+    <color name="color_primary_variant">#3700B3</color>
+    <color name="color_secondary">#D50000</color>
 
 </resources>

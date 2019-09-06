@@ -55,14 +55,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 if (darkThemeSwitchPosition){
                     darkThemeSwitchPosition = false;
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    Log.d("debug","light");
                 }
                 else {
                     darkThemeSwitchPosition = true;
-                  //TODO Проверка на API 29
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-                    Log.d("debug","dark");
                 }
 
             }

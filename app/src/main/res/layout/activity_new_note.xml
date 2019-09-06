@@ -8,12 +8,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/newNoteActivityToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         >
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
 <ScrollView
     android:layout_width="match_parent"

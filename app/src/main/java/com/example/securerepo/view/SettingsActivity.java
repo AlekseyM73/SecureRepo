@@ -1,5 +1,6 @@
 package com.example.securerepo.view;
 
+import android.app.Activity;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -8,13 +9,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.securerepo.R;
 
+import java.lang.ref.WeakReference;
+
 public class SettingsActivity extends AppCompatActivity  {
+
+
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.settingsActivityToolbar);
         toolbar.setTitle("Settings");
         setSupportActionBar(toolbar);
@@ -30,5 +36,12 @@ public class SettingsActivity extends AppCompatActivity  {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Fix API21 Theme switch
+        setResult(0);
     }
 }

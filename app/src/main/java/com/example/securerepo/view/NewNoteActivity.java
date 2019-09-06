@@ -52,7 +52,7 @@ public class NewNoteActivity extends AppCompatActivity {
         }
 
         Toolbar toolbar = findViewById(R.id.newNoteActivityToolbar);
-        toolbar.setTitle(this.getString(R.string.add_note));
+        toolbar.setTitle(getResources().getString(R.string.add_note));
         setSupportActionBar(toolbar);
 
         etTitle = findViewById(R.id.newNoteActivityTitleEditText);

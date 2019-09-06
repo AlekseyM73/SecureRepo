@@ -3,8 +3,20 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="bottomAppBarStyle">@style/Widget.MyApp.BottomAppBar</item>
+        <item name="toolbarStyle">@style/Widget.MyApp.TooBar</item>
 
+    </style>
 
+    <style name="Widget.MyApp.BottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="Widget.MyApp.TooBar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="background">?attr/colorPrimary</item>
     </style>
 
 </resources>

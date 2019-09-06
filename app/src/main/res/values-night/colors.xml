@@ -2,8 +2,6 @@
 <resources>
 
     <color name="primaryLightColor">#2C2A2A</color>
-
-
     <color name="secondaryLightColor">#bb86bc</color>
-
+    <color name="color_secondary">#bb86bc</color>
 </resources>

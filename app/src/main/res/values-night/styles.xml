@@ -3,8 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
-
-
+        <item name="colorSecondary">@color/color_secondary</item>
     </style>
 
 </resources>
