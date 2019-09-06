@@ -1,6 +1,7 @@
 package com.example.securerepo.view;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -21,6 +22,7 @@ import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.model.Note;
 import com.example.securerepo.utils.BytesConverter;
+import com.example.securerepo.utils.MenuIconPainter;
 import com.example.securerepo.viewmodel.DetailNoteViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -43,8 +45,8 @@ public class DetailNoteActivity extends AppCompatActivity {
     private EditText etBody;
     private TextInputLayout textInputLayout;
     private FloatingActionButton fab;
-    private MenuItem ok;
-    private MenuItem cancel;
+    private MenuItem menuOk;
+    private MenuItem menuCancel;
     private boolean isEditBtnPressed = false;
     private DetailNoteViewModel detailNoteViewModel;
     private Disposable subscribe;
@@ -110,8 +112,12 @@ public class DetailNoteActivity extends AppCompatActivity {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.detail_note_menu, menu);
-        ok = menu.findItem(R.id.detail_note_menu_ok);
-        cancel = menu.findItem(R.id.detail_note_menu_cancel);
+        menuOk = menu.findItem(R.id.detail_note_menu_ok);
+        menuCancel = menu.findItem(R.id.detail_note_menu_cancel);
+
+        MenuIconPainter.tintMenuItem(this,menuOk);
+        MenuIconPainter.tintMenuItem(this,menuCancel);
+
         if (isEditBtnPressed) {
             setViewsAsEditable();
         } else {
@@ -144,8 +150,6 @@ public class DetailNoteActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void setViewsAsText() {
         etTitle.setTextIsSelectable(true);
         etTitle.setKeyListener(null);
@@ -156,8 +160,8 @@ public class DetailNoteActivity extends AppCompatActivity {
         etBody.setCursorVisible(true);
 
         fab.show();
-        ok.setVisible(false);
-        cancel.setVisible(false);
+        menuOk.setVisible(false);
+        menuCancel.setVisible(false);
     }
 
     private void setViewsAsEditable() {
@@ -168,8 +172,8 @@ public class DetailNoteActivity extends AppCompatActivity {
         etBody.setMovementMethod(new ScrollingMovementMethod());
 
         fab.hide();
-        ok.setVisible(true);
-        cancel.setVisible(true);
+        menuOk.setVisible(true);
+        menuCancel.setVisible(true);
     }
 
     private void getNote() {

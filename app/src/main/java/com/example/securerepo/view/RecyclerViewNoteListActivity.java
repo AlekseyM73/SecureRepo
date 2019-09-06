@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.securerepo.R;
 import com.example.securerepo.model.Note;
+import com.example.securerepo.utils.MenuIconPainter;
 import com.example.securerepo.viewmodel.RecyclerViewModel;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,6 +43,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     private final String SELECTED_ID = "selectedID";
     private final String IS_MULTI_SELECT = "isMultiSelect";
     private final String IS_IN_ACTION_MODE = "isInActionMode";
+    private MenuItem menuDelete;
     private NoteListAdapter adapter;
     private RecyclerViewModel recyclerViewModel;
     private BottomNavigationDrawerFragment bottomNavigationDrawerFragment;
@@ -191,6 +193,8 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
         isInActionMode = true;
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.action_mode_menu, menu);
+        menuDelete = menu.findItem(R.id.action_mode_menu_delete);
+        MenuIconPainter.tintMenuItem(this, menuDelete);
         return true;
     }
 

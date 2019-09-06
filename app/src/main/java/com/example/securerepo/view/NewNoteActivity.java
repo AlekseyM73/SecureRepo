@@ -20,6 +20,7 @@ import com.example.securerepo.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.utils.BytesConverter;
+import com.example.securerepo.utils.MenuIconPainter;
 import com.example.securerepo.viewmodel.NewNoteViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -36,6 +37,8 @@ public class NewNoteActivity extends AppCompatActivity {
 
     private EditText etTitle;
     private EditText etBody;
+    private MenuItem menuOk;
+    private MenuItem menuCancel;
     private TextInputLayout textInputLayout;
     private NewNoteViewModel newNoteViewModel;
     private boolean isGoBackDialogWasShown;
@@ -92,6 +95,11 @@ public class NewNoteActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.new_note_menu, menu);
+        menuOk = menu.findItem(R.id.new_note_menu_ok);
+        menuCancel = menu.findItem(R.id.new_note_menu_cancel);
+
+        MenuIconPainter.tintMenuItem(this, menuOk);
+        MenuIconPainter.tintMenuItem(this, menuCancel);
         return true;
     }
 
