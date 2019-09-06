@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.securerepo.App;
+import com.example.securerepo.Application.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.crypto.PasswordCheckerCipher;
@@ -30,7 +27,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class EnterPasswordActivity extends Activity {
+public class EnterPasswordActivity extends AppCompatActivity {
 
     private Button btDecrypt;
     private TextInputLayout textInputLayout;

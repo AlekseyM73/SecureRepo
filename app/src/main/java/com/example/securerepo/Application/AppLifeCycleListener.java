@@ -1,4 +1,4 @@
-package com.example.securerepo;
+package com.example.securerepo.Application;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;

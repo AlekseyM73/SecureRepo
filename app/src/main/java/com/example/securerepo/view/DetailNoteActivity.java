@@ -1,7 +1,6 @@
 package com.example.securerepo.view;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -17,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.securerepo.App;
+import com.example.securerepo.Application.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.model.Note;

@@ -10,16 +10,15 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.securerepo.App;
+import com.example.securerepo.Application.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.crypto.PasswordCheckerCipher;
-import com.example.securerepo.model.PasswordChecker;
 import com.example.securerepo.repository.PasswordCheckerSource;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -33,7 +32,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
-public class SetPasswordActivity extends Activity {
+public class SetPasswordActivity extends AppCompatActivity {
 
     private EditText etSetPass;
     private EditText etSetPassRepeat;

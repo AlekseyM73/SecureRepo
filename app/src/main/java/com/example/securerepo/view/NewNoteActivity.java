@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.securerepo.App;
+import com.example.securerepo.Application.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.utils.BytesConverter;
@@ -153,9 +153,15 @@ public class NewNoteActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.new_note_menu_cancel:{
-                super.onBackPressed();
-                finish();
-                return true;
+                if(!etTitle.getText().toString().isEmpty()
+                        || !etBody.getText().toString().isEmpty() ){
+                    showConfirmWithoutSavingDialog();
+                }
+                else {
+                    super.onBackPressed();
+                    finish();
+                    return true;
+                }
             }
             default:
                 return super.onOptionsItemSelected(item);

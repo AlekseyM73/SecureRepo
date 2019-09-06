@@ -1,8 +1,6 @@
 package com.example.securerepo.viewmodel;
 
 import android.app.Application;
-import android.content.Intent;
-import android.util.Log;
 import android.view.ActionMode;
 import android.widget.Toast;
 
@@ -11,13 +9,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.securerepo.App;
+import com.example.securerepo.Application.App;
 import com.example.securerepo.R;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.model.Note;
 import com.example.securerepo.repository.NotesSource;
-import com.example.securerepo.view.EnterPasswordActivity;
-import com.example.securerepo.view.RecyclerViewNoteListActivity;
 
 import java.util.ArrayList;
 import java.util.List;

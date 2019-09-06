@@ -1,13 +1,12 @@
-package com.example.securerepo;
+package com.example.securerepo.Application;
 
-import android.app.Activity;
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
+import com.example.securerepo.R;
 import com.example.securerepo.database.NotesDatabase;
 
 import javax.crypto.Cipher;
@@ -22,7 +21,15 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        PreferenceManager.setDefaultValues(this,R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        boolean theme = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pref_dark_theme", false);
+        if (theme){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         ProcessLifecycleOwner.get().getLifecycle().addObserver( new AppLifeCycleListener());
         notesDatabase = NotesDatabase.getDataBase(this);
         try {

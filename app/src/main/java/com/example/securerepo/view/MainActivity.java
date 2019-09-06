@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.securerepo.R;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private String IS_FIRST_RUN = "isFirstRun";
     private String IS_PASSWORD_PRESENT = "isPasswordPresent";
