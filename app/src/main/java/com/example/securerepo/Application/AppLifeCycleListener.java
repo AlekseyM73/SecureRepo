@@ -1,4 +1,6 @@
-package com.example.securerepo.Application;
+package com.example.securerepo.application;
+
+import android.util.Log;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -12,6 +14,7 @@ public class AppLifeCycleListener implements LifecycleObserver {
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onMoveToBackground(){
+        Log.d("DEBUG","background");
 
     }
 

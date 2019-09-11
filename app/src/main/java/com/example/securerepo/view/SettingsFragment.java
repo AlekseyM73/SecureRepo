@@ -15,6 +15,7 @@ import androidx.preference.PreferenceManager;
 
 import com.example.securerepo.BuildConfig;
 import com.example.securerepo.R;
+import com.example.securerepo.application.App;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -36,7 +37,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         prefDeleteNotes = findPreference("pref_delete_notes");
         prefAbout = findPreference("pref_about");
         darkThemeSwitchPosition = sharedPref.getBoolean("pref_dark_theme", false);
-        exitBackgroundSwitchPosition = sharedPref.getBoolean("pref_exit_background", false);
+      //  exitBackgroundSwitchPosition = sharedPref.getBoolean("pref_exit_background", false);
 
         setPrefListeners();
     }
@@ -53,23 +54,25 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         listener = (sharedPreferences, key) -> {
             if (key.equals("pref_dark_theme")){
                 if (darkThemeSwitchPosition){
-                    darkThemeSwitchPosition = false;
+                    Log.d("darkTmeme", exitBackgroundSwitchPosition+"");
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 else {
-                    darkThemeSwitchPosition = true;
+                    Log.d("darkTmeme", exitBackgroundSwitchPosition+"");
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 }
 
             }
             else if (key.equals("pref_exit_background")){
-                if (exitBackgroundSwitchPosition){
-                    exitBackgroundSwitchPosition = false;
+                if (sharedPref.getBoolean("pref_exit_background", false)){
+                    Log.d("switchBGRND", exitBackgroundSwitchPosition+"");
+                    App.lifecycle.addObserver(App.appLifeCycleListener);
 
                 }
                 else {
-                    exitBackgroundSwitchPosition = true;
+                    Log.d("switchBGRND", exitBackgroundSwitchPosition+"");
 
+                    App.lifecycle.removeObserver(App.appLifeCycleListener);
                 }
 
             }

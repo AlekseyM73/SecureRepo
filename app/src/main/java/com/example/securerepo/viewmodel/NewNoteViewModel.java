@@ -2,7 +2,7 @@ package com.example.securerepo.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.securerepo.Application.App;
+import com.example.securerepo.application.App;
 import com.example.securerepo.model.Note;
 import com.example.securerepo.repository.NotesSource;
 
