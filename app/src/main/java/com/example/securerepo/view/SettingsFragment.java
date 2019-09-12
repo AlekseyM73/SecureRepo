@@ -36,8 +36,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         prefChangePassword = findPreference("pref_change_password");
         prefDeleteNotes = findPreference("pref_delete_notes");
         prefAbout = findPreference("pref_about");
-        darkThemeSwitchPosition = sharedPref.getBoolean("pref_dark_theme", false);
-      //  exitBackgroundSwitchPosition = sharedPref.getBoolean("pref_exit_background", false);
 
         setPrefListeners();
     }
@@ -53,30 +51,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onResume();
         listener = (sharedPreferences, key) -> {
             if (key.equals("pref_dark_theme")){
-                if (darkThemeSwitchPosition){
-                    Log.d("darkTmeme", exitBackgroundSwitchPosition+"");
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                if (sharedPref.getBoolean("pref_dark_theme", false)){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 }
                 else {
-                    Log.d("darkTmeme", exitBackgroundSwitchPosition+"");
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
 
             }
             else if (key.equals("pref_exit_background")){
                 if (sharedPref.getBoolean("pref_exit_background", false)){
-                    Log.d("switchBGRND", exitBackgroundSwitchPosition+"");
                     App.lifecycle.addObserver(App.appLifeCycleListener);
-
                 }
                 else {
-                    Log.d("switchBGRND", exitBackgroundSwitchPosition+"");
-
                     App.lifecycle.removeObserver(App.appLifeCycleListener);
                 }
-
             }
-
         };
         sharedPref.registerOnSharedPreferenceChangeListener(listener);
     }

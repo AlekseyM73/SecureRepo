@@ -9,7 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.securerepo.R;
 
-import java.lang.ref.WeakReference;
+
 
 public class SettingsActivity extends AppCompatActivity  {
 
