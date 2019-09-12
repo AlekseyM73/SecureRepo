@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -287,7 +288,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
         //Recreate the activity because API21 not switch the theme
-            recreate();
+                recreate();
     }
 
     @Override

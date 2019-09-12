@@ -24,8 +24,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private Preference prefChangePassword;
     private Preference prefDeleteNotes;
     private Preference prefAbout;
-    private boolean darkThemeSwitchPosition;
-    private boolean exitBackgroundSwitchPosition;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     @Override
@@ -49,37 +47,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onResume() {
         super.onResume();
-        listener = (sharedPreferences, key) -> {
-            if (key.equals("pref_dark_theme")){
-                if (sharedPref.getBoolean("pref_dark_theme", false)){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
-                else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                switch (key) {
+                    case "pref_dark_theme": {
+                        if (sharedPref.getBoolean("pref_dark_theme", false)) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        break;
+                    }
+                    default:break;
                 }
 
-            }
-            else if (key.equals("pref_exit_background")){
-                if (sharedPref.getBoolean("pref_exit_background", false)){
-                    App.lifecycle.addObserver(App.appLifeCycleListener);
-                }
-                else {
-                    App.lifecycle.removeObserver(App.appLifeCycleListener);
-                }
             }
         };
         sharedPref.registerOnSharedPreferenceChangeListener(listener);
     }
 
     private void setPrefListeners (){
-        prefChangePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-
-                // startActivity(new Intent(getActivity(), SetPasswordActivity.class));
-
-                return true;
-            }
+        prefChangePassword.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(SettingsFragment.this.getContext(), ChangePasswordActivity.class);
+            SettingsFragment.this.startActivity(intent);
+            SettingsFragment.this.getActivity().finish();
+            return true;
         });
 
         prefDeleteNotes.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

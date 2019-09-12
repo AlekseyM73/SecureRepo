@@ -12,12 +12,6 @@
     </Preference>
 
     <SwitchPreference
-        android:key="pref_exit_background"
-        android:title="Exit when background"
-        android:defaultValue="false">
-    </SwitchPreference>
-
-    <SwitchPreference
         android:key="pref_dark_theme"
         android:title="Dark theme"
         android:defaultValue="false">
