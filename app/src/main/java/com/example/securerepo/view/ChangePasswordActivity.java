@@ -26,6 +26,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Arrays;
 import java.util.Random;
 
+import javax.crypto.spec.SecretKeySpec;
+
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -109,8 +111,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
             if (isTwoPasswordEquals(password1, password2) && isPasswordLengthGood(password1)) {
                 etChangePass.setText("");
                 etChangePassRepeat.setText("");
-                App.secretKeySpec = NoteCipher.generateKey(password1);
-                addPasswordChecker();
+
+
+                    SecretKeySpec oldSecretKeySpec = App.secretKeySpec;
+                    App.secretKeySpec = NoteCipher.generateKey(password1);
+
+
+          //      addPasswordChecker();
                 Arrays.fill(password1,'0');
                 Arrays.fill(password2,'0');
 
@@ -138,7 +145,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Exception {
-                byte[] bytes = new byte[100];
+                byte[] bytes = new byte[2048];
                 Random random = new Random();
                 random.nextBytes(bytes);
 
