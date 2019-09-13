@@ -4,6 +4,9 @@ import com.example.securerepo.model.Note;
 import com.example.securerepo.utils.BytesConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 public class NoteCipher {
@@ -35,6 +38,25 @@ public class NoteCipher {
             e.printStackTrace();
         }
 
+    }
+
+    public static List<Note> encryptNotes (SecretKeySpec secretKeySpec, Cipher cipher, List<Note> notes){
+       List<Note> encryptedNotes = new ArrayList<>(notes.size());
+        try {
+
+            if (secretKeySpec != null){
+                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            }
+            for (Note note:notes){
+                note.setTitle(cipher.doFinal(note.getTitle()));
+                note.setBody(cipher.doFinal(note.getBody()));
+                encryptedNotes.add(note);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+            return encryptedNotes;
     }
 
    public static void decryptNote (SecretKeySpec secretKeySpec,Cipher cipher, Note note) throws Exception{

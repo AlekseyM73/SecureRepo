@@ -3,6 +3,7 @@ package com.example.securerepo.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -19,7 +20,7 @@ public interface NotesDAO {
     @Insert
     void insertNote(Note note);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertNotes(List<Note> notes);
 
     @Update

@@ -2,7 +2,7 @@ package com.example.securerepo.view;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
+
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.DialogInterface;
@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +43,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private TextInputLayout tilPassword1;
     private TextInputLayout tilPassword2;
     private static final int PASSWORD_LENGTH = 8;
-    private ViewModel viewModel;
+    private ChangePasswordViewModel viewModel;
 
 
 
@@ -61,6 +62,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
     btnChange.setOnClickListener(listener);
 
         viewModel = ViewModelProviders.of(this).get(ChangePasswordViewModel.class);
+
+
+
 
         etChangePass.addTextChangedListener(new TextWatcher() {
         @Override
@@ -114,14 +118,21 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
 
                     SecretKeySpec oldSecretKeySpec = App.secretKeySpec;
-                    App.secretKeySpec = NoteCipher.generateKey(password1);
+                    viewModel.setOldSecretKeySpec(oldSecretKeySpec);
+                    viewModel.setNewPassword(password1);
+                    viewModel.getDecryptedNotes();
+                    Log.d("DEBUG", "in Activity");
+                 //   viewModel.getDecryptedPasswordChecker();
+                 //   App.secretKeySpec = NoteCipher.generateKey(password1);
+                  //  viewModel.insertEncryptedPasswordChecker();
+                  //  viewModel.insertEncryptedNotes();
 
 
           //      addPasswordChecker();
                 Arrays.fill(password1,'0');
                 Arrays.fill(password2,'0');
 
-                finish();
+             //   finish();
             }
             else if (!isTwoPasswordEquals(password1,password2)){
                 tilPassword2.setError("Passwords do not match");
