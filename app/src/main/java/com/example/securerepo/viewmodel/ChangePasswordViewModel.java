@@ -23,6 +23,7 @@ import com.example.securerepo.view.DetailNoteActivity;
 import com.example.securerepo.view.RecyclerViewNoteListActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -36,6 +37,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class ChangePasswordViewModel extends AndroidViewModel {
@@ -44,7 +46,6 @@ public class ChangePasswordViewModel extends AndroidViewModel {
     private PasswordCheckerSource passwordCheckerSource;
     private List<Note> decryptedNotes = new ArrayList<>();
     private PasswordChecker decryptedPasswordChecker;
-    private SecretKeySpec oldSecretKeySpec;
     private char[] password;
 
 
@@ -53,97 +54,62 @@ public class ChangePasswordViewModel extends AndroidViewModel {
         this.notesSource = new NotesSource(App.notesDatabase.notesDAO());
         this.passwordCheckerSource = new PasswordCheckerSource(App.notesDatabase.passwordCheckerDAO());
     }
-     public void setOldSecretKeySpec (SecretKeySpec oldSecretKeySpec ){
-        this.oldSecretKeySpec = oldSecretKeySpec;
-     }
 
      public void setNewPassword(char[] password){
         this.password = password;
      }
 
-    public void getDecryptedNotes (){
+    public void getDecryptedNotes () {
 
+        notesSource.getNotes().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Note>>() {
+                    @Override
+                    public void onSuccess(List<Note> notes) {
+                        for (Note n : notes) {
+                            try {
+                                NoteCipher.decryptNote(App.secretKeySpec, App.cipher, n);
+                                decryptedNotes.add(n);
 
-
-       /* CompositeDisposable disposable = new CompositeDisposable();
-
-        disposable.add(notesSource.getAllNotes().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(value -> {
-
-                            for (Note n : value) {
-                                try {
-                                    NoteCipher.decryptNote(App.secretKeySpec, App.cipher, n);
-                                    decryptedNotes.add(n);
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            getDecryptedPasswordChecker();
-                            Log.d("DEBUG", "in getDecryptedNotes");
 
-                        },
-                        throwable -> throwable.printStackTrace()));*/
-
-
-
-
-
-       /*disposable.add(notesSource.getAllNotes()
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((List<Note> notes) -> {
-                    for (Note n : notes) {
-                        try {
-                            NoteCipher.decryptNote(oldSecretKeySpec, App.cipher, n);
-                            decryptedNotes.add(n);
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                        getDecryptedPasswordChecker();
                     }
-                },
-              *//* .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(d -> {
 
-                })
-                .doFinally(() -> {
-                    getDecryptedPasswordChecker();
-                    Log.d("DEBUG", "in getDecryptedNotes");
-                })
-                .subscribe(notes -> {
-
-                },*//*
-                        throwable -> {
-                    Toast.makeText(getApplication(),
-                            "Something went wrong.", Toast.LENGTH_LONG).show();
-                }));*/
-
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getApplication(),
+                                "Something went wrong.", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
+
     public void getDecryptedPasswordChecker(){
 
-        Disposable disposable = passwordCheckerSource.getPasswordChecker(1)
-                .subscribeOn(Schedulers.io())
-                .doOnSuccess((PasswordChecker checker) -> {
-                    PasswordCheckerCipher.decryptChecker
-                            (oldSecretKeySpec, App.cipher, checker);
-                    decryptedPasswordChecker = checker;
-                }).observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(d -> {
+        passwordCheckerSource.getPasswordChecker(1).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<PasswordChecker>() {
+                    @Override
+                    public void onSuccess(PasswordChecker passwordChecker) {
+                        try {
+                            PasswordCheckerCipher.decryptChecker
+                                    (App.secretKeySpec, App.cipher, passwordChecker);
+                            decryptedPasswordChecker = passwordChecker;
+                            Log.d("DEBUG", "in getDecryptedPasswordChecker()");
+                            App.secretKeySpec = NoteCipher.generateKey(password);
+                            insertEncryptedPasswordChecker();
+                        } catch (Exception e){
 
-                })
-                .doFinally(() -> {
+                        }
+                    }
 
-                    Log.d("DEBUG", "in getDecryptedPasswordChecker()");
-                    App.secretKeySpec = NoteCipher.generateKey(password);
-                    insertEncryptedPasswordChecker();
-                })
-                .subscribe(checker -> {
-
-                }, throwable -> {
-                    Toast.makeText(getApplication(),
-                            "Something went wrong.", Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getApplication(),
+                                "Something went wrong.", Toast.LENGTH_LONG).show();
+                    }
                 });
 
     }
@@ -166,11 +132,13 @@ public class ChangePasswordViewModel extends AndroidViewModel {
             }
             @Override
             public void onComplete() {
-                Log.d("DEBUG", "in insertEncryptedPasswordChecker()");
+
                 insertEncryptedNotes();
             }
             @Override
             public void onError(Throwable e) {
+                Toast.makeText(getApplication(),
+                        "Something went wrong.", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -195,13 +163,20 @@ public class ChangePasswordViewModel extends AndroidViewModel {
             }
             @Override
             public void onComplete() {
-                Log.d("DEBUG", "in insertEncryptedNotes");
-              /*  Intent intent = new Intent(getApplication(),RecyclerViewNoteListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplication().startActivity(intent);*/
+
+                for (Note n:decryptedNotes){
+                    n.eraseNoteFields();
+                }
+                Arrays.fill(password,'0');
+
+                Intent intent = new Intent(getApplication(),RecyclerViewNoteListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getApplication().startActivity(intent);
             }
             @Override
             public void onError(Throwable e) {
+                Toast.makeText(getApplication(),
+                        "Something went wrong.", Toast.LENGTH_LONG).show();
             }
         });
 

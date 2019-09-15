@@ -46,13 +46,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private ChangePasswordViewModel viewModel;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
-
 
     etChangePass = findViewById(R.id.changePasswordActivityEditText);
     etChangePassRepeat = findViewById(R.id.changePasswordActivityEditTextRepeat);
@@ -62,9 +59,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     btnChange.setOnClickListener(listener);
 
         viewModel = ViewModelProviders.of(this).get(ChangePasswordViewModel.class);
-
-
-
 
         etChangePass.addTextChangedListener(new TextWatcher() {
         @Override
@@ -103,7 +97,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     });
 }
 
-
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -116,23 +109,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 etChangePass.setText("");
                 etChangePassRepeat.setText("");
 
-
-                    SecretKeySpec oldSecretKeySpec = App.secretKeySpec;
-                    viewModel.setOldSecretKeySpec(oldSecretKeySpec);
-                    viewModel.setNewPassword(password1);
+                    viewModel.setNewPassword(password1.clone());
                     viewModel.getDecryptedNotes();
-                    Log.d("DEBUG", "in Activity");
-                 //   viewModel.getDecryptedPasswordChecker();
-                 //   App.secretKeySpec = NoteCipher.generateKey(password1);
-                  //  viewModel.insertEncryptedPasswordChecker();
-                  //  viewModel.insertEncryptedNotes();
+                    Arrays.fill(password1,'0');
+                    Arrays.fill(password2,'0');
 
-
-          //      addPasswordChecker();
-                Arrays.fill(password1,'0');
-                Arrays.fill(password2,'0');
-
-             //   finish();
+                finish();
             }
             else if (!isTwoPasswordEquals(password1,password2)){
                 tilPassword2.setError("Passwords do not match");
@@ -151,48 +133,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private boolean isPasswordLengthGood(char[] password1) {
         return password1.length >= PASSWORD_LENGTH;
     }
-
-    private void addPasswordChecker() {
-        Completable.fromAction(new Action() {
-            @Override
-            public void run() throws Exception {
-                byte[] bytes = new byte[2048];
-                Random random = new Random();
-                random.nextBytes(bytes);
-
-                new PasswordCheckerSource(App.notesDatabase.passwordCheckerDAO())
-                        .insertPasswordChecker
-                                (PasswordCheckerCipher.encryptChecker(App.secretKeySpec,
-                                        App.cipher, bytes));
-            }
-        }).doOnError(throwable -> {
-            throwable.printStackTrace();
-        }).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
-            @Override
-            public void onSubscribe(Disposable d) {
-            }
-
-            @Override
-            public void onComplete() {
-               // startNextScreen();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-        });
-    }
-
-    private void startNoteListScreen() {
-
-        Intent intent = new Intent(this, RecyclerViewNoteListActivity.class);
-        startActivity(intent);
-
-    }
-
 
     @Override
     protected void onDestroy() {

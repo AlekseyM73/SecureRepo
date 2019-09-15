@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:id="@+id/detailNoteActivity"
@@ -30,14 +30,14 @@ android:orientation="vertical">
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:hint="@string/EnterTitle"
-            app:helperTextEnabled="true" >
+            app:helperTextEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/detailNoteActivityTitleEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
-                android:inputType="textMultiLine"/>
+                android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -56,9 +56,11 @@ android:orientation="vertical">
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </ScrollView>
-    <FrameLayout
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/detail_note_fab"
             android:layout_width="wrap_content"
@@ -67,7 +69,7 @@ android:orientation="vertical">
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_edit_black_24dp" />
-    </FrameLayout>
-</LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

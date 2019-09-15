@@ -11,11 +11,9 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/newNoteActivityToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        >
-    </com.google.android.material.appbar.MaterialToolbar>
+        android:layout_height="?attr/actionBarSize"></com.google.android.material.appbar.MaterialToolbar>
 
-<ScrollView
+    <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout

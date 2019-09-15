@@ -35,6 +35,9 @@ public interface NotesDAO {
     @Query("SELECT * from notes_table")
     Observable<List<Note>> getAllNotes();
 
+    @Query("SELECT * from notes_table")
+    Single<List<Note>> getNotes();
+
     @Query("SELECT title from notes_table")
     Observable<List<byte[]>> getAllTitles();
 

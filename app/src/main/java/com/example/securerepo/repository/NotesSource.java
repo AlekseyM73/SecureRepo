@@ -42,6 +42,8 @@ public class NotesSource {
        return notesDAO.getAllNotes();
     }
 
+    public Single<List<Note>> getNotes() { return notesDAO.getNotes(); }
+
     public Observable <List<byte[]>> getAllTitles (){
        return notesDAO.getAllTitles();
     }
