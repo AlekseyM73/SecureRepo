@@ -7,12 +7,17 @@ android:id="@+id/detailNoteActivity"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <com.google.android.material.appbar.MaterialToolbar
     android:id="@+id/detailNoteActivityToolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize">
     </com.google.android.material.appbar.MaterialToolbar>
+
+
 
 <ScrollView
     android:layout_width="match_parent"
@@ -56,10 +61,7 @@ android:orientation="vertical">
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </ScrollView>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+</LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/detail_note_fab"
@@ -69,7 +71,7 @@ android:orientation="vertical">
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_edit_black_24dp" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
