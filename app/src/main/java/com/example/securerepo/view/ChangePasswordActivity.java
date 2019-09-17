@@ -117,10 +117,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 finish();
             }
             else if (!isTwoPasswordEquals(password1,password2)){
-                tilPassword2.setError("Passwords do not match");
+                tilPassword2.setError(getResources().getString(R.string.passwords_do_not_match));
             }
             else if (!isPasswordLengthGood(password1)){
-                tilPassword1.setError("Password length less than 8 characters");
+                tilPassword1.setError(getResources().getString(R.string.password_length_less_8));
             }
 
         }
@@ -137,6 +137,5 @@ public class ChangePasswordActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 }

@@ -124,10 +124,10 @@ public class SetPasswordActivity extends AppCompatActivity {
                 finish();
             }
             else if (!isTwoPasswordEquals(password1,password2)){
-                tilPassword2.setError("Passwords do not match");
+                tilPassword2.setError(getString(R.string.passwords_do_not_match));
             }
             else if (!isPasswordLengthGood(password1)){
-                tilPassword1.setError("Password length less than 8 characters");
+                tilPassword1.setError(getString(R.string.at_least_8_chars));
             }
 
         }
@@ -144,8 +144,8 @@ public class SetPasswordActivity extends AppCompatActivity {
     private void addPasswordChecker() {
         Completable.fromAction(new Action() {
             @Override
-            public void run() throws Exception {
-                byte[] bytes = new byte[100];
+            public void run(){
+                byte[] bytes = new byte[2048];
                 Random random = new Random();
                 random.nextBytes(bytes);
 
@@ -185,10 +185,11 @@ public class SetPasswordActivity extends AppCompatActivity {
     private void showCautionDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("CAUTION!")
-                .setMessage("If you forget the password, you cannot restore notes.")
+        builder.setTitle(getResources().getString(R.string.caution))
+                .setMessage(getResources()
+                        .getString(R.string.if_you_forget_the_password_you_cannot_restore_notes))
                 .setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.Button_OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         isCautionDialogWasShown = true;
