@@ -11,9 +11,6 @@ import com.example.securerepo.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String IS_FIRST_RUN = "isFirstRun";
-    private String IS_PASSWORD_PRESENT = "isPasswordPresent";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("com.alekseym73.securerepo", MODE_PRIVATE);
         // Check first run if true launch SetPasswordFragment
         // else launch EnterPasswordFragment
+        String IS_FIRST_RUN = "isFirstRun";
+        String IS_PASSWORD_PRESENT = "isPasswordPresent";
         if (sharedPreferences.getBoolean(IS_FIRST_RUN, true) || !sharedPreferences.
                 getBoolean(IS_PASSWORD_PRESENT, false)) {
             sharedPreferences.edit().putBoolean(IS_FIRST_RUN, false).commit();

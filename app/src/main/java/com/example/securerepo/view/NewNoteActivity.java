@@ -55,7 +55,7 @@ public class NewNoteActivity extends AppCompatActivity {
         }
 
         Toolbar toolbar = findViewById(R.id.newNoteActivityToolbar);
-        toolbar.setTitle(getResources().getString(R.string.add_note));
+        toolbar.setTitle(getString(R.string.add_note));
         setSupportActionBar(toolbar);
 
         etTitle = findViewById(R.id.newNoteActivityTitleEditText);
@@ -131,7 +131,7 @@ public class NewNoteActivity extends AppCompatActivity {
                         @Override
                         public void onComplete() {
                             Toast.makeText(NewNoteActivity.this,
-                                    "Saved!", Toast.LENGTH_LONG).show();
+                                   getString(R.string.saved), Toast.LENGTH_LONG).show();
                             etTitle.setText("");
                             etBody.setText("");
                             Arrays.fill(titleChars, '0');
@@ -143,12 +143,12 @@ public class NewNoteActivity extends AppCompatActivity {
                         @Override
                         public void onError(Throwable e) {
                             Toast.makeText(NewNoteActivity.this,
-                                    "Save failed", Toast.LENGTH_LONG).show();
+                                   getString(R.string.save_failed) , Toast.LENGTH_LONG).show();
                         }
                     });
                 }
                 else {
-                    textInputLayout.setError("The title cannot be empty");
+                    textInputLayout.setError(getString(R.string.the_title_can_not_be_empty));
                 }
                 return true;
             }
@@ -171,17 +171,17 @@ public class NewNoteActivity extends AppCompatActivity {
     private void showConfirmWithoutSavingDialog() {
         isGoBackDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(this.getString(R.string.confirm_back_dialog_title))
+        builder.setTitle(getString(R.string.confirm_back_dialog_title))
                 .setMessage(getString(R.string.confirm_back_dialog))
                 .setCancelable(false)
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         isGoBackDialogWasShown = false;
                         return;
                     }
                 })
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         NewNoteActivity.super.onBackPressed();

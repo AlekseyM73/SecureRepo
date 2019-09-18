@@ -186,10 +186,9 @@ public class SetPasswordActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.caution))
-                .setMessage(getResources()
-                        .getString(R.string.if_you_forget_the_password_you_cannot_restore_notes))
+                .setMessage(getString(R.string.if_you_forget_the_password_you_cannot_restore_notes))
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.Button_OK), new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.button_OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         isCautionDialogWasShown = true;

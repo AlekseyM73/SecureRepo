@@ -117,10 +117,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 finish();
             }
             else if (!isTwoPasswordEquals(password1,password2)){
-                tilPassword2.setError(getResources().getString(R.string.passwords_do_not_match));
+                tilPassword2.setError(getString(R.string.passwords_do_not_match));
             }
             else if (!isPasswordLengthGood(password1)){
-                tilPassword1.setError(getResources().getString(R.string.password_length_less_8));
+                tilPassword1.setError(getString(R.string.password_length_less_8));
             }
 
         }

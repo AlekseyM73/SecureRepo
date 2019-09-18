@@ -3,6 +3,9 @@ package com.example.securerepo.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 @Entity (tableName = "password_checker_table")
 public class PasswordChecker {
 
@@ -28,5 +31,21 @@ public class PasswordChecker {
 
     public void setBytesToCheck(byte[] bytesToCheck) {
         this.bytesToCheck = bytesToCheck;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PasswordChecker that = (PasswordChecker) o;
+        return id == that.id &&
+                Arrays.equals(bytesToCheck, that.bytesToCheck);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id);
+        result = 31 * result + Arrays.hashCode(bytesToCheck);
+        return result;
     }
 }

@@ -77,7 +77,7 @@ public class RecyclerViewModel extends AndroidViewModel {
 
             @Override
             public void onComplete() {
-                Toast.makeText(getApplication(), "Deleted!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplication(),getApplication().getString(R.string.deleted) , Toast.LENGTH_LONG).show();
                 actionMode.finish();
 
             }

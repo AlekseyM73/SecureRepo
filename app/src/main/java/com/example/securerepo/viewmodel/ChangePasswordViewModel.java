@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.securerepo.R;
 import com.example.securerepo.application.App;
 import com.example.securerepo.crypto.NoteCipher;
 import com.example.securerepo.crypto.PasswordCheckerCipher;
@@ -81,7 +82,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
                     @Override
                     public void onError(Throwable e) {
                         Toast.makeText(getApplication(),
-                                "Something went wrong.", Toast.LENGTH_LONG).show();
+                                getApplication().getString(R.string.something_went_wrong) , Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -97,7 +98,6 @@ public class ChangePasswordViewModel extends AndroidViewModel {
                             PasswordCheckerCipher.decryptChecker
                                     (App.secretKeySpec, App.cipher, passwordChecker);
                             decryptedPasswordChecker = passwordChecker;
-                            Log.d("DEBUG", "in getDecryptedPasswordChecker()");
                             App.secretKeySpec = NoteCipher.generateKey(password);
                             insertEncryptedPasswordChecker();
                         } catch (Exception e){
@@ -108,7 +108,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
                     @Override
                     public void onError(Throwable e) {
                         Toast.makeText(getApplication(),
-                                "Something went wrong.", Toast.LENGTH_LONG).show();
+                                getApplication().getString(R.string.something_went_wrong) , Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -138,7 +138,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
             @Override
             public void onError(Throwable e) {
                 Toast.makeText(getApplication(),
-                        "Something went wrong.", Toast.LENGTH_LONG).show();
+                        getApplication().getString(R.string.something_went_wrong) , Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -170,13 +170,13 @@ public class ChangePasswordViewModel extends AndroidViewModel {
                 Arrays.fill(password,'0');
 
                 Intent intent = new Intent(getApplication(),RecyclerViewNoteListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 getApplication().startActivity(intent);
             }
             @Override
             public void onError(Throwable e) {
                 Toast.makeText(getApplication(),
-                        "Something went wrong.", Toast.LENGTH_LONG).show();
+                        getApplication().getString(R.string.something_went_wrong) , Toast.LENGTH_LONG).show();
             }
         });
 

@@ -3,23 +3,18 @@
 
     <Preference
         android:key="pref_change_password"
-        android:title="Change password">
-    </Preference>
-
-    <Preference
-        android:key="pref_delete_notes"
-        android:title="Delete all notes">
+        android:title="@string/change_password">
     </Preference>
 
     <SwitchPreference
         android:key="pref_dark_theme"
-        android:title="Dark theme"
+        android:title="@string/dark_theme"
         android:defaultValue="false">
     </SwitchPreference>
 
     <Preference
         android:key="pref_about"
-        android:title="About">
+        android:title="@string/about">
     </Preference>
 
 </PreferenceScreen>

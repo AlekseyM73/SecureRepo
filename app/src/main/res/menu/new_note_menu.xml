@@ -5,11 +5,11 @@
     <item
     android:id="@+id/new_note_menu_ok"
     android:icon="@drawable/ic_done_black_24dp"
-    android:title="@string/Button_OK"
+    android:title="@string/button_OK"
         app:showAsAction="always"/>
     <item
         android:id="@+id/new_note_menu_cancel"
         android:icon="@drawable/ic_cancel_black_24dp"
-        android:title="@string/Button_Cancel"
+        android:title="@string/button_cancel"
         app:showAsAction="always"/>
 </menu>

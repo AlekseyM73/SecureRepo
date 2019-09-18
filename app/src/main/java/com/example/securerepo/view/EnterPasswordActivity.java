@@ -85,7 +85,7 @@ public class EnterPasswordActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }, throwable -> {
-                        textInputLayout.setError("Incorrect password");
+                        textInputLayout.setError(getString(R.string.incorrect_password));
                     });
 
     }

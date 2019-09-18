@@ -17,8 +17,6 @@ android:orientation="vertical">
     android:layout_height="?attr/actionBarSize">
     </com.google.android.material.appbar.MaterialToolbar>
 
-
-
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -34,7 +32,7 @@ android:orientation="vertical">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:hint="@string/EnterTitle"
+            android:hint="@string/enter_title"
             app:helperTextEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -50,7 +48,7 @@ android:orientation="vertical">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:hint="@string/EnterDescription"
+            android:hint="@string/enter_description"
             app:helperTextEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/detailNoteActivityBodyEditText"

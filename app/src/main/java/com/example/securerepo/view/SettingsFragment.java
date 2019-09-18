@@ -22,7 +22,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private SharedPreferences sharedPref;
     private Preference prefChangePassword;
-    private Preference prefDeleteNotes;
     private Preference prefAbout;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
@@ -32,7 +31,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         prefChangePassword = findPreference("pref_change_password");
-        prefDeleteNotes = findPreference("pref_delete_notes");
         prefAbout = findPreference("pref_about");
 
         setPrefListeners();
@@ -73,14 +71,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             SettingsFragment.this.startActivity(intent);
             SettingsFragment.this.getActivity().finish();
             return true;
-        });
-
-        prefDeleteNotes.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-
-                return true;
-            }
         });
 
         prefAbout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

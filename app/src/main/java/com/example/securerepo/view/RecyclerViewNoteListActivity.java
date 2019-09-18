@@ -228,10 +228,10 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     private void showConfirmDeleteDialog() {
         isDeleteDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.confirm_delete_dialog))
-                .setMessage("Are you sure to delete " + selectedID.size() + " notes?")
+        builder.setTitle(getString(R.string.confirm_delete_dialog))
+                .setMessage(getString(R.string.are_you_sure_to_delete) +" "+ selectedID.size()+" " + getString(R.string.notes))
                 .setCancelable(false)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         actionMode.finish();
@@ -239,7 +239,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
                         return;
                     }
                 })
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         recyclerViewModel.deleteNotes(selectedID, actionMode);
@@ -254,17 +254,17 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
     private void showConfirmExitDialog(){
         isExitDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.confirm_exit_dialog))
-                .setMessage(getResources().getString(R.string.confirm_exit_dialog_title))
+        builder.setTitle(getString(R.string.confirm_exit_dialog))
+                .setMessage(getString(R.string.confirm_exit_dialog_title))
                 .setCancelable(false)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         isExitDialogWasShown = false;
                         return;
                     }
                 })
-                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.exit), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         for (Note note:adapter.getNotesfromAdapter()){

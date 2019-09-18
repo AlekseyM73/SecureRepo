@@ -38,7 +38,6 @@ import static android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE;
 public class DetailNoteActivity extends AppCompatActivity {
 
     private final String IS_EDIT_BTN_PRESSED = "isEditBtnPressed";
-    private final String NOTE_ID = "Id";
     private int noteId;
     private EditText etTitle;
     private EditText etBody;
@@ -63,6 +62,7 @@ public class DetailNoteActivity extends AppCompatActivity {
         fab = findViewById(R.id.detail_note_fab);
         fab.setOnClickListener(fabListener);
         Intent intent = getIntent();
+        String NOTE_ID = "Id";
         noteId = intent.getIntExtra(NOTE_ID, -1);
         Toolbar toolbar = findViewById(R.id.detailNoteActivityToolbar);
         toolbar.setTitle("");
@@ -134,7 +134,7 @@ public class DetailNoteActivity extends AppCompatActivity {
                     isEditBtnPressed = false;
                     updateNote();
                 } else {
-                    textInputLayout.setError("The title cannot be empty");
+                    textInputLayout.setError(getString(R.string.the_title_can_not_be_empty));
                 }
                 return true;
             }
@@ -142,7 +142,7 @@ public class DetailNoteActivity extends AppCompatActivity {
                 getNote();
                 setViewsAsText();
                 Toast.makeText(DetailNoteActivity.this,
-                        "Canceled!", Toast.LENGTH_LONG).show();
+                        getString(R.string.canceled), Toast.LENGTH_LONG).show();
                 return true;
             }
             default: return super.onOptionsItemSelected(item);
@@ -195,7 +195,7 @@ public class DetailNoteActivity extends AppCompatActivity {
                     note.eraseNoteFields();
                 }, throwable -> {
                     Toast.makeText(DetailNoteActivity.this,
-                            "Something went wrong.", Toast.LENGTH_LONG).show();
+                            getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                 });
 
     }
@@ -224,7 +224,7 @@ public class DetailNoteActivity extends AppCompatActivity {
             @Override
             public void onComplete() {
                 Toast.makeText(DetailNoteActivity.this,
-                        "Updated!", Toast.LENGTH_LONG).show();
+                       getString(R.string.updated), Toast.LENGTH_LONG).show();
                 etTitle.setText("");
                 etBody.setText("");
                 Arrays.fill(titleChars, '0');
@@ -236,7 +236,7 @@ public class DetailNoteActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable e) {
                 Toast.makeText(DetailNoteActivity.this,
-                        "Update failed", Toast.LENGTH_LONG).show();
+                        getString(R.string.update_failed), Toast.LENGTH_LONG).show();
             }
         });
     }
