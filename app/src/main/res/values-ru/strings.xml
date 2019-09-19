@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">SecureRepo</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="input_password">Введите пароль</string>
+    <string name="save_password">Сохранить</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="button_OK">OK</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="enter_title">Заголовок</string>
+    <string name="enter_description">Описание</string>
+    <string name="button_edit">Редактировать</string>
+    <string name="at_least_8_chars">Не менее 8 символов</string>
+    <string name="bottom_app_bar_delete">Удалить</string>
+    <string name="bottom_app_bar_settings">Настройки</string>
+    <string name="bottom_app_bar_block">Заблокировать</string>
+    <string name="bottom_app_bar_menu_exit">Выход</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_failed_toast">Ошибка при удалении!</string>
+    <string name="confirm_delete_dialog">Подтвердите удаление</string>
+    <string name="add_note">Добавить заметку</string>
+    <string name="confirm_exit_dialog_title">Вы уверены, что хотите выйти?</string>
+    <string name="confirm_exit_dialog">Подтвердите выход</string>
+    <string name="confirm_back_dialog_title">Вернуться без сохранения?</string>
+    <string name="confirm_back_dialog">Вы уверены, что хотите выйти без сохранения?</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="passwords_do_not_match">Пароли не совпадают</string>
+    <string name="password_length_less_8">Длина пароля менее 8 символов</string>
+    <string name="settings">Настройки</string>
+    <string name="caution">ВНИМАНИЕ!</string>
+    <string name="if_you_forget_the_password_you_cannot_restore_notes">Если вы забудете пароль, то восстановить заметки будет невозможно!</string>
+    <string name="about">О приложении</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="deleted">Удалено!</string>
+    <string name="something_went_wrong">Что-то пошло не так!</string>
+    <string name="are_you_sure_to_delete">Вы уверены, что хотите удалить</string>
+    <string name="notes">заметки</string>
+    <string name="exit">Выход</string>
+    <string name="saved">Сохранено!</string>
+    <string name="save_failed">Ошибка при сохранении!</string>
+    <string name="the_title_can_not_be_empty">Заголовок не может быть пустым</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="incorrect_password">Неверный пароль</string>
+    <string name="canceled">Отменено!</string>
+    <string name="updated">Обновлено!</string>
+    <string name="update_failed">Ошибка при обновлении</string>
+
+    <plurals name="plurals">
+        <item quantity="zero">%d заметок?</item>
+        <item quantity="one"> %d заметку?</item>
+        <item quantity="two">%d заметки?</item>
+        <item quantity="few">%d заметки?</item>
+        <item quantity="many">%d заметок?</item>
+        <item quantity="other">%d заметок?</item>
+    </plurals>
+</resources>

@@ -229,7 +229,7 @@ public class RecyclerViewNoteListActivity extends AppCompatActivity
         isDeleteDialogWasShown = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.confirm_delete_dialog))
-                .setMessage(getString(R.string.are_you_sure_to_delete) +" "+ selectedID.size()+" " + getString(R.string.notes))
+                .setMessage(getString(R.string.are_you_sure_to_delete) + " " + getResources().getQuantityString(R.plurals.plurals, selectedID.size(), selectedID.size()))
                 .setCancelable(false)
                 .setNegativeButton(getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
                     @Override

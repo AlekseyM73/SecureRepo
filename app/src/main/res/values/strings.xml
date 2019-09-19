@@ -28,7 +28,7 @@
     <string name="password_length_less_8">Password length less than 8 characters</string>
     <string name="settings">Settings</string>
     <string name="caution">CAUTION!</string>
-    <string name="if_you_forget_the_password_you_cannot_restore_notes">If you forget the password, you cannot restore notes.</string>
+    <string name="if_you_forget_the_password_you_cannot_restore_notes">If you forget the password, you cannot restore notes!</string>
     <string name="about">About</string>
     <string name="dark_theme">Dark theme</string>
     <string name="deleted">Deleted!</string>
@@ -45,4 +45,13 @@
     <string name="canceled">Canceled!</string>
     <string name="updated">Updated!</string>
     <string name="update_failed">Update failed</string>
+
+    <plurals name="plurals">
+        <item quantity="zero">%d notes?</item>
+        <item quantity="one">%d note?</item>
+        <item quantity="two">%d notes?</item>
+        <item quantity="few">%d notes?</item>
+        <item quantity="many">%d notes?</item>
+        <item quantity="other">%d notes?</item>
+    </plurals>
 </resources>
