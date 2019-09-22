@@ -123,9 +123,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
                                 (PasswordCheckerCipher.encryptChecker(App.secretKeySpec,
                                         App.cipher, decryptedPasswordChecker.getBytesToCheck()));
             }
-        }).doOnError(throwable -> {
-            throwable.printStackTrace();
-        }).observeOn(AndroidSchedulers.mainThread())
+        }).doOnError(throwable -> throwable.printStackTrace()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -154,9 +152,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
                 notesSource.updateNotes(NoteCipher.encryptNotes
                         (App.secretKeySpec, App.cipher, decryptedNotes));
             }
-        }).doOnError(throwable -> {
-            throwable.printStackTrace();
-        }).observeOn(AndroidSchedulers.mainThread())
+        }).doOnError(throwable -> throwable.printStackTrace()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
             @Override
             public void onSubscribe(Disposable d) {

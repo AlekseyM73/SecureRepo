@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SecureRepo</string>
+    <string name="app_name">LockNote</string>
     <string name="repeat_password">Repeat password</string>
     <string name="input_password">Input password</string>
     <string name="save_password">Save</string>

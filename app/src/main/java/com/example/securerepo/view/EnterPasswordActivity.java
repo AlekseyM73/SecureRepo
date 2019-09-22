@@ -74,7 +74,7 @@ public class EnterPasswordActivity extends AppCompatActivity {
 
     private void checkPassword(){
 
-            disposable = (Disposable) new PasswordCheckerSource(App.notesDatabase.passwordCheckerDAO()).getPasswordChecker(1)
+            disposable = new PasswordCheckerSource(App.notesDatabase.passwordCheckerDAO()).getPasswordChecker(1)
                     .subscribeOn(Schedulers.io()).doOnSuccess((PasswordChecker passwordChecker)->{
                         PasswordCheckerCipher.decryptChecker
                                 (App.secretKeySpec, App.cipher, passwordChecker);
