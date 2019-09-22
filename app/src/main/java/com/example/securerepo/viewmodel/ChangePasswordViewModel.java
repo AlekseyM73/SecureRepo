@@ -119,7 +119,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
             @Override
             public void run() throws Exception {
 
-                passwordCheckerSource.insertPasswordChecker
+                passwordCheckerSource.updatePasswordChecker
                                 (PasswordCheckerCipher.encryptChecker(App.secretKeySpec,
                                         App.cipher, decryptedPasswordChecker.getBytesToCheck()));
             }
@@ -151,7 +151,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
             @Override
             public void run() throws Exception {
 
-                notesSource.insertNotes(NoteCipher.encryptNotes
+                notesSource.updateNotes(NoteCipher.encryptNotes
                         (App.secretKeySpec, App.cipher, decryptedNotes));
             }
         }).doOnError(throwable -> {

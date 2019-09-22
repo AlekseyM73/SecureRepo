@@ -13,6 +13,10 @@ public class PasswordCheckerSource {
         this.passwordCheckerDAO = passwordCheckerDAO;
     }
 
+    public void updatePasswordChecker(PasswordChecker checker){
+        passwordCheckerDAO.updatePasswordChecker(checker);
+    }
+
     public void insertPasswordChecker (PasswordChecker checker){
         passwordCheckerDAO.insertPasswordChecker(checker);
     }

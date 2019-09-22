@@ -31,7 +31,7 @@ public class NotesSource {
     }
 
     public void updateNotes (List<Note> notes){
-        notesDAO.insertNotes(notes);
+        notesDAO.updateNotes(notes);
     }
 
     public Single<Note> getNote(int id) {

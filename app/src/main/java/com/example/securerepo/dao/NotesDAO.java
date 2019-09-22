@@ -44,4 +44,5 @@ public interface NotesDAO {
     @Query("DELETE from notes_table where id IN (:id)")
     void deleteNotes(List<Integer> id);
 
+
 }
