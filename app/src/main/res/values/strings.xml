@@ -45,6 +45,7 @@
     <string name="canceled">Canceled!</string>
     <string name="updated">Updated!</string>
     <string name="update_failed">Update failed</string>
+    <string name="privacy_policy">Privacy policy</string>
 
     <plurals name="plurals">
         <item quantity="zero">%d notes?</item>

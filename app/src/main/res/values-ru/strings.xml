@@ -45,6 +45,7 @@
     <string name="canceled">Отменено!</string>
     <string name="updated">Обновлено!</string>
     <string name="update_failed">Ошибка при обновлении</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
 
     <plurals name="plurals">
         <item quantity="zero">%d заметок?</item>

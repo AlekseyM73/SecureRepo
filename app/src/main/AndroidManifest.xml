@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.securerepo">
+    package="com.alekseymakarov.locknote">
 
     <application
-        android:name=".application.App"
+        android:name="com.alekseymakarov.locknote.application.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.ChangePasswordActivity"></activity>
-        <activity android:name=".view.DetailNoteActivity" />
-        <activity android:name=".view.MainActivity">
+        <activity android:name="com.alekseymakarov.locknote.view.ChangePasswordActivity"></activity>
+        <activity android:name="com.alekseymakarov.locknote.view.DetailNoteActivity" />
+        <activity android:name="com.alekseymakarov.locknote.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.NewNoteActivity" />
-        <activity android:name=".view.EnterPasswordActivity" />
-        <activity android:name=".view.SetPasswordActivity" />
-        <activity android:name=".view.RecyclerViewNoteListActivity" />
-        <activity android:name=".view.SettingsActivity" />
+        <activity android:name="com.alekseymakarov.locknote.view.NewNoteActivity" />
+        <activity android:name="com.alekseymakarov.locknote.view.EnterPasswordActivity" />
+        <activity android:name="com.alekseymakarov.locknote.view.SetPasswordActivity" />
+        <activity android:name="com.alekseymakarov.locknote.view.RecyclerViewNoteListActivity" />
+        <activity android:name="com.alekseymakarov.locknote.view.SettingsActivity" />
     </application>
 
 </manifest>
